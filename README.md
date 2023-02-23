@@ -1,133 +1,241 @@
-# SakuraTweaks
-![Versions](https://img.shields.io/badge/Versions-1.18%20--%201.19%2B-brightgreen?style=flat)<br><br>
+# ValorlessUtils
+<img src="https://img.shields.io/badge/Versions-1.18%20--%201.19%2B-brightgreen?style=flat" alt="Versions" style="max-width: 100%;"/><br>
 
-# TBD - Disregard everything below.
-SakuraHats also has a flew small systems:<br>
-***'PlacementBlocker'*** This will prevent players from placing the hats, which would lead to the hats breaking.<br>
-***'ResourcePack'*** This will prompt the players upon joining, that the server requires a specific resourcepack to work.<br>
+ValorlessUtils is a library of various utilities, created to make the creation of my other addons easier.
 
-## Commands
-| Command | Description |
-| --- | --- |
-| `/sakurahats` |  |
-| `/sakurahats reload` | Reloads config.yml |
-| `/sakurahats debug` | Enable/Disable debugging for SakuraHats. |
-| `/sakurahats givehat <player> <hat>` | Gives a hat to the specified player. |
-| `/sakurahats combine` | Opens GUI to combine helmets with hats. |
-| `/sakurahats split` | Opens GUI to split helmets from hats. |
+My primary programing language is C#, so the functions will resemble those.
 
-*All commands can be shortened to /sh*
-  
-## Permissions
-| Permission | Description |
-| --- | --- |
-| `sakurahats.*` | Gives all SakuraHats permissions. |
-| `sakurahats.reload` | Allows usage of /sakurahats reload. |
-| `sakurahats.debug` | Allows you to enable/disable debugging. |
-| `sakurahats.givehat` | Allows you to give hats. |
-| `sakurahats.combine` | Allows you to combine hats. |
-| `sakurahats.split` | Allows you to split hats. |
+## Features
 
-## Messages
+### - Utils.
+Various utilities.
 
-Within /plugins/SakuraHats/config.yml you'll find a 'message' section. You can customize the messages to anything you want, with or without provided placeholders:
-| Placeholder | Description |
-| --- | --- |
-| `%target%` | The player affected. |
-| `%sender%` | The player using the commands. |
-| `%hat%` | Name of the hat. |
-| `%plugin%` | Will always return '&7[&dSakura&bHats&7]&r'. |
+| Function | Parameters | Returns | Description |
+| --- | --- | --- | --- |
+| `IsStringNullOrEmpty()` | `String string` | Boolean | Check whether the string in question is null or empty. |
 
-## Configuration
-| Config Entry | Description | Default | Comment |
-| --- | :---: | :---: | :---: |
-| `hats` | List of available hats. |  |  |
-| `color` | Color of the item's name. | &6 | To override color, put a color in the hat's name. |
-| `prompt-resourcepack` | Whether to promt the player when they log in.<br>(Once) | false |  |
-| `pack` | Link to the resourcepack. | [Link](https://sakuramc.netherrain.net/media/files/SakuraMC-Hats.zip) |  |
-| `combine` | Whether hats can be combined with helmets. | true |  |
-| `split` | Whether helmets can be split from hats. | true |  |
-| `debug` | Enabling 'debug' will make the plugin send additional messages in console. | false |  |
+### - Log.
+Easy console logging.
 
-Hats and their IDs must match the hats listen in the resourcepack.<br>
-Example:
-```json
-{
-	"credit": "By Alynie/Valorless",
-	"parent": "block/carved_pumpkin",
-	"overrides": [
-		{"predicate": {"custom_model_data":1}, "model": "block/sombrero"},
-		{"predicate": {"custom_model_data":2}, "model": "block/dimmadome"},
-		{"predicate": {"custom_model_data":3}, "model": "block/halo"},
-		{"predicate": {"custom_model_data":4}, "model": "block/strawhat"},
-	]
-}
-```
-## User Interface (GUI)
+| Function | Parameters | Description |
+| --- | --- | --- |
+| `Info()` | `JavaPlugin caller, String msg` | Logs desired message in the console as the type INFO. |
+| `Warning()` | `JavaPlugin caller, String msg` | Logs desired message in the console as the type WARNING. |
+| `Error()` | `JavaPlugin caller, String msg` | Logs desired message in the console as the type SEVERE. |
 
-| Config Enty | Description |
-| --- | --- |
-| `gui-name` | Name of the GUI. |
-| `gui-size` | The amount of slots in the GUI container. |
-| `gui` | Slots defined. |
+### - Tags.
+Custom NBT tags.
 
-| GUI Slot Variable | Description |
-| --- | --- |
-| `name` | Name of the slot's item. |
-| `item` | Item material. |
-| `lore1` | Lore line 1. |
-| `lore2` | Lore line 2. |
-| `interact` | Whether the item in this slot can be moved. |
-| `tag` | Used to identify player items and buttons.<br> Any item placed in a non-PLAYER slot will be destroyed when closing the GUI. |
+| Function | Parameters  | Description | Returns |
+| --- | --- | --- | --- |
+| `Set()` | `JavaPlugin caller, PersistentDataContainer container, String key, Object value, PersistentDataType type` |	Sets a custom tag onto chosen container. | |
+| `Get()` | `JavaPlugin caller, PersistentDataContainer container, String key, PersistentDataType type` |	Gets the value of a chosen tag in the chosen container. | Object |
+| `Has()` | `JavaPlugin caller, PersistentDataContainer container, String key, PersistentDataType type` |	Checks if the container contains the tag. | Boolean |
 
-| GUI Tags | Description |
-| --- | --- |
-| `PLAYER` | Slot for the player's item. return these slots to the player upon closing inventory.<br><span style="color:red">IMPORTANT!</span> Only 2 of these, <br>always helmet before hat. |
-| `CONFIRM` | Marks this slot as a button to confirm merging. |
+### - Lang.
+Parse messages defined in Config with placeholders.
+
+| Function | Parameters  | Description | Returns |
+| --- | --- | --- | --- |
+| `AddPlaceholder()` | `JavaPlugin caller, String key, String value` |	Add placeholder used by Parse().<br>Replaces existing placeholder with the same name. | |
+| `Get()` | `JavaPlugin caller, String key` |	Get and parse string from Config.yml. | String |
+| `Parse()` | `JavaPlugin caller, String text` |	Replace defined placeholders contained in variable 'text', and return parsed string. | String |
+
+#### Placeholder Examples:
+
+Lets say we have a placeholder with the 'key' defined as '%player%', and the 'value' defined as 'AwesomeDude445'.<br>
+Lets then say the message we want to parse is "Welcome back %player%, enjoy your stay!".<br>
+Using Lang.Parse() we can replace %player% in the message with the player's name.
+
+### - Config.
+Easy usage of Config.yml.
+
+| Function | Parameters  | Description | Returns |
+| --- | --- | --- | --- |
+| `Load()` | `JavaPlugin caller` |	Will attempt to load config.yml of the chosen plugin.<br>Creating new if it doesn't exist. | |
+| `Reload()` | `JavaPlugin caller` |	Reload config.yml. |  |
+| `HasKey()` | `JavaPlugin caller, String key` |	Check config.yml if the key exists. | Boolean |
+| `Get()` | `JavaPlugin caller, String key` |	Returns value found on key. | Object |
+| `GetString()` | `JavaPlugin caller, String key` |	Returns value found on key. | String |
+| `GetBool()` | `JavaPlugin caller, String key` |	Returns value found on key. | Boolean |
+| `GetInt()` | `JavaPlugin caller, String key` |	Returns value found on key. | Integer |
+| `GetFloat()` | `JavaPlugin caller, String key` |	Returns value found on key. | Double |
+| `GetColor()` | `JavaPlugin caller, String key` |	Returns value found on key.<br>Value must be hex color. | Color |
+| `Set()` | `JavaPlugin caller, String key, Object value` |	Set value of key. | |
+| `SetString()` | `JavaPlugin caller, String key, Object value` |	Set String value of key. | |
+| `SetBool()` | `JavaPlugin caller, String key, Object value` |	Set Boolean value of key. | |
+| `SetInt()` | `JavaPlugin caller, String key, Object value` |	Set Integer value of key. | |
+| `SetFloat()` | `JavaPlugin caller, String key, Object value` |	Set Double value of key. | |
+| `SetColor()` | `JavaPlugin caller, String key, Object value` |	Set Color value of key. | |
+| `AddValidationEntry()` | `JavaPlugin caller, String key, Object defaultValue` |	Add config.yml key you want to validate exists or not.<br>*Primarily used for when updating a plugin, and existing config.yml do not add new keys.* | |
+| `Validate()` | `JavaPlugin caller` |	Validate config.yml using the entries defined using AddValidationEntry().<br>*Primarily used for when updating a plugin, and existing config.yml do not add new keys.* | |
+
+## Integration
+
+As I've just recently started making plugins, I'm going to asume you're using Eclipse & Maven, as that's what I am.<br>
+The way I'm about to show if the say I've found out how to do this.<br>
+There are other ways, and if you know those, feel free to do it that way.
+
+### - Step 1: Dependency
+Add ValorlessUtils.jar to any folder in your project.<br>
+*(I decided to make a new folder called 'dependencies', and placed it there.)*
+
+### - Step 2: pom.xml
+Using Maven you have to define your dependencies manually.<br>
+So we're gonna add these a plugin and a dependency it into our file 'pom.xml'.
 
 <details>
-  <summary>GUI Example:</summary>
+  <summary>Plugin:</summary>
 
-```yaml
-gui:
-  '12':
-    name: §e§lInfo
-    item: IRON_HELMET
-    lore1: §fPlace your helmet in the
-    lore2: §fempty slot underneath.
-    interact: false
-    tag: ''
-  '14':
-    name: §e§lInfo
-    item: PLAYER_HEAD
-    lore1: §fPlace the hat you wish
-    lore2: §fto merge with.
-    interact: false
-    tag: ''
-  '21':
-    name: Slot 1
-    item: AIR
-    lore1: just grass
-    lore2: ''
-    interact: true
-    tag: PLAYER
-  '23':
-    name: Slot 2
-    item: AIR
-    lore1: hmm.. glass?
-    lore2: yes.
-    interact: true
-    tag: PLAYER
-  '31':
-    name: §a§lMerge
-    item: LIME_STAINED_GLASS_PANE
-    lore1: §fClick here to
-    lore2: §fcombine the items.
-    interact: false
-    tag: CONFIRM
+```xml
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-install-plugin</artifactId>
+  <version>2.5.2</version>
+  <executions>
+    <execution>
+      <id>install-external</id>
+      <phase>clean</phase>
+      <configuration>
+        <file>${basedir}/dependencies/ValorlessUtils-1.0.0.69-SNAPSHOT.jar</file> <!-- Location of the ValorlessUtils.jar file. -->
+        <repositoryLayout>default</repositoryLayout>
+        <groupId>valorless.valorlessutils</groupId>
+        <artifactId>ValorlessUtils</artifactId>
+        <version>1.0.0.69-SNAPSHOT</version> <!-- Or which ever version you choose to use. -->
+        <packaging>jar</packaging>
+        <generatePom>true</generatePom>
+      </configuration>
+      <goals>
+          <goal>install-file</goal>
+      </goals>
+    </execution>
+  </executions>
+</plugin>
+
+<dependencies>
+  <dependency>
+    <groupId>valorless.valorlessutils</groupId>
+    <artifactId>ValorlessUtils</artifactId>
+    <version>1.0.0.69-SNAPSHOT</version> <!-- Or which ever version you choose to use. -->
+  </dependency>
+</dependencies>
+```
+</details>
+<details>
+  <summary>Dependency:</summary>
+
+```xml
+<dependency>
+  <groupId>valorless.valorlessutils</groupId>
+  <artifactId>ValorlessUtils</artifactId>
+  <version>1.0.0.69-SNAPSHOT</version> <!-- Or which ever version you choose to use. -->
+</dependency>
+```
+</details>
+
+Your pom.xml file should look something like this now:
+
+<details>
+  <summary>pom.xml</summary>
+
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>valorless.valorlessutils</groupId>
+  <artifactId>ValorlessUtils</artifactId>
+  <version>1.0.0</version>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <repositories>
+     <repository>
+       <id>spigot-repo</id>
+       <url>https://hub.spigotmc.org/nexus/content/repositories/public/</url>
+     </repository>
+   </repositories>
+  <dependencies>
+    <dependency>
+      <groupId>org.spigotmc</groupId>
+      <artifactId>spigot-api</artifactId>
+      <version>1.18.2-R0.1-SNAPSHOT</version><!--change this value depending on the version or use LATEST-->
+      <type>jar</type>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>valorless.valorlessutils</groupId>
+      <artifactId>ValorlessUtils</artifactId>
+      <version>1.0.0.69-SNAPSHOT</version>
+    </dependency>
+    </dependencies>
+</project>
 
 ```
-You can copy and use this as default.<br>
-The reason this is not default, is that if you don't define the ones default in the config file (I removed them all to avoid this),
-then any undefined slots would default to the plugin's internal default config.
 </details>
+
+Once this is added, save the file and run Maven Clean on your project to install the jar.
+<img src="https://i.gyazo.com/97d140492be660a65b44b93bcf73aefb.png" alt="" style="max-width: 100%;"/><br>
+
+### - Step 3: plugin.yml
+Inside plugin.yml we have to add `depend: [ValorlessUtils]` for the plugin to require it. or change 'depend' to 'soft-depend' if it's only optional.<br>
+In this case we'll be going with 'depend'.<br>
+Your plugin.yml file should look something like this now:
+
+<details>
+  <summary>plugin.yml</summary>
+
+```yaml
+name: SakuraTweaks
+main: valorless.sakuratweaks.SakuraTweaks
+version: 1.0.0
+author: Valorless
+api-version: 1.18
+depend: [ValorlessUtils]
+commands:
+  sakuratweaks:
+    description: Main command.
+    usage:
+  st:
+    description: Main command.
+    usage:
+  sakuratweaks reload:
+    description: Reloads the configuration file.
+    usage: /sakuratweaks reload
+    permission: sakuratweaks.reload
+    permission-message: You don't have sakuratweaks.reload.
+  st reload:
+    description: Reloads the configuration file.
+    usage: /sakuratweaks reload
+    permission: sakuratweaks.reload
+    permission-message: You don't have sakuratweaks.reload.
+permissions:
+  sakuratweaks.*:
+    description: Gives access to all SakuraTweaks commands.
+    children:
+      sakuratweaks.reload: true
+  sakuratweaks.reload:
+    description: Allows you to reload the configuration.
+    default: op
+```
+</details>
+
+### - Step 4: Add ValorlessUtils to the Eclipse project. 
+Now we have to add the jar file into Java Build Path, so Eclipse can find the packages.<br>
+Head into the properties of your project. (Right click your project, or go to 'Project > Properties' )
+In there we head to 'Java Build Path > Libraries', and press the button saying 'Add External Jar'.<br>
+Locate ValorlessUtils.jar and select it.<br>
+Once done, it should look something like this:<br>
+<img src="https://i.gyazo.com/4cea1796bf598ea26520976ef457770f.png" alt="" style="max-width: 100%;"/><br>
+Apply and Close.
+
+### - Done
+With this, ValorlessUtils should now have been added to your project's dependencies, and you can proceed to use it.<br>
+I went about it slightly differently in step 4, as I chose 'Add External Class Folder' instead, where all the code from ValorlessUtils is anyway.

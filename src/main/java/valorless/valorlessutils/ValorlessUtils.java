@@ -100,20 +100,20 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     public static class Tags {
 
     	@SuppressWarnings({ "unchecked", "rawtypes" })
-    	public static void Set(PersistentDataContainer container, String key, Object value, PersistentDataType type) {
-    		container.set(new NamespacedKey(Bukkit.getPluginManager().getPlugin("SakuraHats"), key), type, value);
+    	public static void Set(JavaPlugin caller, PersistentDataContainer container, String key, Object value, PersistentDataType type) {
+    		container.set(new NamespacedKey(caller, key), type, value);
     	}
     	
     	@SuppressWarnings({ "unchecked", "rawtypes" })
-    	public static Object Get(PersistentDataContainer container, String key, PersistentDataType type) {
-    		return container.get(new NamespacedKey(Bukkit.getPluginManager().getPlugin("SakuraHats"), key), type);
+    	public static Object Get(JavaPlugin caller, PersistentDataContainer container, String key, PersistentDataType type) {
+    		return container.get(new NamespacedKey(caller, key), type);
     	}
     	
     	@SuppressWarnings({ "unchecked", "rawtypes", "unused" })
-    	public static boolean Has(PersistentDataContainer container, String key,PersistentDataType type) { //Dont be lazy and make this one already..
+    	public static Boolean Has(JavaPlugin caller, PersistentDataContainer container, String key,PersistentDataType type) { //Dont be lazy and make this one already..
     		boolean result = false;
     		try {
-    			container.has(new NamespacedKey(Bukkit.getPluginManager().getPlugin("SakuraHats"), key), type);
+    			container.has(new NamespacedKey(caller, key), type);
     		}
     		catch(Exception e) {
     			
@@ -128,20 +128,6 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     }
     
     public static class Lang {
-    	
-    	/*public static class Placeholders{
-    		
-    		static Map<String,String> list = new HashMap<String,String>();
-    		
-    		public static String target = "";
-    		public static String sender = "";
-    		public static String hat = "";
-    		public static String plugin = "§7[§dSakura§bHats§7]§r";
-    		
-    		public static void Add(String placeholder, String value) {
-    			list.put(placeholder, value);
-    		}
-    	}*/
     	
     	// Example, new Placeholder(this, "%target%", "PlayerName");
     	public static class Placeholder {
@@ -262,11 +248,11 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     		caller.getConfig().set(key, value);
     	}
     	
-    	public static void SetInt(JavaPlugin caller, String key, String value) {
+    	public static void SetInt(JavaPlugin caller, String key, Integer value) {
     		caller.getConfig().set(key, value);
     	}
     	
-    	public static void SetFloat(JavaPlugin caller, String key, String value) {
+    	public static void SetFloat(JavaPlugin caller, String key, Double value) {
     		caller.getConfig().set(key, value);
     	}
     	
