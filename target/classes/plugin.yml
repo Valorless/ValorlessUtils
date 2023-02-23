@@ -1,0 +1,25 @@
+name: ValorlessUtils
+main: valorless.valorlessutils.ValorlessUtils
+version: 1.0.0.69
+author: Valorless
+api-version: 1.18
+commands:
+  valorlessutils:
+    description: Main command.
+    usage:
+    aliases: vu
+  valorlessutils reload:
+    description: Reloads the configuration file.
+    usage: /valorlessutils reload
+    permission: valorlessutils.reload
+    permission-message: You don't have valorlessutils.reload.
+    aliases: vu reload
+permissions:
+  valorlessutils.*:
+    description: Gives access to all ValorlessUtils commands.
+    children:
+      valorlessutils.reload: true
+  valorlessutils.reload:
+    description: Allows you to reload the configuration.
+    default: op
+  
