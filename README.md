@@ -17,7 +17,7 @@ Various utilities.
 ### - Log.
 Easy console logging.
 
-| Function | Parameters | Description |
+| Function | Parameters | Description | 
 | --- | --- | --- |
 | `Info()` | `JavaPlugin caller, String msg` | Logs desired message in the console as the type INFO. |
 | `Warning()` | `JavaPlugin caller, String msg` | Logs desired message in the console as the type WARNING. |
