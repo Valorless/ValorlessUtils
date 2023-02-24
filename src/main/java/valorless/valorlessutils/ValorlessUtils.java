@@ -95,6 +95,12 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     		Logger.getLogger("Minecraft").log(Level.SEVERE, "[" + caller.getName() + "] " + msg);
     	}
     	
+    	public static void Debug(JavaPlugin caller, String msg) {
+    		if(Config.GetBool(thisPlugin, "debug") == true) {
+    			Logger.getLogger("Minecraft").log(Level.CONFIG, "[DEBUG]: [" + caller.getName() + "] " + msg);
+    		}
+    	}
+    	
     }
     
     public static class Tags {
@@ -131,11 +137,11 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     	
     	// Example, new Placeholder(this, "%target%", "PlayerName");
     	public static class Placeholder {
-    		public JavaPlugin plugin;
+    		public String plugin;
     		public String key;
     		public String value;
     		
-    		public Placeholder(JavaPlugin plugin, String key, String value) {
+    		public Placeholder(String plugin, String key, String value) {
     			this.plugin = plugin;
     			this.key = key;
     			this.value = value;
@@ -145,14 +151,22 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     	static List<Placeholder> placeholders = new ArrayList<Placeholder>();
     	
     	public static void AddPlaceholder(JavaPlugin caller, String key, String value) {
-    		placeholders.add(new Placeholder(caller,key,value));
+    		if (caller == null) { Log.Error(thisPlugin, "Lang.AddPlaceholder() was called without a null caller!"); return; }
+    		if (Utils.IsStringNullOrEmpty(key)) { Log.Debug(caller, "[ValorlessUtils] Lang.AddPlaceholder() was called without a null or empty key!"); return; }
+    		if (Utils.IsStringNullOrEmpty(value)) { Log.Debug(caller, "[ValorlessUtils] Lang.AddPlaceholder() was called without a null or empty value!\nWas this intentional?"); }
+    		placeholders.add(new Placeholder(caller.getName(),key,value));
     	}
     	
     	public static String Parse(JavaPlugin caller, String text) {
-    		text = text.replace("&", "§");
+    		if (caller == null) { Log.Error(thisPlugin, "Lang.Parse() was called without a null caller!"); return ""; }
+    		if (Utils.IsStringNullOrEmpty(text)) { Log.Debug(caller, "[ValorlessUtils] Lang.Parse() was called without a null or empty text!\nWas this intentional?"); }
+    		Log.Debug(caller, text);
+    		if(text.contains("&")) text = text.replace("&", "§");
 
     		for(Placeholder placeholder : placeholders) {
-    			if(placeholder.plugin.equals(caller)) {
+				//Log.Warning(caller, placeholder.plugin + placeholder.key + placeholder.value);
+    			if(placeholder.plugin.equalsIgnoreCase(caller.getName())) {
+    				Log.Warning(caller, placeholder.plugin + placeholder.key + placeholder.value);
     				if(text.contains(placeholder.key)) { 
     					text = text.replace(placeholder.key, placeholder.value); 
     				}
@@ -163,6 +177,8 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     	}
 
     	public static String Get(JavaPlugin caller, String key) {
+    		if (caller == null) { Log.Error(thisPlugin, "Lang.Get() was called without a null caller!"); return ""; }
+    		if (Utils.IsStringNullOrEmpty(key)) { Log.Error(caller, "[ValorlessUtils] Lang.Get() was called without a null or empty key!"); return ""; }
     		return Parse(caller, Config.GetString(caller, key));
     	}
     }
@@ -170,10 +186,12 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     public static class Config {
     	
     	public static void Initiate(JavaPlugin caller) {
+    		if (caller == null) { Log.Error(thisPlugin, "Config.Initiate() was called without a null caller!"); return; }
     		Load(caller);
     	}
     	
     	public static void Load(JavaPlugin caller) {
+    		if (caller == null) { Log.Error(thisPlugin, "Config.Load() was called without a null caller!"); return; }
         	File configFile = new File(caller.getDataFolder(), "config.yml");
         	if(!configFile.exists()) {
         		Log.Info(caller, "No config exists, creating new.");
@@ -193,6 +211,8 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     	}
     	
     	public static Boolean HasKey(JavaPlugin caller, String key) {
+    		if (caller == null) { Log.Error(thisPlugin, "Config.HasKey() was called without a null caller!"); return null; }
+    		if (Utils.IsStringNullOrEmpty(key)) { Log.Error(caller, "[ValorlessUtils] Config.HasKey() was called without a null or empty key!"); return null; }
     		Boolean i = false;
     		if(caller.getConfig().contains(key, true)) {
     			i = true;
@@ -284,7 +304,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     	
     	public static void Validate(JavaPlugin caller) {
     		Boolean missing = false;
-    		if(GetBool(caller, "debug")) { Log.Info(caller, "Validating Config"); }
+    		if(GetBool(caller, "debug")) { Log.Debug(caller, "Validating Config"); }
     		
     		for(ValidationListEntry item : validationList) {
     			if(!HasKey(item.plugin, item.key)) { 
