@@ -97,7 +97,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     	
     	public static void Debug(JavaPlugin caller, String msg) {
     		if(Config.GetBool(thisPlugin, "debug") == true) {
-    			Logger.getLogger("Minecraft").log(Level.CONFIG, "[DEBUG]: [" + caller.getName() + "] " + msg);
+    			Logger.getLogger("Minecraft").log(Level.WARNING, "[DEBUG]: [" + caller.getName() + "] " + msg);
     		}
     	}
     	
@@ -133,7 +133,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     	
     }
     
-    public static class Lang {
+    /*public static class Lang {
     	
     	// Example, new Placeholder(this, "%target%", "PlayerName");
     	public static class Placeholder {
@@ -154,19 +154,42 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     		if (caller == null) { Log.Error(thisPlugin, "Lang.AddPlaceholder() was called without a null caller!"); return; }
     		if (Utils.IsStringNullOrEmpty(key)) { Log.Debug(caller, "[ValorlessUtils] Lang.AddPlaceholder() was called without a null or empty key!"); return; }
     		if (Utils.IsStringNullOrEmpty(value)) { Log.Debug(caller, "[ValorlessUtils] Lang.AddPlaceholder() was called without a null or empty value!\nWas this intentional?"); }
-    		placeholders.add(new Placeholder(caller.getName(),key,value));
+    		for(int i = 0; i < placeholders.size(); i++){
+    			Log.Error(caller, "[PH] " + placeholders.get(i).plugin + placeholders.get(i).key + placeholders.get(i).value);
+    			if(placeholders.get(i).plugin == caller.getName()) {
+    				Log.Error(caller, "[PH] " + placeholders.get(i).plugin + caller.getName());
+    				if(placeholders.get(i).key == key) {
+        				Log.Error(caller, "[PH] " + placeholders.get(i).key + key);
+    					placeholders.set(i, new Placeholder(caller.getName(),key,value));
+        				Log.Debug(caller, "Updated Placeholder " + placeholders.get(i).key + " - " + placeholders.get(i).value);
+        				return;
+        			}else {
+        				placeholders.add(new Placeholder(caller.getName(),key,value));
+        				Log.Debug(caller, "Added Placeholder " + placeholders.get(i).key + " - " + placeholders.get(i).value);
+        				return;
+        			}
+    			} else {
+    				placeholders.add(new Placeholder(caller.getName(),key,value));
+    				Log.Debug(caller, "Added Placeholder " + placeholders.get(i).key + " - " + placeholders.get(i).value);
+    				return;
+    			}
+    		}
+    		if(placeholders.size() == 0) {
+    			placeholders.add(new Placeholder(caller.getName(),key,value));
+				Log.Debug(caller, "Added Placeholder " + key + " - " + value);
+    		}
     	}
     	
     	public static String Parse(JavaPlugin caller, String text) {
     		if (caller == null) { Log.Error(thisPlugin, "Lang.Parse() was called without a null caller!"); return ""; }
     		if (Utils.IsStringNullOrEmpty(text)) { Log.Debug(caller, "[ValorlessUtils] Lang.Parse() was called without a null or empty text!\nWas this intentional?"); }
-    		Log.Debug(caller, text);
+    		Log.Debug(caller, "[PARSE] " + text);
     		if(text.contains("&")) text = text.replace("&", "§");
 
     		for(Placeholder placeholder : placeholders) {
 				//Log.Warning(caller, placeholder.plugin + placeholder.key + placeholder.value);
     			if(placeholder.plugin.equalsIgnoreCase(caller.getName())) {
-    				Log.Warning(caller, placeholder.plugin + placeholder.key + placeholder.value);
+    				//Log.Warning(caller, placeholder.plugin + placeholder.key + placeholder.value);
     				if(text.contains(placeholder.key)) { 
     					text = text.replace(placeholder.key, placeholder.value); 
     				}
@@ -181,7 +204,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     		if (Utils.IsStringNullOrEmpty(key)) { Log.Error(caller, "[ValorlessUtils] Lang.Get() was called without a null or empty key!"); return ""; }
     		return Parse(caller, Config.GetString(caller, key));
     	}
-    }
+    }*/
     
     public static class Config {
     	
