@@ -32,21 +32,6 @@ Custom NBT tags.
 | `Get()` | `JavaPlugin caller, PersistentDataContainer container, String key, PersistentDataType type` |	Gets the value of a chosen tag in the chosen container. | Object |
 | `Has()` | `JavaPlugin caller, PersistentDataContainer container, String key, PersistentDataType type` |	Checks if the container contains the tag. | Boolean |
 
-### - Lang.
-Parse messages defined in Config with placeholders.
-
-| Function | Parameters  | Description | Returns |
-| --- | --- | --- | --- |
-| `AddPlaceholder()` | `JavaPlugin caller, String key, String value` |	Add placeholder used by Parse().<br>Replaces existing placeholder with the same name. | |
-| `Get()` | `JavaPlugin caller, String key` |	Get and parse string from Config.yml. | String |
-| `Parse()` | `JavaPlugin caller, String text` |	Replace defined placeholders contained in variable 'text', and return parsed string. | String |
-
-#### Placeholder Examples:
-
-Lets say we have a placeholder with the 'key' defined as '%player%', and the 'value' defined as 'AwesomeDude445'.<br>
-Lets then say the message we want to parse is "Welcome back %player%, enjoy your stay!".<br>
-Using Lang.Parse() we can replace %player% in the message with the player's name.
-
 ### - Config.
 Easy usage of Config.yml.
 
