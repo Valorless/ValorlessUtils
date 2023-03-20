@@ -1,55 +1,56 @@
 package valorless.valorlessutils;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.Listener;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import valorless.valorlessutils.config.*;
+
 public final class ValorlessUtils extends JavaPlugin implements Listener {
 	public static JavaPlugin thisPlugin;
 	String Name = "§7[§6Valorless§bUtils§7]§r";
+	
+	public static Config config;
 	
 	public void onLoad() {
 		thisPlugin = this;
 	}
 	
 	public void YEET() {
-		Log.Info(thisPlugin, "Fuck.");
+		Log.Info(this, "Fuck.");
 	}
 	
 	@Override
     public void onEnable() {
-		Config.Initiate(thisPlugin);
+		config = new Config(this, "config.yml");
+		//config.Initiate(this);
 		
-		Config.AddValidationEntry(thisPlugin, "debug", false);
+		config.AddValidationEntry("debug", false);
 		
 		//getServer().getPluginManager().registerEvents(new PlacementBlocker(), this);
 		//getServer().getPluginManager().registerEvents(new ArmorStands(), this);
 		
-		if(Config.GetBool(thisPlugin, "debug")) {
-			Log.Info(thisPlugin, "Debugging enabled.");
+		if(config.GetBool("debug")) {
+			Log.Info(this, "Debugging enabled.");
 		}
 	
-		if(Config.GetBool(thisPlugin, "debug")) {
-			Log.Info(thisPlugin, "§aEnabled!");
+		if(config.GetBool("debug")) {
+			Log.Info(this, "§aEnabled!");
 		}
 		
 		AddCommand("valorlessutils", "vu");
+		
 	}
     
     @Override
     public void onDisable() {
-    	if(Config.GetBool(thisPlugin, "debug")) {
-    		Log.Info(thisPlugin, "§cDisabled!");
+    	if(config.GetBool("debug")) {
+    		Log.Info(this, "§cDisabled!");
     	}
     }
     
@@ -96,7 +97,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     	}
     	
     	public static void Debug(JavaPlugin caller, String msg) {
-    		if(Config.GetBool(thisPlugin, "debug") == true) {
+    		if(config.GetBool("debug") == true) {
     			Logger.getLogger("Minecraft").log(Level.WARNING, "[DEBUG]: [" + caller.getName() + "] " + msg);
     		}
     	}
@@ -206,6 +207,8 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     	}
     }*/
     
+    
+    /*
     public static class Config {
     	
     	public static void Initiate(JavaPlugin caller) {
@@ -339,5 +342,5 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     		
     		if(missing) { caller.saveConfig(); }
     	}
-    }
+    }*/
 }
