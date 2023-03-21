@@ -30,7 +30,7 @@ Custom NBT tags.
 | --- | --- | --- | --- |
 | `Set()` | `JavaPlugin caller, PersistentDataContainer container, String key, Object value, PersistentDataType type` |	Sets a custom tag onto chosen container. | |
 | `Get()` | `JavaPlugin caller, PersistentDataContainer container, String key, PersistentDataType type` |	Gets the value of a chosen tag in the chosen container. | Object |
-| `Has()` | `JavaPlugin caller, PersistentDataContainer container, String key, PersistentDataType type` |	Checks if the container contains the tag. | Boolean |
+| [WIP] `Has()` | `JavaPlugin caller, PersistentDataContainer container, String key, PersistentDataType type` |	Checks if the container contains the tag. | Boolean |
 
 ### - Config.
 Easy usage of Config.yml.<br>
