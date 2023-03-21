@@ -31,7 +31,8 @@ public class YamlFile extends FileStorage {
         return this.config.get(path);
     }
 
-    public <T> T get(String path, Class<T> clazz) {
+    @SuppressWarnings("unchecked")
+	public <T> T get(String path, Class<T> clazz) {
         return (T) this.config.get(path);
     }
 
@@ -44,7 +45,8 @@ public class YamlFile extends FileStorage {
             set(path, value);
     }
 
-    public <T> T getOrDefault(String path, T defaultValue) {
+    @SuppressWarnings("unchecked")
+	public <T> T getOrDefault(String path, T defaultValue) {
         if (contains(path))
             return (T) get(path);
         return defaultValue;

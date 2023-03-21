@@ -11,13 +11,16 @@ import java.util.List;
 
 public class Config {
 
-    private final YamlFile file;
+    private YamlFile file;
     private final JavaPlugin plugin;
 
     public Config(JavaPlugin plugin, String file) {
-        plugin.saveResource(file, false);
         this.plugin = plugin;
         this.file = new YamlFile(new File(plugin.getDataFolder(), file));
+        if(!this.file.fileExists()) {
+        	plugin.saveResource(file, false);
+        	this.file = new YamlFile(new File(plugin.getDataFolder(), file));
+    	}
     }
 
     // SET

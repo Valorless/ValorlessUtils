@@ -9,7 +9,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import valorless.valorlessutils.config.*;
+import valorless.valorlessutils.config.Config;
 
 public final class ValorlessUtils extends JavaPlugin implements Listener {
 	public static JavaPlugin thisPlugin;

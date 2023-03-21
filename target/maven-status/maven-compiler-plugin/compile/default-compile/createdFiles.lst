@@ -1,9 +1,9 @@
-valorless\valorlessutils\config\Config.class
 valorless\valorlessutils\file\YamlFile.class
 valorless\valorlessutils\file\FileStorage.class
 valorless\valorlessutils\ValorlessUtils$Log.class
-valorless\valorlessutils\ValorlessUtils$Tags.class
 valorless\valorlessutils\ValorlessUtils$Utils.class
 valorless\valorlessutils\ValorlessUtils.class
-valorless\valorlessutils\config\Config$ValidationListEntry.class
 valorless\valorlessutils\file\JsonFile.class
+valorless\valorlessutils\config\Config.class
+valorless\valorlessutils\ValorlessUtils$Tags.class
+valorless\valorlessutils\config\Config$ValidationListEntry.class
