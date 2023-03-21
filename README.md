@@ -33,27 +33,31 @@ Custom NBT tags.
 | `Has()` | `JavaPlugin caller, PersistentDataContainer container, String key, PersistentDataType type` |	Checks if the container contains the tag. | Boolean |
 
 ### - Config.
-Easy usage of Config.yml.
+Easy usage of Config.yml.<br>
+<br>
+Instatiating new config.
+```java
+import valorless.valorlessutils.config.Config;
+public final Config config = new Config(JavaPlugin, "FileName.Extension");
+```
 
 | Function | Parameters  | Description | Returns |
 | --- | --- | --- | --- |
-| `Load()` | `JavaPlugin caller` |	Will attempt to load config.yml of the chosen plugin.<br>Creating new if it doesn't exist. | |
-| `Reload()` | `JavaPlugin caller` |	Reload config.yml. |  |
-| `HasKey()` | `JavaPlugin caller, String key` |	Check config.yml if the key exists. | Boolean |
-| `Get()` | `JavaPlugin caller, String key` |	Returns value found on key. | Object |
-| `GetString()` | `JavaPlugin caller, String key` |	Returns value found on key. | String |
-| `GetBool()` | `JavaPlugin caller, String key` |	Returns value found on key. | Boolean |
-| `GetInt()` | `JavaPlugin caller, String key` |	Returns value found on key. | Integer |
-| `GetFloat()` | `JavaPlugin caller, String key` |	Returns value found on key. | Double |
-| `GetColor()` | `JavaPlugin caller, String key` |	Returns value found on key.<br>Value must be hex color. | Color |
-| `Set()` | `JavaPlugin caller, String key, Object value` |	Set value of key. | |
-| `SetString()` | `JavaPlugin caller, String key, Object value` |	Set String value of key. | |
-| `SetBool()` | `JavaPlugin caller, String key, Object value` |	Set Boolean value of key. | |
-| `SetInt()` | `JavaPlugin caller, String key, Object value` |	Set Integer value of key. | |
-| `SetFloat()` | `JavaPlugin caller, String key, Object value` |	Set Double value of key. | |
-| `SetColor()` | `JavaPlugin caller, String key, Object value` |	Set Color value of key. | |
-| `AddValidationEntry()` | `JavaPlugin caller, String key, Object defaultValue` |	Add config.yml key you want to validate exists or not.<br>*Primarily used for when updating a plugin, and existing config.yml do not add new keys.* | |
-| `Validate()` | `JavaPlugin caller` |	Validate config.yml using the entries defined using AddValidationEntry().<br>*Primarily used for when updating a plugin, and existing config.yml do not add new keys.* | |
+| `Reload()` |  |	Reloads file. |  |
+| `HasKey()` | `String key` |	Checks file if the key exists. | Boolean |
+| `SaveConfig()` | | Saves file. |  |
+| `Get()` | `String key` |	Returns value found on key. | Object |
+| `GetString()` | `String key` |	Returns value found on key. | String |
+| `GetBool()` | `String key` |	Returns value found on key. | Boolean |
+| `GetInt()` | `String key` |	Returns value found on key. | Integer |
+| `GetFloat()` | `String key` |	Returns value found on key. | Double |
+| `GetStringList()` | `String key` |	Returns value found on key. | List<String> |
+| `GetIntList()` | `String key` |	Returns value found on key. | List<Integer> |
+| `GetDoubleList()` | `String key` |	Returns value found on key. | List<Double> |
+| `GetList()` | `String key` |	Returns value found on key. | List<?> |
+| `Set()` | `String key, Object value` |	Set value of key. | |
+| `AddValidationEntry()` | `String key, Object defaultValue` |	Add config.yml key you want to validate exists or not.<br>*Primarily used for when updating a plugin, and existing config.yml do not add new keys.* | |
+| `Validate()` |  |	Validate config.yml using the entries defined using AddValidationEntry().<br>*Primarily used for when updating a plugin, and existing config.yml do not add new keys.* | |
 
 ## Integration
 
