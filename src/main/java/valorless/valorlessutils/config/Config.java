@@ -3,6 +3,8 @@ package valorless.valorlessutils.config;
 import valorless.valorlessutils.ValorlessUtils.Log;
 import valorless.valorlessutils.ValorlessUtils.Utils;
 import valorless.valorlessutils.file.YamlFile;
+
+import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -45,6 +47,10 @@ public class Config {
         return this.file.getConfig().getDouble(key);
     }
     
+    public Material GetMaterial(String key) {
+    	return Material.getMaterial(GetString(key));
+    }
+    
     public Object Get(String key) {
         return this.file.getConfig().get(key);
     }
@@ -67,7 +73,7 @@ public class Config {
     
     public Boolean HasKey(String key) {
 		if (Utils.IsStringNullOrEmpty(key)) { 
-			Log.Error(plugin, "[ValorlessUtils] " + this.toString() + ".HasKey() was called with a null or empty key!"); 
+			Log.Error(plugin, "[ValorlessUtils] " + plugin.getName() + ".config.HasKey() was called with a null or empty key!"); 
 			return null;
 		}
     	return this.file.getConfig().contains(key, true);

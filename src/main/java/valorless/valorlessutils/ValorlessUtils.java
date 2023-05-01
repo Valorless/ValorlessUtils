@@ -120,15 +120,11 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     	public static Boolean Has(JavaPlugin caller, PersistentDataContainer container, String key,PersistentDataType type) { //Dont be lazy and make this one already..
     		boolean result = false;
     		try {
-    			container.has(new NamespacedKey(caller, key), type);
+    			return container.has(new NamespacedKey(caller, key), type);
     		}
     		catch(Exception e) {
     			
     		}
-    		finally {
-    			
-    		}
-    		
     		return false;
     	}
     	
