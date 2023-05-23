@@ -23,6 +23,7 @@ public class Config {
         	plugin.saveResource(file, false);
         	this.file = new YamlFile(new File(plugin.getDataFolder(), file));
     	}
+        this.Validate();
     }
 
     // SET
@@ -81,6 +82,7 @@ public class Config {
 
     public void Reload() {
         this.file.reload();
+        this.Validate();
     }
     
     public void SaveConfig() {
@@ -97,24 +99,24 @@ public class Config {
 		}
 	}
 	
-	static List<ValidationListEntry> validationList = new ArrayList<ValidationListEntry>();
+	List<ValidationListEntry> validationList = new ArrayList<ValidationListEntry>();
 	
 	public void AddValidationEntry(String key, Object value) {
-		validationList.add(new ValidationListEntry(key,value));
+		this.validationList.add(new ValidationListEntry(key,value));
 	}
 	
 	public void Validate() {
 		Boolean missing = false;
-		if(GetBool("debug")) { Log.Debug(plugin, "Validating Config"); }
+		if(this.GetBool("debug")) { Log.Debug(plugin, "Validating Config"); }
 		
-		for(ValidationListEntry item : validationList) {
-			if(!HasKey(item.key)) { 
+		for(ValidationListEntry item : this.validationList) {
+			if(!this.HasKey(item.key)) { 
     			Log.Warning(plugin, "Config value '" + item.key + "' is missing, fixing.");
-    			Set(item.key, item.defaultValue);
+    			this.Set(item.key, item.defaultValue);
     			missing = true; 
     		}
 		}
 		
-		if(missing) { SaveConfig(); }
+		if(missing) { this.SaveConfig(); }
 	}
 }
