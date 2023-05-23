@@ -101,6 +101,12 @@ So we're gonna add these a plugin and a dependency it into our file 'pom.xml'.
   </executions>
 </plugin>
 
+```
+</details>
+<details>
+  <summary>Dependency:</summary>
+
+```xml
 <dependencies>
   <dependency>
     <groupId>valorless.valorlessutils</groupId>
@@ -108,17 +114,6 @@ So we're gonna add these a plugin and a dependency it into our file 'pom.xml'.
     <version>1.0.0.69-SNAPSHOT</version> <!-- Or which ever version you choose to use. -->
   </dependency>
 </dependencies>
-```
-</details>
-<details>
-  <summary>Dependency:</summary>
-
-```xml
-<dependency>
-  <groupId>valorless.valorlessutils</groupId>
-  <artifactId>ValorlessUtils</artifactId>
-  <version>1.0.0.69-SNAPSHOT</version> <!-- Or which ever version you choose to use. -->
-</dependency>
 ```
 </details>
 
@@ -143,6 +138,29 @@ Your pom.xml file should look something like this now:
           <target>1.7</target>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-install-plugin</artifactId>
+        <version>2.5.2</version>
+        <executions>
+          <execution>
+            <id>install-external</id>
+            <phase>clean</phase>
+            <configuration>
+              <file>${basedir}/dependencies/ValorlessUtils-1.0.0.69-SNAPSHOT.jar</file> <!-- Location of the ValorlessUtils.jar file. -->
+              <repositoryLayout>default</repositoryLayout>
+              <groupId>valorless.valorlessutils</groupId>
+              <artifactId>ValorlessUtils</artifactId>
+              <version>1.0.0.69-SNAPSHOT</version> <!-- Or which ever version you choose to use. -->
+              <packaging>jar</packaging>
+              <generatePom>true</generatePom>
+            </configuration>
+            <goals>
+                <goal>install-file</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <repositories>
@@ -164,7 +182,7 @@ Your pom.xml file should look something like this now:
       <artifactId>ValorlessUtils</artifactId>
       <version>1.0.0.69-SNAPSHOT</version>
     </dependency>
-    </dependencies>
+  </dependencies>
 </project>
 
 ```
