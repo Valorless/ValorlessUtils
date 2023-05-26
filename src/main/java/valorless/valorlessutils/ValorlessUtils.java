@@ -97,11 +97,10 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     	}
     	
     	public static void Debug(JavaPlugin caller, String msg) {
-    		if(config.GetBool("debug") == true) {
+    		if(caller.getConfig().getBoolean("debug") == true) {
     			Logger.getLogger("Minecraft").log(Level.WARNING, "[DEBUG]: [" + caller.getName() + "] " + msg);
     		}
     	}
-    	
     }
     
     public static class Tags {
