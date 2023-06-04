@@ -3,6 +3,7 @@ package valorless.valorlessutils;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.Listener;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -97,8 +98,9 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     	}
     	
     	public static void Debug(JavaPlugin caller, String msg) {
-    		if(caller.getConfig().getBoolean("debug") == true) {
-    			Logger.getLogger("Minecraft").log(Level.WARNING, "[DEBUG]: [" + caller.getName() + "] " + msg);
+    		
+    		if(Bukkit.getPluginManager().getPlugin(caller.getName()).getConfig().getBoolean("debug") == true) {
+    			Logger.getLogger("Minecraft").log(Level.WARNING, "[DEBUG][" + caller.getName() + "] " + msg);
     		}
     	}
     }

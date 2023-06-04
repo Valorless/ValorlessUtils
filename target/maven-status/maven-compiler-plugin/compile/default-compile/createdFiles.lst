@@ -29,6 +29,7 @@ valorless\valorlessutils\json\OldBukkitYamlRepresenter.class
 valorless\valorlessutils\json\YamlUtils.class
 valorless\valorlessutils\gui\BasicGUI.class
 valorless\valorlessutils\ValorlessUtils$Tags.class
+valorless\valorlessutils\NBTTag.class
 valorless\valorlessutils\json\YamlLikeObjectTypeAdapter.class
 valorless\valorlessutils\json\MessageArguments.class
 valorless\valorlessutils\config\Config$ValidationListEntry.class
