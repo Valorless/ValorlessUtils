@@ -29,7 +29,7 @@ Easy NBT tagging.
 
 | Function | Parameters  | Description | Returns |
 | --- | --- | --- | --- |
-| `Set<type>()` | `ItemStack item, String key, Object value` |	Sets a custom tag onto chosen ItemStack.<br>Run after setting or before getting ItemMeta. | |
+| `Set<type>()` | `ItemStack item, String key, <type> value` |	Sets a custom tag onto chosen ItemStack.<br>Run after setting or before getting ItemMeta. | |
 | `Get<type>()` | `ItemStack item, String key` |	Gets the value of a chosen tag in the chosen container. | \<type\> |
 | `Has()` | `ItemStack item, String key` |	Checks if the ItemStack has the tag. | Boolean |
   
