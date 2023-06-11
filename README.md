@@ -1,5 +1,5 @@
 # ValorlessUtils
-<img src="https://img.shields.io/badge/Versions-1.18%20--%201.19%2B-brightgreen?style=flat" alt="Versions" style="max-width: 100%;"/><br>
+<a href="https://github.com/Valorless/ValorlessUtils" rel="nofollow"><img src="https://img.shields.io/badge/Versions-1.18%20--%201.20%2B-brightgreen?style=flat" alt="Versions" style="max-width: 100%;"/></a><br>
 
 ValorlessUtils is a library of various utilities, created to make the creation of my other addons easier.
 
@@ -22,15 +22,18 @@ Easy console logging.
 | `Info()` | `JavaPlugin caller, String msg` | Logs desired message in the console as the type INFO. |
 | `Warning()` | `JavaPlugin caller, String msg` | Logs desired message in the console as the type WARNING. |
 | `Error()` | `JavaPlugin caller, String msg` | Logs desired message in the console as the type SEVERE. |
+| `Debug()` | `JavaPlugin caller, String msg` | Logs desired message in the console as the custom type DEBUG.<br>This checks for the boolean variable 'debug' in the caller's config.yml. |
 
-### - Tags.
-Custom NBT tags.
+### - NBT.
+Easy NBT tagging.
 
 | Function | Parameters  | Description | Returns |
 | --- | --- | --- | --- |
-| `Set()` | `JavaPlugin caller, PersistentDataContainer container, String key, Object value, PersistentDataType type` |	Sets a custom tag onto chosen container. | |
-| `Get()` | `JavaPlugin caller, PersistentDataContainer container, String key, PersistentDataType type` |	Gets the value of a chosen tag in the chosen container. | Object |
-| [WIP] `Has()` | `JavaPlugin caller, PersistentDataContainer container, String key, PersistentDataType type` |	Checks if the container contains the tag. | Boolean |
+| `Set<type>()` | `ItemStack item, String key, Object value` |	Sets a custom tag onto chosen ItemStack.<br>Run after setting or before getting ItemMeta. | |
+| `Get<type>()` | `ItemStack item, String key` |	Gets the value of a chosen tag in the chosen container. | \<type\> |
+| `Has()` | `ItemStack item, String key` |	Checks if the ItemStack has the tag. | Boolean |
+  
+Supported types: String, Integer, Integer[], Float, Double, UUID, Bool
 
 ### - Config.
 Easy usage of Config.yml.<br>
@@ -51,15 +54,15 @@ public final Config config = new Config(JavaPlugin, "FileName.Extension");
 | `GetBool()` | `String key` |	Returns value found on key. | Boolean |
 | `GetInt()` | `String key` |	Returns value found on key. | Integer |
 | `GetFloat()` | `String key` |	Returns value found on key. | Double |
-| `GetStringList()` | `String key` |	Returns value found on key. | List<String> |
-| `GetIntList()` | `String key` |	Returns value found on key. | List<Integer> |
-| `GetDoubleList()` | `String key` |	Returns value found on key. | List<Double> |
-| `GetList()` | `String key` |	Returns value found on key. | List<?> |
+| `GetStringList()` | `String key` |	Returns value found on key. | List\<String> |
+| `GetIntList()` | `String key` |	Returns value found on key. | List\<Integer> |
+| `GetDoubleList()` | `String key` |	Returns value found on key. | List\<Double> |
+| `GetList()` | `String key` |	Returns value found on key. | List\<?> |
 | `Set()` | `String key, Object value` |	Set value of key. | |
 | `AddValidationEntry()` | `String key, Object defaultValue` |	Add config.yml key you want to validate exists or not.<br>*Primarily used for when updating a plugin, and existing config.yml do not add new keys.* | |
 | `Validate()` |  |	Validate config.yml using the entries defined using AddValidationEntry().<br>*Primarily used for when updating a plugin, and existing config.yml do not add new keys.* | |
 
-## Integration
+# Integration
 
 As I've just recently started making plugins, I'm going to asume you're using Eclipse & Maven, as that's what I am.<br>
 The way I'm about to show if the say I've found out how to do this.<br>
