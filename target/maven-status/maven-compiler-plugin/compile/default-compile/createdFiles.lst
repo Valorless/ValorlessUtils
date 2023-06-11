@@ -12,6 +12,7 @@ valorless\valorlessutils\ValorlessUtils.class
 valorless\valorlessutils\file\JsonFile.class
 valorless\valorlessutils\json\StringUtils.class
 valorless\valorlessutils\json\Unsafe.class
+valorless\valorlessutils\uuid\UUIDTypeAdapter.class
 valorless\valorlessutils\gui\Slot.class
 valorless\valorlessutils\json\CommonMessageArguments$PrefixedMessageArguments.class
 valorless\valorlessutils\json\CompactYamlRepresenter.class
@@ -27,9 +28,10 @@ valorless\valorlessutils\skulls\SkullCreator.class
 valorless\valorlessutils\json\StringUtils$ArgumentsReplacer.class
 valorless\valorlessutils\json\OldBukkitYamlRepresenter.class
 valorless\valorlessutils\json\YamlUtils.class
+valorless\valorlessutils\uuid\UUIDFetcher.class
 valorless\valorlessutils\gui\BasicGUI.class
 valorless\valorlessutils\ValorlessUtils$Tags.class
-valorless\valorlessutils\NBTTag.class
 valorless\valorlessutils\json\YamlLikeObjectTypeAdapter.class
 valorless\valorlessutils\json\MessageArguments.class
+valorless\valorlessutils\nbt\NBT.class
 valorless\valorlessutils\config\Config$ValidationListEntry.class
