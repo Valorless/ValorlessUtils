@@ -5,6 +5,7 @@ import valorless.valorlessutils.ValorlessUtils.Utils;
 import valorless.valorlessutils.file.YamlFile;
 
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -78,6 +79,18 @@ public class Config {
 			return null;
 		}
     	return this.file.getConfig().contains(key, true);
+    }
+    
+    public ConfigurationSection GetConfigurationSection(String key) {
+		if (Utils.IsStringNullOrEmpty(key)) { 
+			Log.Error(plugin, "[ValorlessUtils] " + plugin.getName() + ".config.HasKey() was called with a null or empty key!"); 
+			return null;
+		}
+    	return this.file.getSection(key);
+    }
+    
+    public YamlFile GetFile() {
+    	return this.file;
     }
 
     public void Reload() {
