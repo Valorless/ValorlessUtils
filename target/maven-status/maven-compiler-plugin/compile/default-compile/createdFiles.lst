@@ -1,4 +1,5 @@
 valorless\valorlessutils\json\CommonMessageArguments$MapMessageArguments.class
+valorless\valorlessutils\translate\Translator$1.class
 valorless\valorlessutils\ValorlessUtils$Log.class
 valorless\valorlessutils\json\BukkitAwareObjectTypeAdapter.class
 valorless\valorlessutils\json\ConfigUtils.class
@@ -14,6 +15,7 @@ valorless\valorlessutils\Metrics$CustomChart.class
 valorless\valorlessutils\json\CommonMessageArguments$CombinedMessageArguments.class
 valorless\valorlessutils\Metrics$DrilldownPie.class
 valorless\valorlessutils\json\YamlLikeObjectTypeAdapter$1.class
+valorless\valorlessutils\translate\Translator.class
 valorless\valorlessutils\Metrics$SingleLineChart.class
 valorless\valorlessutils\Metrics$AdvancedBarChart.class
 valorless\valorlessutils\json\StringUtils$ArgumentsReplacer.class
