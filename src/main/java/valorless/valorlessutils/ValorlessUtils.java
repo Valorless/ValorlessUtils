@@ -31,7 +31,8 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
         // All you have to do is adding the following two lines in your onEnable method.
         // You can find the plugin ids of your plugins on the page https://bstats.org/what-is-my-plugin-id
         int pluginId = 18794; // <-- Replace with the id of your plugin!
-        Metrics metrics = new Metrics(this, pluginId);
+		@SuppressWarnings("unused")
+		Metrics metrics = new Metrics(this, pluginId);
         
 		config = new Config(this, "config.yml");
 		//config.Initiate(this);

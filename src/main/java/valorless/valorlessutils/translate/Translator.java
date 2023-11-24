@@ -5,13 +5,9 @@ import java.util.Map;
 import com.google.gson.Gson;
 
 import valorless.valorlessutils.ValorlessUtils;
-import valorless.valorlessutils.file.YamlFile;
-import valorless.valorlessutils.json.JsonUtils;
-
 import com.google.common.reflect.TypeToken;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
@@ -43,6 +39,7 @@ public class Translator {
 	
 	Map<String, String> LoadLanguage(String key){
 		String json = GetLanguageFileContent(key);
+		@SuppressWarnings("serial")
 		Type mapType = new TypeToken<Map<String, String>>(){}.getType();  
 		Map<String, String> son = new Gson().fromJson(json, mapType);
 		return son;
@@ -66,8 +63,8 @@ public class Translator {
         	languageFile.getParentFile().mkdirs();
         	ValorlessUtils.thisPlugin.saveResource("languages\\" + key + ".lang", false);
         }
-        String content = "";
-		try {
+
+        try {
 			Path filePath = Path.of(path);
 			return Files.readString(filePath);
 		} catch (IOException e) {
