@@ -1,3 +1,4 @@
+
 # ValorlessUtils
 <a href="https://github.com/Valorless/ValorlessUtils" rel="nofollow"><img src="https://img.shields.io/badge/Versions-1.18%20--%201.20%2B-brightgreen?style=flat" alt="Versions" style="max-width: 100%;"/></a><br>
 
@@ -61,6 +62,24 @@ public final Config config = new Config(JavaPlugin, "FileName.Extension");
 | `Set()` | `String key, Object value` |	Set value of key. | |
 | `AddValidationEntry()` | `String key, Object defaultValue` |	Add config.yml key you want to validate exists or not.<br>*Primarily used for when updating a plugin, and existing config.yml do not add new keys.* | |
 | `Validate()` |  |	Validate config.yml using the entries defined using AddValidationEntry().<br>*Primarily used for when updating a plugin, and existing config.yml do not add new keys.* | |
+
+
+### - Translator.
+Easy usage of item/block translations.<br>
+*(Uses translation keys: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Translatable.html#getTranslationKey())*<br>
+<br>
+Instatiating new translator.
+```java
+import valorless.valorlessutils.translate.Translator;
+public final Translator translator = new Translator("en-us");
+```
+
+| Function | Parameters  | Description | Returns |
+| --- | --- | --- | --- |
+| `Translate()` | `string translationKey` |	Translate item/block name. | String |
+| `GetLanguageKey()` |  |	Returns current language. (i.e. "en-us") | String |
+| `SetLanguage()` | `string key` | Change langauge of the translator. |  |
+| `GetLanguageFileContent()` | `String key` |	Returns all content of the current language file. | String |
 
 # Integration
 
