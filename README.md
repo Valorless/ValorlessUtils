@@ -222,36 +222,55 @@ Your plugin.yml file should look something like this now:
   <summary>plugin.yml</summary>
 
 ```yaml
-name: SakuraTweaks
-main: valorless.sakuratweaks.SakuraTweaks
-version: 1.0.0
+name: HavenBags
+main: valorless.havenbags.Main
+version: version-number
 author: Valorless
 api-version: 1.18
+website: https://www.spigotmc.org/resources/110420/
+description: Create shulker-like bags of varying sizes bound to a player, or accessible by anyone.
 depend: [ValorlessUtils]
+softdepend: [ChestSort]
 commands:
-  sakuratweaks:
+  havenbags:
     description: Main command.
     usage:
-  st:
-    description: Main command.
-    usage:
-  sakuratweaks reload:
-    description: Reloads the configuration file.
-    usage: /sakuratweaks reload
-    permission: sakuratweaks.reload
-    permission-message: You don't have sakuratweaks.reload.
-  st reload:
-    description: Reloads the configuration file.
-    usage: /sakuratweaks reload
-    permission: sakuratweaks.reload
-    permission-message: You don't have sakuratweaks.reload.
+    aliases: [bags, bag]
 permissions:
-  sakuratweaks.*:
-    description: Gives access to all SakuraTweaks commands.
+  havenbags.*:
+    description: Gives access to all HavenBags commands.
     children:
-      sakuratweaks.reload: true
-  sakuratweaks.reload:
+      havenbags.reload: true
+      havenbags.use: true
+      havenbags.rename: true
+      havenbags.create: true
+      havenbags.give: true
+      havenbags.restore: true
+      havenbags.bypass: true
+      havenbags.preview: true
+  havenbags.reload:
     description: Allows you to reload the configuration.
+    default: op
+  havenbags.use:
+    description: Allows you to use bags.
+    default: op
+  havenbags.rename:
+    description: Allows you to rename bags. Without havenbags.bypass, you can only rename your own bags.
+    default: op
+  havenbags.create:
+    description: Allows you to create bags.
+    default: op
+  havenbags.give:
+    description: Allows you to give bags.
+    default: op
+  havenbags.restore:
+    description: Allows you to restore bags.
+    default: op
+  havenbags.bypass:
+    description: Allows you to bypass ownership locks.
+    default: op
+  havenbags.preview:
+    description: Allows you to bypass preview bags.
     default: op
 ```
 </details>
