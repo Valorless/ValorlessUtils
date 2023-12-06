@@ -66,6 +66,10 @@ public final Config config = new Config(JavaPlugin, "FileName.Extension");
 
 ### - Translator.
 Easy usage of item/block translations.<br>
+<br>
+*Languages Supported: English, Danish, German, Spanish, French, Turkish, Dutch, Japanese, Korean, Chinese (Simplified), Russian*<br>
+(Additonal languages can be requested, but they must be on this list: https://minecraft.fandom.com/wiki/Language#Languages)<br>
+<br>
 *(Uses translation keys: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Translatable.html#getTranslationKey())*<br>
 <br>
 Instatiating new translator.
