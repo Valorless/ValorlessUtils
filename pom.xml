@@ -69,7 +69,7 @@
         <artifactId>maven-resources-plugin</artifactId>
         <version>3.3.0</version>
         <executions>
-          <execution>
+          <execution> <!-- Shows error, but still works. Fixing it broke it.. somehow. -->
             <id>copy-resources</id>
             <phase>test</phase>
             <goals>
