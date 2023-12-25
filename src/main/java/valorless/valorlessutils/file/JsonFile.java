@@ -7,18 +7,31 @@ import java.io.*;
 
 public class JsonFile extends FileStorage {
 
+    // Gson instance with pretty printing
     private Gson gson = new GsonBuilder()
             .setPrettyPrinting()
             .create();
 
+    /**
+     * Constructor for JsonFile class.
+     * @param file The File object representing the JSON file.
+     */
     public JsonFile(File file) {
         super(file);
     }
 
+    /**
+     * Sets a custom Gson instance.
+     * @param gson The Gson instance to set.
+     */
     public void setGson(Gson gson) {
         this.gson = gson;
     }
 
+    /**
+     * Writes an object to the JSON file.
+     * @param object The object to write.
+     */
     public void writeObject(Object object) {
         if (!fileExists())
             createFile();
@@ -30,6 +43,12 @@ public class JsonFile extends FileStorage {
         }
     }
 
+    /**
+     * Reads an object from the JSON file.
+     * @param clazz The class of the object to read.
+     * @param <T> The type of the object.
+     * @return The read object or null if the file doesn't exist.
+     */
     public <T> T readObject(Class<T> clazz) {
         if (!fileExists())
             return null;
