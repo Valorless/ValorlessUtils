@@ -49,4 +49,28 @@ public class Utils {
         if (i <= percent) return true;
         else return false;
     }
+    
+    /**
+     * Generates a random integer within the specified range (inclusive).
+     *
+     * @param min The minimum value of the range.
+     * @param max The maximum value of the range.
+     * @return A randomly generated integer within the specified range.
+     */
+    public static Integer RandomRange(Integer min, Integer max) {
+        Random rand = new Random();
+        return rand.nextInt((max - min) + 1) + min;
+    }
+
+    /**
+     * Generates a random double within the specified range (inclusive).
+     *
+     * @param min The minimum value of the range.
+     * @param max The maximum value of the range.
+     * @return A randomly generated double within the specified range.
+     */
+    public static double RandomRange(double min, double max) {
+        Random rand = new Random();
+        return rand.nextDouble((max - min) + 1) + min;
+    }
 }
