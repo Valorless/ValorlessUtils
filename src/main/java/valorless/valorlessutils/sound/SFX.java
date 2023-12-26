@@ -6,7 +6,7 @@ import valorless.valorlessutils.utils.Utils;
 
 public class SFX {
 	/**
-	 * Plays a specified sound for a player with the given volume and pitch.
+	 * Play a sound at the location of the player with the given volume and pitch.
 	 *
 	 * @param sound   The name of the sound to play.
 	 * @param volume  The volume of the sound (1.0 is normal volume).
