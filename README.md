@@ -13,7 +13,12 @@ Various utilities.
 
 | Function | Parameters | Returns | Description |
 | --- | --- | --- | --- |
-| `IsStringNullOrEmpty()` | `String string` | Boolean | Check whether the string in question is null or empty. |
+| `IsStringNullOrEmpty()` | `String string` | Boolean | Checks if a given string is null or empty. |
+| `Percent()` | `Double current, Double max` | Double | Calculates the percentage of a given value relative to a maximum value. |
+| `Percent()` | `Float current, Float max` | Float | Calculates the percentage of a given value relative to a maximum value. |
+| `Chance()` | `Double percent` | Boolean | Determines if an event occurs based on a given percentage chance. |
+| `RandomRange()` | `Integer min, Integer max` | Integer | Generates a random integer within the specified range (inclusive). |
+| `RandomRange()` | `Double min, Double max` | Double | Generates a random double within the specified range (inclusive). |
 
 ### - Log.
 Easy console logging.
@@ -79,10 +84,24 @@ public final Translator translator = new Translator("en-us");
 
 | Function | Parameters  | Description | Returns |
 | --- | --- | --- | --- |
-| `Translate()` | `string translationKey` |	Translate item/block name. **([Example](https://github.com/Valorless/HavenBags/blob/main/src/main/java/valorless/havenbags/BagGUI.java#L306))** | String |
+| `Translate()` | `String translationKey` |	Translate item/block name. **([Example](https://github.com/Valorless/HavenBags/blob/main/src/main/java/valorless/havenbags/BagGUI.java#L306))** | String |
 | `GetLanguageKey()` |  |	Returns current language. (i.e. "en-us") | String |
-| `SetLanguage()` | `string key` | Change langauge of the translator. |  |
+| `SetLanguage()` | `String key` | Change langauge of the translator. |  |
 | `GetLanguageFileContent()` | `String key` |	Returns all content of the current language file. | String |
+
+### - SFX.
+
+| Function | Parameters | Description | Returns |
+| --- | --- | --- | --- |
+| `Play()` | `String string, Float volume, Float pitch, Player player` | Play a sound at the location of the player with the given volume and pitch. |  |
+
+### - Encoder.
+Various utilities.
+
+| Function | Parameters | Returns | Description |
+| --- | --- | --- | --- |
+| `Encode()` | `String message, int shift` | String | Encodes a message using the Caesar Cipher algorithm with a specified shift. |
+| `Decode()` | `String encodedMessage, int shift` | String | Decodes an encoded message using the Caesar Cipher algorithm with a specified shift. |
 
 # Integration
 
