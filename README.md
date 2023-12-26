@@ -96,7 +96,6 @@ public final Translator translator = new Translator("en-us");
 | `Play()` | `String string, Float volume, Float pitch, Player player` | Play a sound at the location of the player with the given volume and pitch. |  |
 
 ### - Encoder.
-Various utilities.
 
 | Function | Parameters | Returns | Description |
 | --- | --- | --- | --- |
