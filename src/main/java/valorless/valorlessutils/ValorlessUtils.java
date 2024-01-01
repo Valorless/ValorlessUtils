@@ -19,6 +19,9 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import valorless.valorlessutils.config.Config;
+import valorless.valorlessutils.types.Vector;
+import valorless.valorlessutils.types.Vector2;
+import valorless.valorlessutils.types.Vector3;
 import valorless.valorlessutils.utils.Utils;
 
 public final class ValorlessUtils extends JavaPlugin implements Listener {
@@ -76,6 +79,20 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
 
         // Registering commands
         AddCommand("valorlessutils", "vu");
+        
+        VectorTest();
+    }
+    
+    void VectorTest() {
+    	Vector3<Integer> v = new Vector3<Integer>(1,35,44);
+    	Log.Warning(this, v.x.toString());
+    	Log.Warning(this, v.y.toString());
+    	v.Set(Vector.X, 4);
+    	Log.Warning(this, v.x.toString());
+    	v.x = 76;
+    	Log.Warning(this, v.x.toString());
+    	Integer e = v.x + 5;
+    	Log.Warning(this, e.toString());
     }
 
     /**

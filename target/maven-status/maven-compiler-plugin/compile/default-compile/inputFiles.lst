@@ -10,11 +10,13 @@ C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\uuid\UUIDTypeAdapter.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\file\FileStorage.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\Unsafe.java
+C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\types\Vector3.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\MessageArguments.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\file\YamlFile.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\uuid\UUIDFetcher.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\BukkitAwareObjectTypeAdapter.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\StringUtils.java
+C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\types\Vector.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\YamlUtils.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\Metrics.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\CommonMessageArguments.java
@@ -23,6 +25,7 @@ C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\YamlLikeObjectTypeAdapter.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\JsonUtils.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\sound\SFX.java
+C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\types\Vector2.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\gui\Slot.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\gui\BasicGUI.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\OldBukkitYamlRepresenter.java
