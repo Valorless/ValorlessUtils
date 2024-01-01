@@ -1,6 +1,6 @@
 name: ValorlessUtils
 main: valorless.valorlessutils.ValorlessUtils
-version: 1.5.1.151
+version: version-number
 author: Valorless
 api-version: 1.18
 commands:

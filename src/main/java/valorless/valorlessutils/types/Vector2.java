@@ -1,11 +1,11 @@
 package valorless.valorlessutils.types;
 
 /**
- * A generic class representing a 2D vector with components of a comparable type.
+ * A generic class representing a 2D vector with components of a number type.
  *
- * @param <T> The type of the vector components, which must be comparable.
+ * @param <T> The type of the vector components, which must be number.
  */
-public class Vector2<T extends Comparable<T>> {
+public class Vector2<T extends Number> {
     
     public T x, y;
 
