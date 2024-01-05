@@ -1,6 +1,6 @@
 
 # ValorlessUtils
-<a href="https://github.com/Valorless/ValorlessUtils" rel="nofollow"><img src="https://img.shields.io/badge/Versions-1.18%20--%201.20%2B-brightgreen?style=flat" alt="Versions" style="max-width: 100%;"/></a><br>
+<a href="https://github.com/Valorless/ValorlessUtils" rel="nofollow"><img src="https://img.shields.io/badge/Versions-1.18%20--%201.20.4%2B-brightgreen?style=flat" alt="Versions" style="max-width: 100%;"/></a><br>
 
 ValorlessUtils is a library of various utilities, created to make the creation of my other addons easier.
 
