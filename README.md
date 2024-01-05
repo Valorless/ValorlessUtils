@@ -8,17 +8,36 @@ My primary programing language is C#, so the functions will resemble those.
 
 ## Features
 
+### - Variable Types.
+*"T" refers to type, such as Integer or Double.*
+
+| Type | Parameters | Description |
+| --- | --- | --- |
+| `Vector2` | `T x, T y` | A generic class representing a 2D vector with components of a number type. |
+| `Vector3` | `T x, T y, T z` | A generic class representing a 3D vector with components of a number type. |
+
+Both Vector2 & Vector3 have the following functions:<br>
+*(Using Vector3 as example)*
+| Function | Parameters | Returns | Description |
+| --- | --- | --- | --- |
+| `Set()` | `Vector component, T value` |  | Sets the value of a specific component in the vector. |
+| `Set()` | `T x, T y, T z` |  | Sets the values of all components in the vector. |
+| `Equals()` | `Vector3<T> other` | Boolean | Checks if the current Vector3 instance is equal to another Vector3 instance. |
+
 ### - Utils.
 Various utilities.
 
 | Function | Parameters | Returns | Description |
 | --- | --- | --- | --- |
 | `IsStringNullOrEmpty()` | `String string` | Boolean | Checks if a given string is null or empty. |
-| `Percent()` | `Double current, Double max` | Double | Calculates the percentage of a given value relative to a maximum value. |
-| `Percent()` | `Float current, Float max` | Float | Calculates the percentage of a given value relative to a maximum value. |
+| `Percent()` | `Number current, Number max` | Double/Float | Calculates the percentage of a given value relative to a maximum value. |
 | `Chance()` | `Double percent` | Boolean | Determines if an event occurs based on a given percentage chance. |
 | `RandomRange()` | `Integer min, Integer max` | Integer | Generates a random integer within the specified range (inclusive). |
 | `RandomRange()` | `Double min, Double max` | Double | Generates a random double within the specified range (inclusive). |
+| `Clamp()` | `T value, T min, T max` | Comparable | Clamps a value between a minimum and maximum value. |
+| `Clamp01()` | `Number value` | Integer/Double/Long/Float | Clamps a Number value between 0 and 1. |
+| `Bool.FromValue()` | `Integer value` | Boolean | Converts an Integer value to a Boolean. |
+| `Bool.ToValue()` | `Boolean bool` | Integer | Converts a Boolean value to an Integer. |
 
 ### - Log.
 Easy console logging.
