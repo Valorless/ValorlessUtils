@@ -16,6 +16,7 @@ My primary programing language is C#, so the functions will resemble those.
 | `Vector2` | `T x, T y` | A generic class representing a 2D vector with components of a number type. |
 | `Vector3` | `T x, T y, T z` | A generic class representing a 3D vector with components of a number type. |
 
+#### - Vector2 & Vector3
 Both Vector2 & Vector3 have the following functions:<br>
 *(Using Vector3 as example)*
 | Function | Parameters | Returns | Description |
