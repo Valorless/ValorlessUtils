@@ -80,7 +80,8 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
         // Registering commands
         AddCommand("valorlessutils", "vu");
         
-        VectorTest();
+        //Testing Function
+        //VectorTest();
     }
     
     void VectorTest() {
