@@ -2,9 +2,12 @@ package valorless.valorlessutils.translate;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import com.google.gson.Gson;
 
 import valorless.valorlessutils.ValorlessUtils;
+import valorless.valorlessutils.ValorlessUtils.Log;
+
 import com.google.common.reflect.TypeToken;
 
 import java.io.File;
@@ -20,6 +23,22 @@ public class Translator {
     
     // Map to store language translations
     Map<String, String> languageMap = new HashMap<String, String>();
+    
+    // List of all available languages
+    final String[] languages = {
+    		"da_dk (Danish)",
+    		"de_de (German)",
+    		"en_gb (English)",
+    		"en_us (American English)",
+    		"es_es (Spanish)",
+    		"fr_fr (French)",
+    		"ja_jp (Japanese)",
+    		"ko_kr (Korean)",
+    		"nl_nl (Dutch)",
+    		"ru_ru (Russian)",
+    		"tr_tr (Turkish)",
+    		"zh_cn (Chinese (Simplified))"
+    };
 
     /**
      * Constructor for Translator class.
@@ -27,7 +46,7 @@ public class Translator {
      */
     public Translator(String key) {
         this.language = key;
-        this.languageMap = LoadLanguage(key);
+		this.languageMap = LoadLanguage(key);
     }
 
     /**
@@ -56,12 +75,30 @@ public class Translator {
      * @param key The language key.
      * @return A map of translations.
      */
-    Map<String, String> LoadLanguage(String key) {
-        String json = GetLanguageFileContent(key);
-        @SuppressWarnings("serial")
-        Type mapType = new TypeToken<Map<String, String>>() {}.getType();
-        Map<String, String> son = new Gson().fromJson(json, mapType);
-        return son;
+    Map<String, String> LoadLanguage(String key)  {
+    	try {
+    		String json = GetLanguageFileContent(key);
+    		
+        	@SuppressWarnings("serial")
+        	Type mapType = new TypeToken<Map<String, String>>() {}.getType();
+        	Map<String, String> son = new Gson().fromJson(json, mapType);
+        	return son;
+    	} catch(Exception e) {
+    		String clas = Thread.currentThread().getStackTrace()[3].getClassName();
+    		String method = Thread.currentThread().getStackTrace()[3].getMethodName();
+    		String err = String.format("Failed to load language '%s'!\n'%s()' (in '%s')", key, method, clas);
+    		Log.Error(ValorlessUtils.thisPlugin, err);
+    		Log.Error(ValorlessUtils.thisPlugin, "Supported Languages: ");
+    		for (String lang : languages) {
+    			Log.Error(ValorlessUtils.thisPlugin, lang);
+    		}
+    		
+    		String json = GetLanguageFileContent("en_us");
+        	@SuppressWarnings("serial")
+        	Type mapType = new TypeToken<Map<String, String>>() {}.getType();
+        	Map<String, String> son = new Gson().fromJson(json, mapType);
+        	return son;
+    	}
     }
 
     /**
@@ -69,7 +106,7 @@ public class Translator {
      * @param key The language key to set.
      */
     public void SetLanguage(String key) {
-        languageMap = LoadLanguage(key);
+		languageMap = LoadLanguage(key);
     }
 
     /**
