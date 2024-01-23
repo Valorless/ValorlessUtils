@@ -3,6 +3,8 @@ package valorless.valorlessutils.config;
 import valorless.valorlessutils.ValorlessUtils.Log;
 import valorless.valorlessutils.utils.Utils;
 import valorless.valorlessutils.file.YamlFile;
+import valorless.valorlessutils.types.Vector2;
+import valorless.valorlessutils.types.Vector3;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -42,6 +44,29 @@ public class Config {
         this.file.getConfig().set(key, value);
     }
     
+    /**
+     * Sets a Vector2 value in the configuration file.
+     * @param <T> The type of the vector components, which must be number.
+     * @param key The key to set.
+     * @param value The Vector2 value to set.
+     */
+	public <T extends Number> void SetVector2(String key, Vector2<T> value) {
+    	Set(key + ".x", value.x);
+    	Set(key + ".y", value.y);
+    }
+    
+    /**
+     * Sets a Vector3 value in the configuration file.
+     * @param <T> The type of the vector components, which must be number.
+     * @param key The key to set.
+     * @param value The Vector3 value to set.
+     */
+	public <T extends Number> void SetVector3(String key, Vector3<T> value) {
+    	Set(key + ".x", value.x);
+    	Set(key + ".y", value.y);
+    	Set(key + ".z", value.z);
+    }
+    
     // GET
     /**
      * Retrieves a string value from the configuration file.
@@ -77,6 +102,30 @@ public class Config {
      */
     public Double GetFloat(String key) {
         return this.file.getConfig().getDouble(key);
+    }
+    
+    /**
+     * Retrieves a Vector2 value from the configuration file.
+     * @param <T> The type of the vector components, which must be number.
+     * @param key The key to retrieve.
+     * @return The Vector2 value.
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public <T extends Number> Vector2<T> GetVector2(String key) {
+    	return new Vector2((T)this.file.getConfig().get(key + ".x"), (T)this.file.getConfig().get(key + ".y"));
+    }
+    
+    /**
+     * Retrieves a Vector3 value from the configuration file.
+     * @param <T> The type of the vector components, which must be number.
+     * @param key The key to retrieve.
+     * @return The Vector3 value.
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public <T extends Number> Vector3<T> GetVector3(String key) {
+    	return new Vector3((T)this.file.getConfig().get(key + ".x"),
+    			(T)this.file.getConfig().get(key + ".y"),
+    			(T)this.file.getConfig().get(key + ".z"));
     }
     
     /**
@@ -209,6 +258,27 @@ public class Config {
      */
     public void AddValidationEntry(String key, Object value) {
         this.validationList.add(new ValidationListEntry(key, value));
+    }
+    
+    /**
+     * Adds a key-value pair to the validation list.
+     * @param key The key to add.
+     * @param value The default value for the key.
+     */
+    public <T extends Number> void AddValidationEntry(String key, Vector2<T> value) {
+        this.validationList.add(new ValidationListEntry(key + ".x", value.x));
+        this.validationList.add(new ValidationListEntry(key + ".y", value.y));
+    }
+    
+    /**
+     * Adds a key-value pair to the validation list.
+     * @param key The key to add.
+     * @param value The default value for the key.
+     */
+    public <T extends Number> void AddValidationEntry(String key, Vector3<T> value) {
+        this.validationList.add(new ValidationListEntry(key + ".x", value.x));
+        this.validationList.add(new ValidationListEntry(key + ".y", value.y));
+        this.validationList.add(new ValidationListEntry(key + ".z", value.z));
     }
     
     /**
