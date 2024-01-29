@@ -5,13 +5,16 @@ C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\trans
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\skulls\SkullCreator.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\file\JsonFile.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\CompactYamlRepresenter.java
+C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\crafting\CraftRecipe.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\config\Config.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\Validate.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\uuid\UUIDTypeAdapter.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\file\FileStorage.java
+C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\Debug.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\Unsafe.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\types\Vector3.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\MessageArguments.java
+C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\crafting\Ingredient.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\file\YamlFile.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\uuid\UUIDFetcher.java
 C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\BukkitAwareObjectTypeAdapter.java

@@ -19,10 +19,11 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import valorless.valorlessutils.config.Config;
+import valorless.valorlessutils.crafting.CraftRecipe;
+import valorless.valorlessutils.crafting.CraftRecipe.RecipeType;
+import valorless.valorlessutils.crafting.Ingredient;
 import valorless.valorlessutils.types.Vector;
-import valorless.valorlessutils.types.Vector2;
 import valorless.valorlessutils.types.Vector3;
-import valorless.valorlessutils.utils.Utils;
 
 public final class ValorlessUtils extends JavaPlugin implements Listener {
     public static JavaPlugin thisPlugin;
@@ -82,6 +83,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
         
         //Testing Function
         //VectorTest();
+        //RecipeTest();
     }
     
     void VectorTest() {
@@ -95,6 +97,27 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     	Integer e = v.x + 5;
     	Log.Warning(this, e.toString());
     }
+    
+    void RecipeTest() {
+    	List<String> shape = new ArrayList<String>();
+    	shape.add("XXX");
+    	shape.add("XDX");
+    	shape.add("XXX");
+    	
+    	List<Ingredient> ingredients = new ArrayList<Ingredient>();
+    	ingredients.add(new Ingredient("D", Material.DIRT));
+    	
+    	CraftRecipe recipe = new CraftRecipe(
+    			this, 
+    			"TestRecipe1", 
+    			RecipeType.Shaped, 
+    			ingredients, 
+    			new ItemStack(Material.GRASS_BLOCK), 
+    			shape);
+    	recipe.SetPermission("Test.Permission");
+    	recipe.Add();
+    	
+    }
 
     /**
      * Called when the plugin is being disabled.
@@ -105,6 +128,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
         if (config.GetBool("debug")) {
             Log.Info(this, "§cDisabled!");
         }
+        
     }
 
     /**
