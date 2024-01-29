@@ -99,6 +99,7 @@ Easy usage of item/block translations.<br>
 Instatiating new translator.
 ```java
 import valorless.valorlessutils.translate.Translator;
+
 public final Translator translator = new Translator("en-us");
 ```
 
@@ -121,6 +122,50 @@ public final Translator translator = new Translator("en-us");
 | --- | --- | --- | --- |
 | `Encode()` | `String message, int shift` | String | Encodes a message using the Caesar Cipher algorithm with a specified shift. |
 | `Decode()` | `String encodedMessage, int shift` | String | Decodes an encoded message using the Caesar Cipher algorithm with a specified shift. |
+
+### - Custom Crafting Recipes.
+Create custom vanilla-like crafting recipes easily.<br>
+Each recipe will check if the player has the permission to craft it.<br>
+<br>
+Instatiating new CraftRecipe.
+```java
+import valorless.valorlessutils.crafting.CraftRecipe;
+import valorless.valorlessutils.crafting.Ingredient;
+
+ItemStack result = new ItemStack(Material.GRASS_BLOCK);
+List<String> shape = new ArrayList<String>();
+  shape.add("XXX");
+  shape.add("XDX");
+  shape.add("XXX");
+List<Ingredient> ingredients = new ArrayList<Ingredient>();
+  ingredients.add(new Ingredient("D", Material.DIRT));	
+CraftRecipe recipe = new CraftRecipe(
+  PLUGIN, 
+  "TestRecipe1", 
+  RecipeType.Shaped, 
+  ingredients, 
+  result, 
+  shape
+);
+recipe.SetPermission("Test.Permission");
+recipe.Add();
+```
+| Function | Parameters  | Description | Returns |
+| --- | --- | --- | --- |
+| `Add()` |  | Adds the crafting recipe to the server. |  |
+| `Remove()` |  |	Removes the crafting recipe from the server. |  |
+| `SetShape()` | `List<String> shape` | Sets the shape of the recipe (for shaped recipes) | |
+| `GetShape()` |  |	Gets the shape of the recipe. | List\<String> |
+| `SetIngredients()` | `List<Ingredient> ingredients` | Sets the ingredients required for the recipe. |  |
+| `GetIngredients()` |  |	Gets the list of ingredients required for the recipe. | List\<Ingredient> |
+| `SetType()` | `RecipeType type` | Sets the type of the crafting recipe. |  |
+| `GetType()` |  | Gets the type of the crafting recipe. | RecipeType |
+| `SetPermission()` | `String permission` | Sets the permission required to craft the recipe.<br> If the permission is set to null, anyone can craft the item. |  |
+| `SetPermission()` | `Permission permission` | Sets the permission required to craft the recipe.<br> If the permission is set to null, anyone can craft the item. |  |
+| `GetPermission()` |  | Gets the permission required to craft the recipe. | Permission |
+| `SetResult()` | `ItemStack result` | Sets the result of the crafting recipe. |  |
+| `GetResult()` |  | Gets the result of the crafting recipe. |  |
+| `toString()` |  | Returns a string representation of this CraftRecipe object. |  |
 
 # Integration
 
