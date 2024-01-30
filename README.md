@@ -123,7 +123,7 @@ public final Translator translator = new Translator("en-us");
 | `Encode()` | `String message, int shift` | String | Encodes a message using the Caesar Cipher algorithm with a specified shift. |
 | `Decode()` | `String encodedMessage, int shift` | String | Decodes an encoded message using the Caesar Cipher algorithm with a specified shift. |
 
-### - Custom Crafting Recipes.
+### - Crafting Recipes.
 Create custom vanilla-like crafting recipes easily.<br>
 Each recipe will check if the player has the permission to craft it.<br>
 <br>
