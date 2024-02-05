@@ -18,7 +18,6 @@ import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import valorless.valorlessutils.Debug;
 import valorless.valorlessutils.ValorlessUtils;
 import valorless.valorlessutils.ValorlessUtils.Log;
 
@@ -140,15 +139,6 @@ public class CraftRecipe implements Listener {
     }
 
     /**
-     * Sets the permission required to craft the recipe.<br>
-     * If the permission is set to null, anyone can craft the item.
-     * @param permission The permission required to craft the recipe.
-     */
-    public void SetPermission(@Nullable String permission) {
-        this.permission = new Permission(permission);
-    }
-
-    /**
      * Sets the type of the crafting recipe.
      * @param type The type of the crafting recipe (shaped or shapeless).
      */
@@ -166,10 +156,20 @@ public class CraftRecipe implements Listener {
     }
 
     /**
-     * Sets the permission required to craft the recipe.
+     * Sets the permission required to craft the recipe.<br>
+     * If the permission is set to null, anyone can craft the item.
      * @param permission The permission required to craft the recipe.
      */
-    public void SetPermission(Permission permission) {
+    public void SetPermission(@Nullable String permission) {
+        this.permission = new Permission(permission);
+    }
+
+    /**
+     * Sets the permission required to craft the recipe.<br>
+     * If the permission is set to null, anyone can craft the item.
+     * @param permission The permission required to craft the recipe.
+     */
+    public void SetPermission(@Nullable Permission permission) {
         this.permission = permission;
     }
 
@@ -218,6 +218,11 @@ public class CraftRecipe implements Listener {
         	}else {
     			Log.Error(ValorlessUtils.thisPlugin, String.format("Recipe '%s' could not be added.", key.toString()));
         	}
+    		if(permission != null) {
+    			if(Bukkit.getPluginManager().getPermission(permission.getName()) != null) {
+					Bukkit.getPluginManager().addPermission(permission);
+				}
+    		}
         	Log.Info(ValorlessUtils.thisPlugin, String.format("Recipe '%s' added.", key.toString()));
     	} catch (Exception e) {
 			Log.Error(ValorlessUtils.thisPlugin, String.format("Recipe '%s' could not be added.", key.toString()));
