@@ -141,6 +141,7 @@ public class GUI implements Listener {
      */
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
+        // More..
         // Implementation omitted for brevity.
         for (Listener listener : listeners) {
             try {
