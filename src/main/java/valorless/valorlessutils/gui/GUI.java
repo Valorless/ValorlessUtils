@@ -19,7 +19,7 @@ Public class GUI implements Listener {
     Public class Row {
         Public List<Item> Content;
         Public Row(){
-            Content = new ArrayList<ItemStack>(9)
+            Content = new ArrayList<Item>(9)
         }
         
         Public void SetItem(int index,Item item){
