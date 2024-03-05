@@ -30,6 +30,14 @@ public class GUI implements Listener {
             this.item = item;
             this.action = action;
         }
+        
+        public ItemStack GetItemStack(){
+            return item;
+        }
+        
+        public GUIAction GetAction(){
+            return action;
+        }
     }
 
     /**
@@ -64,12 +72,20 @@ public class GUI implements Listener {
             Content.set(index, null);
         }
         
+        public Item GetItem(int index){
+            return content.get(index);
+        }
+        
         /**
          * Sets the content of the row with the provided list of items.
          * @param content The list of items to set as the row's content.
          */
         public void SetContent(List<Item> content) {
             this.Content = content;
+        }
+        
+        public List<Item> GetContent(){
+            return Content;
         }
     }
     
@@ -116,11 +132,11 @@ public class GUI implements Listener {
          * @param index The index of the row to remove.
          */
         public void RemoveRow(int index) {
-            this.rows.remove(index);
+            rows.remove(index);
         }
         
         public Row GetRow(int index){
-            return this.rows.get(index);
+            return rows.get(index);
         }
         
         /**
