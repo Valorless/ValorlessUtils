@@ -44,13 +44,13 @@ public class GUI implements Listener {
      * Represents a row within the GUI containing items.
      */
     public class Row {
-        public List<Item> Content;
+        public List<Item> items;
         
         /**
          * Constructs a Row with an empty content list.
          */
         public Row() {
-            Content = new ArrayList<Item>(9);
+            items = new ArrayList<Item>(9);
         }
         
         /**
@@ -60,7 +60,7 @@ public class GUI implements Listener {
          */
         public void SetItem(int index, Item item) {
             index = Utils.Clamp(index, 0, 8);
-            Content.set(index, item);
+            items.set(index, item);
         }
         
         /**
@@ -69,7 +69,7 @@ public class GUI implements Listener {
          */
         public void RemoveItem(int index) {
             index = Utils.Clamp(index, 0, 8);
-            Content.set(index, null);
+            items.set(index, null);
         }
         
         public Item GetItem(int index){
@@ -80,12 +80,12 @@ public class GUI implements Listener {
          * Sets the content of the row with the provided list of items.
          * @param content The list of items to set as the row's content.
          */
-        public void SetContent(List<Item> content) {
-            this.Content = content;
+        public void SetItems(List<Item> items) {
+            this.items = items;
         }
         
-        public List<Item> GetContent(){
-            return Content;
+        public List<Item> GetItems(){
+            return items;
         }
     }
     
