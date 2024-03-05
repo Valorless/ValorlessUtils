@@ -33,7 +33,7 @@ Public class GUI implements Listener {
         
         Public String title;
         
-        Public Pahe(){}
+        Public Page(){}
         
         Public Page(List<Row> rows, String title){
             this.rows = rows;
