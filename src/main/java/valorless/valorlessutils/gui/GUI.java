@@ -79,11 +79,14 @@ public class GUI implements Listener {
     public class Page {
         public String title;
         public List<Row> rows;
+        public Inventory inventory;
         
         /**
          * Constructs an empty Page.
          */
-        public Page() {}
+        public Page(Inventory inventory) {
+            this.inventory = inventory;
+        }
         
         /**
          * Constructs a Page with the provided list of rows and title.
