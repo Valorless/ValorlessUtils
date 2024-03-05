@@ -181,6 +181,7 @@ public class GUI implements Listener {
     public void OpenPage(int index){
         inventory = Bukkit.CreateInventory(...);
         player.openInventory(inventory);
+        pageHistory.add(pages.get(index));
     }
     
     public void AddPage(Page page){
