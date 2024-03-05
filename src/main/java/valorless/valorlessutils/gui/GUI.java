@@ -2,91 +2,166 @@
 
 //imports here
 
-Public class GUI implements Listener {
+/**
+ * Represents a GUI with various actions and functionalities.
+ */
+public class GUI implements Listener {
 
-    Public enum GUIAction{NONE,PREV_PAGE, NEXT_PAGE,CONFIRM,CANCEL,RETURN,OPEN_PAGE, CLOSE,OPEN_INVENTORY,GIVE_ITEM,GIVE_MONEY}
+    /**
+     * Enumeration representing different actions that can be performed in the GUI.
+     */
+    public enum GUIAction {
+        NONE, PREV_PAGE, NEXT_PAGE, CONFIRM, CANCEL, RETURN, OPEN_PAGE, CLOSE, OPEN_INVENTORY, GIVE_ITEM, GIVE_MONEY
+    }
     
-    Public class Item {
-        Public ItemStack item;
-        Public GUIAction action;
+    /**
+     * Represents an item within the GUI with associated action.
+     */
+    public class Item {
+        public ItemStack item;
+        public GUIAction action;
         
-        Public Item (ItemStack item, GUIAction action){
+        /**
+         * Constructs an Item with the given ItemStack and GUIAction.
+         * @param item The ItemStack representing the item.
+         * @param action The GUIAction associated with the item.
+         */
+        public Item(ItemStack item, GUIAction action) {
             this.item = item;
             this.action = action;
         }
     }
 
-    Public class Row {
-        Public List<Item> Content;
-        Public Row(){
-            Content = new ArrayList<Item>(9)
+    /**
+     * Represents a row within the GUI containing items.
+     */
+    public class Row {
+        public List<Item> Content;
+        
+        /**
+         * Constructs a Row with an empty content list.
+         */
+        public Row() {
+            Content = new ArrayList<Item>(9);
         }
         
-        Public void SetItem(int index,Item item){
-            index = Utils.Clamp(index,0,8);
-            Content.set(index,item)
+        /**
+         * Sets an item at the specified index in the row.
+         * @param index The index where the item should be set.
+         * @param item The item to set.
+         */
+        public void SetItem(int index, Item item) {
+            index = Utils.Clamp(index, 0, 8);
+            Content.set(index, item);
         }
         
-        Public void RemoveItem(int index){
-            index = Utils.Clamp(index,0,8);
-            Content.set(index,null);
+        /**
+         * Removes the item at the specified index from the row.
+         * @param index The index of the item to remove.
+         */
+        public void RemoveItem(int index) {
+            index = Utils.Clamp(index, 0, 8);
+            Content.set(index, null);
         }
         
-        Public void SetContent(List<Item> content){
-            this.Content > content;
+        /**
+         * Sets the content of the row with the provided list of items.
+         * @param content The list of items to set as the row's content.
+         */
+        public void SetContent(List<Item> content) {
+            this.Content = content;
         }
     }
     
-    Public class Page {
+    /**
+     * Represents a page within the GUI consisting of multiple rows.
+     */
+    public class Page {
+        public String title;
+        public List<Row> rows;
         
-        Public String title;
-        Public List<Row> rows;
+        /**
+         * Constructs an empty Page.
+         */
+        public Page() {}
         
-        Public Page(){}
-        
-        Public Page(List<Row> rows, String title){
+        /**
+         * Constructs a Page with the provided list of rows and title.
+         * @param rows The list of rows in the page.
+         * @param title The title of the page.
+         */
+        public Page(List<Row> rows, String title) {
             this.rows = rows;
             this.title = title;
         }
         
-        Public void SetRows(List<Row> rows){
+        /**
+         * Sets the rows of the page with the provided list of rows.
+         * @param rows The list of rows to set.
+         */
+        public void SetRows(List<Row> rows) {
             this.rows = rows;
         }
         
-        Public void AddRow(Row row){
+        /**
+         * Adds a row to the page.
+         * @param row The row to add.
+         */
+        public void AddRow(Row row) {
             this.rows.add(row);
         }
         
-        Public void RemoveRow(int index){
+        /**
+         * Removes the row at the specified index from the page.
+         * @param index The index of the row to remove.
+         */
+        public void RemoveRow(int index) {
             this.rows.remove(index);
         }
         
-        Public void SetTitle(String title){
+        /**
+         * Sets the title of the page.
+         * @param title The title to set.
+         */
+        public void SetTitle(String title) {
             this.title = title;
         }
     }
     
     // Variables
     
-    Public List<Listener> listeners;
+    /**
+     * List of listeners registered with the GUI.
+     */
+    public List<Listener> listeners;
     
+    /**
+     * Handles inventory click events in the GUI.
+     * @param event The InventoryClickEvent.
+     */
     @EventHandler
-    Public void onInventoryClick(InventoryClickEvent event){
-        // more.
-        for (Listener listener : listeners){
-            try{
+    public void onInventoryClick(InventoryClickEvent event) {
+        // Implementation omitted for brevity.
+        for (Listener listener : listeners) {
+            try {
                 listener.onGUIEvent(GUIAction action, object... args);
-            }catch(Exception e){}
+            } catch (Exception e) {}
         }
     }
     
-    Public void RegisterListener(Listener listener){
+    /**
+     * Registers a listener with the GUI.
+     * @param listener The listener to register.
+     */
+    public void RegisterListener(Listener listener) {
         listeners.add(listener);
     }
     
-    Public void UnregisterListener(Listener listener){
+    /**
+     * Unregisters a listener from the GUI.
+     * @param listener The listener to unregister.
+     */
+    public void UnregisterListener(Listener listener) {
         listeners.remove(listener);
     }
-    
-
 }
