@@ -135,6 +135,8 @@ public class GUI implements Listener {
      */
     public List<Listener> listeners;
     
+    public List<Page> pageHistory;
+    
     /**
      * Handles inventory click events in the GUI.
      * @param event The InventoryClickEvent.
