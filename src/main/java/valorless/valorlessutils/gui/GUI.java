@@ -191,4 +191,8 @@ public class GUI implements Listener {
     public void RemovePage(int index){
         pages.remove(index);
     }
+    
+    public Page GetPage(int index){
+        return pages.get(index);
+    }
 }
