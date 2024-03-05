@@ -136,6 +136,7 @@ public class GUI implements Listener {
         }
         
         public Row GetRow(int index){
+            index = Utils.Clamp(index,0,5);
             return rows.get(index);
         }
         
