@@ -143,8 +143,7 @@ public class GUI implements Listener {
     
     public Player player;
     
-    public GUI(Player player)
-        {
+    public GUI(Player player) {
         this.Player = player;
     }
     
