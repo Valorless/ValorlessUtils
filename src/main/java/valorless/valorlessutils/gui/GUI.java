@@ -119,6 +119,10 @@ public class GUI implements Listener {
             this.rows.remove(index);
         }
         
+        public Row GetRow(int index){
+            return this.rows.get(index);
+        }
+        
         /**
          * Sets the title of the page.
          * @param title The title to set.
