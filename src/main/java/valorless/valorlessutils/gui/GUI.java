@@ -8,13 +8,11 @@ Public class GUI implements Listener {
 
     Public class Row {
         Public List<ItemStack> Content;
-        
         Public Row(){}
         
         Public void SetItem(int index,ItemStack item){
             index = Utils.Clamp(index,0,8);
             Content.set(index,item)
-            
         }
         
         Public void RemoveItem(int index){
@@ -29,9 +27,8 @@ Public class GUI implements Listener {
     
     Public class Page {
         
-        Public List<Row> rows;
-        
         Public String title;
+        Public List<Row> rows;
         
         Public Page(){}
         
