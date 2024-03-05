@@ -1,5 +1,7 @@
 // Written on mobile without IDE.
 
+//imports here
+
 Public class GUI implements Listener {
 
     Public enum GUIAction{PREV_PAGE, NEXT_PAGE,CONFIRM,CANCEL,RETURN,OPEN_PAGE, CLOSE,OPEN_INVENTORY,GIVE_ITEM,GIVE_MONEY}
