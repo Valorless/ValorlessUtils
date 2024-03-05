@@ -119,6 +119,10 @@ public class GUI implements Listener {
             this.rows = rows;
         }
         
+        public List<Row> GetRows(){
+            return rows;
+        }
+        
         /**
          * Adds a row to the page.
          * @param row The row to add.
