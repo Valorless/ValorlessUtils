@@ -79,14 +79,11 @@ public class GUI implements Listener {
     public class Page {
         public String title;
         public List<Row> rows;
-        public Inventory inventory;
         
         /**
          * Constructs an empty Page.
          */
-        public Page(Inventory inventory) {
-            this.inventory = inventory;
-        }
+        public Page() {}
         
         /**
          * Constructs a Page with the provided list of rows and title.
@@ -139,6 +136,15 @@ public class GUI implements Listener {
     public List<Listener> listeners;
     
     public List<Page> pageHistory;
+    
+    public Inventory inventory;
+    
+    public Player player;
+    
+    public GUI(Player player)
+        {
+        this.Player = player;
+    }
     
     /**
      * Handles inventory click events in the GUI.
