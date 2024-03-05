@@ -135,6 +135,8 @@ public class GUI implements Listener {
      */
     public List<Listener> listeners;
     
+    public List<Page> pages;
+    
     public List<Page> pageHistory;
     
     public Inventory inventory;
@@ -175,5 +177,18 @@ public class GUI implements Listener {
      */
     public void UnregisterListener(Listener listener) {
         listeners.remove(listener);
+    }
+    
+    public void OpenPage(int index){
+        inventory = Bukkit.CreateInventory(...);
+        player.openInventory(inventory);
+    }
+    
+    public void AddPage(Page page){
+        pages.add(page);
+    }
+    
+    public void RemovePage(int index){
+        pages.remove(index);
     }
 }
