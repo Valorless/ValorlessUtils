@@ -4,13 +4,25 @@
 
 Public class GUI implements Listener {
 
-    Public enum GUIAction{PREV_PAGE, NEXT_PAGE,CONFIRM,CANCEL,RETURN,OPEN_PAGE, CLOSE,OPEN_INVENTORY,GIVE_ITEM,GIVE_MONEY}
+    Public enum GUIAction{NONE,PREV_PAGE, NEXT_PAGE,CONFIRM,CANCEL,RETURN,OPEN_PAGE, CLOSE,OPEN_INVENTORY,GIVE_ITEM,GIVE_MONEY}
+    
+    Public class Item {
+        Public ItemStack item;
+        Public GUIAction action;
+        
+        Public Item (ItemStack item, GUIAction action){
+            this.item = item;
+            this.action = action;
+        }
+    }
 
     Public class Row {
-        Public List<ItemStack> Content;
-        Public Row(){}
+        Public List<Item> Content;
+        Public Row(){
+            Content = new ArrayList<ItemStack>(9)
+        }
         
-        Public void SetItem(int index,ItemStack item){
+        Public void SetItem(int index,Item item){
             index = Utils.Clamp(index,0,8);
             Content.set(index,item)
         }
@@ -20,7 +32,7 @@ Public class GUI implements Listener {
             Content.set(index,null);
         }
         
-        Public void SetContent(List<ItemStack> content){
+        Public void SetContent(List<Item> content){
             this.Content > content;
         }
     }
