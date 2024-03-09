@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>valorless.valorlessutils</groupId>
   <artifactId>ValorlessUtils</artifactId>
-  <version>1.5.7</version>
+  <version>1.5.8</version>
   <scm>
     <connection>scm:svn:http://127.0.0.1/dummy</connection>
     <developerConnection>scm:svn:https://127.0.0.1/dummy</developerConnection>

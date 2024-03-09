@@ -96,9 +96,16 @@ public class CraftRecipe implements Listener {
             shapelessRecipe = new ShapelessRecipe(this.key, this.result);
             for (Ingredient ing : ingredients) {
                 if (ing.item != null) {
-                    shapedRecipe.setIngredient(ing.letter, new RecipeChoice.ExactChoice(ing.item));
+                		shapelessRecipe.addIngredient(new RecipeChoice.ExactChoice(ing.item));
+                    //shapedRecipe.setIngredient(ing.letter, new RecipeChoice.ExactChoice(ing.item));
                 } else {
-                    shapedRecipe.setIngredient(ing.letter, ing.material);
+                	if(ing.amount > 1) {
+                		shapelessRecipe.addIngredient(ing.amount, ing.material);
+
+                	}else {
+                		shapelessRecipe.addIngredient(ing.material);
+                	}
+                    //shapedRecipe.setIngredient(ing.letter, ing.material);
                 }
             }
         }

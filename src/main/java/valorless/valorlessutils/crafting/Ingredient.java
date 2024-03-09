@@ -3,6 +3,8 @@ package valorless.valorlessutils.crafting;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import valorless.valorlessutils.utils.Utils;
+
 /**
  * Represents an ingredient used in crafting recipes.
  */
@@ -22,6 +24,11 @@ public class Ingredient {
      * The Material of the ingredient.
      */
     public Material material;
+    
+    /**
+     * Amount needed when using Shapeless recipes
+     */
+    public int amount = 1;
 
     /**
      * Constructs an Ingredient object with an identification letter and an ItemStack.<br>
@@ -46,6 +53,15 @@ public class Ingredient {
         this.letter = letter.charAt(0);
         this.item = null;
         this.material = material;
+    }
+    
+    /**
+     * Set the amount of the Ingredient required, for Shapeless recipes.
+     *
+     * @param amount The amount of the ingredient. (1 - 64)
+     */
+    public void SetAmount(int amount) {
+    	this.amount = Utils.Clamp(amount, 1, 64);
     }
     
     /**
