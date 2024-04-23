@@ -28,6 +28,12 @@ import valorless.valorlessutils.types.Vector3;
 public final class ValorlessUtils extends JavaPlugin implements Listener {
     public static JavaPlugin thisPlugin;
     String Name = "§7[§6Valorless§bUtils§7]§r";
+	public static Server server = new Server();
+	
+	public static class Server {
+		public String version = "null";
+		public Server() {}
+	}
 
     public static Config config;
     
@@ -55,6 +61,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
      */
     public void onLoad() {
         thisPlugin = this;
+		server.version = Bukkit.getBukkitVersion().split("-")[0];
     }
 
     @Override

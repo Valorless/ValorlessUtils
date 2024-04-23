@@ -2,7 +2,7 @@ name: ValorlessUtils
 main: valorless.valorlessutils.ValorlessUtils
 version: version-number
 author: Valorless
-api-version: 1.18
+api-version: 1.17
 commands:
   valorlessutils:
     description: Main command.

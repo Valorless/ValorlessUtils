@@ -1,35 +1,36 @@
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\utils\Utils.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\ValorlessUtils.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\nbt\NBT.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\translate\Translator.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\skulls\SkullCreator.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\file\JsonFile.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\CompactYamlRepresenter.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\crafting\CraftRecipe.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\config\Config.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\Validate.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\uuid\UUIDTypeAdapter.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\file\FileStorage.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\Debug.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\Unsafe.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\types\Vector3.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\MessageArguments.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\text\TextFeatures.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\crafting\Ingredient.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\file\YamlFile.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\uuid\UUIDFetcher.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\BukkitAwareObjectTypeAdapter.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\StringUtils.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\types\Vector.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\YamlUtils.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\Metrics.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\CommonMessageArguments.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\encoding\Encoder.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\ConfigUtils.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\YamlLikeObjectTypeAdapter.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\JsonUtils.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\sound\SFX.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\types\Vector2.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\gui\Slot.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\gui\BasicGUI.java
-C:\eclipse-workspace\ValorlessUtils\src\main\java\valorless\valorlessutils\json\OldBukkitYamlRepresenter.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\crafting\CraftRecipe.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\config\Config.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\Metrics.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\sound\SFX.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\types\Vector2.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\crafting\Ingredient.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\gui\BasicGUI.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\json\JsonUtils.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\json\MessageArguments.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\Debug.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\translate\Translator.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\gui\GUI.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\uuid\UUIDTypeAdapter.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\json\YamlLikeObjectTypeAdapter.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\skulls\SkullCreator.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\file\YamlFile.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\encoding\Encoder.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\json\BukkitAwareObjectTypeAdapter.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\json\Validate.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\types\Vector.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\uuid\UUIDFetcher.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\gui\Slot.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\json\StringUtils.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\types\Vector3.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\ValorlessUtils.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\json\OldBukkitYamlRepresenter.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\file\JsonFile.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\json\Unsafe.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\nbt\NBT.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\json\ConfigUtils.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\json\YamlUtils.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\utils\Utils.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\json\CompactYamlRepresenter.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\file\FileStorage.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\text\TextFeatures.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\json\CommonMessageArguments.java

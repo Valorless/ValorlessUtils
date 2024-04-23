@@ -1,6 +1,17 @@
-// Written on mobile without IDE.
+package valorless.valorlessutils.gui;
 
-//imports here
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import valorless.valorlessutils.utils.Utils;
 
 /**
  * Represents a GUI with various actions and functionalities.
@@ -73,7 +84,7 @@ public class GUI implements Listener {
         }
         
         public Item GetItem(int index){
-            return content.get(index);
+            return items.get(index);
         }
         
         /**
@@ -169,7 +180,7 @@ public class GUI implements Listener {
     public Player player;
     
     public GUI(Player player) {
-        this.Player = player;
+        this.player = player;
     }
     
     /**
@@ -182,7 +193,7 @@ public class GUI implements Listener {
         // Implementation omitted for brevity.
         for (Listener listener : listeners) {
             try {
-                listener.onGUIEvent(GUIAction action, object... args);
+                //listener.onGUIEvent(GUIAction action, object... args);
             } catch (Exception e) {}
         }
     }
@@ -204,7 +215,7 @@ public class GUI implements Listener {
     }
     
     public void OpenPage(int index){
-        inventory = Bukkit.CreateInventory(...);
+        inventory = Bukkit.createInventory(null, 9, "");
         player.openInventory(inventory);
         pageHistory.add(pages.get(index));
     }
