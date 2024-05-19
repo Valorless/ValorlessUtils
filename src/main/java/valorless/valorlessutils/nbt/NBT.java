@@ -1,5 +1,7 @@
 package valorless.valorlessutils.nbt;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.inventory.ItemStack;
@@ -19,6 +21,24 @@ public class NBT {
 	public static void SetString(ItemStack item, String key, String value) {
 		NBTItem nbt = new NBTItem(item, true);
 		nbt.setString(key, value);
+	}
+	/**
+	 * Sets a List(String) value in the NBT data of an ItemStack.
+	 * @param item The ItemStack to modify.
+	 * @param key The key to set.
+	 * @param value The List(String) value to set.
+	 */
+	public static void SetStringList(ItemStack item, String key, List<String> value) {
+		NBTItem nbt = new NBTItem(item, true);
+		String m_value = "";
+		for(int i = 0; i < value.size(); i++) {
+			if(i != 0) {
+				m_value = m_value + "◊" + value.get(i);
+			}else {
+				m_value = value.get(i);
+			}
+		}
+		nbt.setString(key, m_value);
 	}		
 	
 	/**
@@ -98,6 +118,26 @@ public class NBT {
 	public static String GetString(ItemStack item, String key) {
 		NBTItem nbt = new NBTItem(item, true);
 		return nbt.getString(key);
+	}
+	
+	/**
+	 * Gets a List(String) value from the NBT data of an ItemStack.
+	 * @param item The ItemStack to retrieve from.
+	 * @param key The key to retrieve.
+	 * @return The List(String) value or null if not present.
+	 */
+	public static List<String> GetStringList(ItemStack item, String key) {
+		NBTItem nbt = new NBTItem(item, true);
+		List<String> list = new ArrayList<String>();
+		try {
+			String[] split = nbt.getString(key).split("◊");
+			for(String s : split) {
+				list.add(s);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 	
 	/**
