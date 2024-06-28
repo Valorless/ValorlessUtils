@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>valorless.valorlessutils</groupId>
   <artifactId>ValorlessUtils</artifactId>
-  <version>1.7.1</version>
+  <version>1.8.0</version>
   <scm>
     <connection>scm:svn:http://127.0.0.1/dummy</connection>
     <developerConnection>scm:svn:https://127.0.0.1/dummy</developerConnection>
@@ -104,13 +104,13 @@
           <relocations>
             <relocation>
               <pattern>de.tr7zw.changeme.nbtapi</pattern>
-              <shadedPattern>valorless.valorlessutils.nbt</shadedPattern>
+              <shadedPattern>valorless.valorlessutils.nbtapi</shadedPattern>
             </relocation>
           </relocations>
         </configuration>
       </plugin>
       </plugins>
-      <finalName>${project.artifactId}-${project.version}.${buildNumber}-SNAPSHOT</finalName>
+      <finalName>${project.artifactId}-${project.version}.${buildNumber}</finalName>
   </build>
   <repositories>
        <repository>
@@ -154,7 +154,7 @@
         <dependency>
   <groupId>de.tr7zw</groupId>
   <artifactId>item-nbt-api</artifactId>
-  <version>2.12.4</version>
+  <version>2.13.1</version>
 </dependency>
    </dependencies>
 </project>

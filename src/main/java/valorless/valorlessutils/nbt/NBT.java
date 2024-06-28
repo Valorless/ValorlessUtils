@@ -3,10 +3,7 @@ package valorless.valorlessutils.nbt;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 import org.bukkit.inventory.ItemStack;
-
-import de.tr7zw.changeme.nbtapi.NBTItem;
 
 public class NBT {
 	
@@ -19,8 +16,11 @@ public class NBT {
 	 * @param value The string value to set.
 	 */
 	public static void SetString(ItemStack item, String key, String value) {
-		NBTItem nbt = new NBTItem(item, true);
-		nbt.setString(key, value);
+		de.tr7zw.changeme.nbtapi.NBT.modify(item, nbt -> {
+			nbt.setString(key, value);
+		});
+		//NBTItem nbt = new NBTItem(item, true);
+		//nbt.setString(key, value);
 	}
 	/**
 	 * Sets a List(String) value in the NBT data of an ItemStack.
@@ -29,6 +29,18 @@ public class NBT {
 	 * @param value The List(String) value to set.
 	 */
 	public static void SetStringList(ItemStack item, String key, List<String> value) {
+		de.tr7zw.changeme.nbtapi.NBT.modify(item, nbt -> {
+			String m_value = "";
+			for(int i = 0; i < value.size(); i++) {
+				if(i != 0) {
+					m_value = m_value + "◊" + value.get(i);
+				}else {
+					m_value = value.get(i);
+				}
+			}
+			nbt.setString(key, m_value);
+		});
+		/*
 		NBTItem nbt = new NBTItem(item, true);
 		String m_value = "";
 		for(int i = 0; i < value.size(); i++) {
@@ -39,6 +51,7 @@ public class NBT {
 			}
 		}
 		nbt.setString(key, m_value);
+		*/
 	}		
 	
 	/**
@@ -48,8 +61,11 @@ public class NBT {
 	 * @param value The integer value to set.
 	 */
 	public static void SetInt(ItemStack item, String key, Integer value) {
-		NBTItem nbt = new NBTItem(item, true);
-		nbt.setInteger(key, value);
+		de.tr7zw.changeme.nbtapi.NBT.modify(item, nbt -> {
+			nbt.setInteger(key, value);
+		});
+		//NBTItem nbt = new NBTItem(item, true);
+		//nbt.setInteger(key, value);
 	}
 	
 	/**
@@ -59,8 +75,11 @@ public class NBT {
 	 * @param value The integer array value to set.
 	 */
 	public static void SetIntArray(ItemStack item, String key, int[] value) {
-		NBTItem nbt = new NBTItem(item, true);
-		nbt.setIntArray(key, value);
+		de.tr7zw.changeme.nbtapi.NBT.modify(item, nbt -> {
+			nbt.setIntArray(key, value);
+		});
+		//NBTItem nbt = new NBTItem(item, true);
+		//nbt.setIntArray(key, value);
 	}
 	
 	/**
@@ -70,8 +89,11 @@ public class NBT {
 	 * @param value The float value to set.
 	 */
 	public static void SetFloat(ItemStack item, String key, Float value) {
-		NBTItem nbt = new NBTItem(item, true);
-		nbt.setFloat(key, value);
+		de.tr7zw.changeme.nbtapi.NBT.modify(item, nbt -> {
+			nbt.setFloat(key, value);
+		});
+		//NBTItem nbt = new NBTItem(item, true);
+		//nbt.setFloat(key, value);
 	}
 	
 	/**
@@ -81,8 +103,11 @@ public class NBT {
 	 * @param value The double value to set.
 	 */
 	public static void SetDouble(ItemStack item, String key, Double value) {
-		NBTItem nbt = new NBTItem(item, true);
-		nbt.setDouble(key, value);
+		de.tr7zw.changeme.nbtapi.NBT.modify(item, nbt -> {
+			nbt.setDouble(key, value);
+		});
+		//NBTItem nbt = new NBTItem(item, true);
+		//nbt.setDouble(key, value);
 	}
 	
 	/**
@@ -92,8 +117,11 @@ public class NBT {
 	 * @param value The boolean value to set.
 	 */
 	public static void SetBool(ItemStack item, String key, boolean value) {
-		NBTItem nbt = new NBTItem(item, true);
-		nbt.setBoolean(key, value);
+		de.tr7zw.changeme.nbtapi.NBT.modify(item, nbt -> {
+			nbt.setBoolean(key, value);
+		});
+		//NBTItem nbt = new NBTItem(item, true);
+		//nbt.setBoolean(key, value);
 	}
 	
 	/**
@@ -103,8 +131,11 @@ public class NBT {
 	 * @param value The UUID value to set.
 	 */
 	public static void SetUUID(ItemStack item, String key, UUID value) {
-		NBTItem nbt = new NBTItem(item, true);
-		nbt.setUUID(key, value);
+		de.tr7zw.changeme.nbtapi.NBT.modify(item, nbt -> {
+			nbt.setUUID(key, value);
+		});
+		//NBTItem nbt = new NBTItem(item, true);
+		//nbt.setUUID(key, value);
 	}
 	
 	// GET
@@ -116,8 +147,9 @@ public class NBT {
 	 * @return The string value or null if not present.
 	 */
 	public static String GetString(ItemStack item, String key) {
-		NBTItem nbt = new NBTItem(item, true);
-		return nbt.getString(key);
+		return de.tr7zw.changeme.nbtapi.NBT.readNbt(item).getString(key);
+		//NBTItem nbt = new NBTItem(item, true);
+		//return nbt.getString(key);
 	}
 	
 	/**
@@ -127,6 +159,18 @@ public class NBT {
 	 * @return The List(String) value or null if not present.
 	 */
 	public static List<String> GetStringList(ItemStack item, String key) {
+		String nbt = de.tr7zw.changeme.nbtapi.NBT.readNbt(item).getString(key);
+		List<String> list = new ArrayList<String>();
+		try {
+			String[] split = nbt.split("◊");
+			for(String s : split) {
+				list.add(s);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+		/*
 		NBTItem nbt = new NBTItem(item, true);
 		List<String> list = new ArrayList<String>();
 		try {
@@ -138,6 +182,7 @@ public class NBT {
 			e.printStackTrace();
 		}
 		return list;
+		*/
 	}
 	
 	/**
@@ -147,8 +192,9 @@ public class NBT {
 	 * @return The integer value or null if not present.
 	 */
 	public static Integer GetInt(ItemStack item, String key) {
-		NBTItem nbt = new NBTItem(item, true);
-		return nbt.getInteger(key);
+		return de.tr7zw.changeme.nbtapi.NBT.readNbt(item).getInteger(key);
+		//NBTItem nbt = new NBTItem(item, true);
+		//return nbt.getInteger(key);
 	}
 	
 	/**
@@ -157,9 +203,10 @@ public class NBT {
 	 * @param key The key to retrieve.
 	 * @return The integer array or null if not present.
 	 */
-	public static int[] GetIntArray(ItemStack item, String key) {
-		NBTItem nbt = new NBTItem(item, true);
-		return nbt.getIntArray(key);
+	public static List<Integer> GetIntArray(ItemStack item, String key) {
+		return de.tr7zw.changeme.nbtapi.NBT.readNbt(item).getIntegerList(key).toListCopy();
+		//NBTItem nbt = new NBTItem(item, true);
+		//return nbt.getIntArray(key);
 	}
 	
 	/**
@@ -169,8 +216,9 @@ public class NBT {
 	 * @return The float value or null if not present.
 	 */
 	public static Float GetFloat(ItemStack item, String key) {
-		NBTItem nbt = new NBTItem(item, true);
-		return nbt.getFloat(key);
+		return de.tr7zw.changeme.nbtapi.NBT.readNbt(item).getFloat(key);
+		//NBTItem nbt = new NBTItem(item, true);
+		//return nbt.getFloat(key);
 	}
 	
 	/**
@@ -180,8 +228,9 @@ public class NBT {
 	 * @return The double value or null if not present.
 	 */
 	public static Double GetDouble(ItemStack item, String key) {
-		NBTItem nbt = new NBTItem(item, true);
-		return nbt.getDouble(key);
+		return de.tr7zw.changeme.nbtapi.NBT.readNbt(item).getDouble(key);
+		//NBTItem nbt = new NBTItem(item, true);
+		//return nbt.getDouble(key);
 	}
 	
 	/**
@@ -191,8 +240,9 @@ public class NBT {
 	 * @return The boolean value or null if not present.
 	 */
 	public static boolean GetBool(ItemStack item, String key) {
-		NBTItem nbt = new NBTItem(item, true);
-		return nbt.getBoolean(key);
+		return de.tr7zw.changeme.nbtapi.NBT.readNbt(item).getBoolean(key);
+		//NBTItem nbt = new NBTItem(item, true);
+		//return nbt.getBoolean(key);
 	}
 	
 	/**
@@ -202,8 +252,9 @@ public class NBT {
 	 * @return The UUID value or null if not present.
 	 */
 	public static UUID GetUUID(ItemStack item, String key) {
-		NBTItem nbt = new NBTItem(item, true);
-		return nbt.getUUID(key);
+		return de.tr7zw.changeme.nbtapi.NBT.readNbt(item).getUUID(key);
+		//NBTItem nbt = new NBTItem(item, true);
+		//return nbt.getUUID(key);
 	}
 	
 	//HAS
@@ -215,7 +266,6 @@ public class NBT {
 	 * @return true if the key is present, false otherwise.
 	 */
 	public static boolean Has(ItemStack item, String key) {
-		NBTItem nbt = new NBTItem(item, true);
-		return nbt.hasTag(key);
+		return de.tr7zw.changeme.nbtapi.NBT.readNbt(item).hasTag(key);
 	}
 }

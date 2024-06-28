@@ -26,13 +26,12 @@ import valorless.valorlessutils.types.Vector;
 import valorless.valorlessutils.types.Vector3;
 
 public final class ValorlessUtils extends JavaPlugin implements Listener {
+	public enum Version { NULL, v1_17, v1_17_1, v1_18, v1_18_1, v1_18_2, v1_19, v1_19_1, v1_19_2, v1_19_3, v1_19_4, v1_20, v1_20_1, v1_20_3, v1_20_4, v1_20_5, v1_20_6, v1_21 }
     public static JavaPlugin thisPlugin;
     String Name = "§7[§6Valorless§bUtils§7]§r";
-	public static Server server = new Server();
 	
 	public static class Server {
-		public String version = "null";
-		public Server() {}
+		public static Version version;
 	}
 
     public static Config config;
@@ -61,7 +60,9 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
      */
     public void onLoad() {
         thisPlugin = this;
-		server.version = Bukkit.getBukkitVersion().split("-")[0];
+		Log.Debug(this, Bukkit.getVersion());
+		Log.Debug(this, Bukkit.getBukkitVersion());
+		ResolveVersion();
     }
 
     @Override
@@ -157,6 +158,17 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
         if (!valorless.valorlessutils.utils.Utils.IsStringNullOrEmpty(alias[0])) { 
             getCommand(alias[0]).setExecutor(this);
         }
+    }
+    
+    void ResolveVersion() {
+    	try {
+    		String v = Bukkit.getBukkitVersion().split("-")[0];
+    		Server.version = Version.valueOf("v" + v.replace(".", "_"));
+    		//Log.Debug(plugin, server.toString());
+    	} catch (Exception e) {
+    		Server.version = Version.NULL;
+    		Log.Error(this, "Failed to resolve server version, some functions might not work correctly.");
+    	}
     }
 
     // Functions

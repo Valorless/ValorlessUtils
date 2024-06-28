@@ -3,11 +3,12 @@ package valorless.valorlessutils.sound;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import valorless.valorlessutils.ValorlessUtils;
 import valorless.valorlessutils.ValorlessUtils.Log;
+import valorless.valorlessutils.ValorlessUtils.Server;
+import valorless.valorlessutils.ValorlessUtils.Version;
 import valorless.valorlessutils.utils.Utils;
 
 public class SFX {
@@ -22,7 +23,7 @@ public class SFX {
 	public static void Play(String sound, float volume, float pitch, Player player) {
 	    if (!Utils.IsStringNullOrEmpty(sound)) {
 	    	try {
-	    		if(ValorlessUtils.server.version.equalsIgnoreCase("1.17") || ValorlessUtils.server.version.equalsIgnoreCase("1.17.1")) {
+	    		if(Server.version == Version.v1_17 || Server.version == Version.v1_17_1) {
 	    			player.playSound(player.getLocation(), Sound.valueOf(sound.toUpperCase()), volume, pitch);
 	    		} else {
 	    			player.playSound(player, Sound.valueOf(sound.toUpperCase()), volume, pitch);
