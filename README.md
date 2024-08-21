@@ -94,7 +94,7 @@ Easy usage of item/block translations.<br>
 *(Uses translation keys: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Translatable.html#getTranslationKey())*<br>
 <br>
 *Languages Supported: English, Danish, German, Spanish, French, Turkish, Dutch, Japanese, Korean, Chinese (Simplified), Russian, Polish*<br>
-(Additonal languages can be requested, but they must be on this list: https://minecraft.fandom.com/wiki/Language#Languages)<br>
+(Additonal languages can be requested, but they must be on this list: https://minecraft.wiki/w/Language#Languages)<br>
 <br>
 Instatiating new translator.
 ```java
