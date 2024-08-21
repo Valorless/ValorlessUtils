@@ -1,6 +1,6 @@
 
 # <a href="https://www.spigotmc.org/resources/109586" rel="nofollow"><img src="https://www.spigotmc.org/data/resource_icons/109/109586.jpg" width="70" /></a> ValorlessUtils
-<a href="https://github.com/Valorless/ValorlessUtils" rel="nofollow"><img src="https://img.shields.io/badge/Versions-1.17%20--%201.21.1%2B-brightgreen?style=flat" alt="Versions" style="max-width: 100%;"/></a><br>
+<a href="https://github.com/Valorless/ValorlessUtils" rel="nofollow"><img src="https://img.shields.io/badge/Versions-1.17%20--%201.21.1-brightgreen?style=flat" alt="Versions" style="max-width: 100%;"/></a><br>
 
 ValorlessUtils is a library of various utilities, created to make the creation of my other addons easier.
 
