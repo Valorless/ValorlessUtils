@@ -49,9 +49,7 @@ public class Utils {
      * @return true if the event occurs, false otherwise. The decision is made randomly.
      */
     public static Boolean Chance(double percent) {
-        Random rand = new Random();
-        double i = rand.nextInt((0 - 100) + 1) + 0;
-        if (i <= percent) return true;
+        if (RandomRange(0,100) <= percent) return true;
         else return false;
     }
     

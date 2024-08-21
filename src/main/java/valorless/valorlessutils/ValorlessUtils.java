@@ -243,23 +243,17 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
 
     /**
      * Tags utility class for working with PersistentDataContainers.<br>
-     * Deprecated utility class, will be moved to their own file, at a later date.
-     * @deprecated Will be removed at a later date.
      */
-    @Deprecated
     public static class Tags {
 
         /**
          * Sets a value in the PersistentDataContainer using a specific key.<br>
-         * Deprecated utility class, will be moved to their own file, at a later date.
          * @param caller The calling plugin.
          * @param container The PersistentDataContainer to modify.
          * @param key The key to set.
          * @param value The value to set.
          * @param type The PersistentDataType.
-     	 * @deprecated Will be removed at a later date.
      	*/
-    	@Deprecated
         @SuppressWarnings({ "unchecked", "rawtypes" })
         public static void Set(JavaPlugin caller, PersistentDataContainer container, String key, Object value, PersistentDataType type) {
             container.set(new NamespacedKey(caller, key), type, value);
@@ -267,13 +261,11 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
 
         /**
          * Gets a value from the PersistentDataContainer using a specific key.<br>
-         * Deprecated utility class, will be moved to their own file, at a later date.
          * @param caller The calling plugin.
          * @param container The PersistentDataContainer to retrieve from.
          * @param key The key to retrieve.
          * @param type The PersistentDataType.
          * @return The retrieved value.
-     	 * @deprecated Will be removed at a later date.
      	*/
         @SuppressWarnings({ "unchecked", "rawtypes" })
         public static Object Get(JavaPlugin caller, PersistentDataContainer container, String key, PersistentDataType type) {
@@ -282,23 +274,19 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
 
         /**
          * Checks if a key exists in the PersistentDataContainer.<br>
-         * Deprecated utility class, will be moved to their own file, at a later date.
          * @param caller The calling plugin.
          * @param container The PersistentDataContainer to check.
          * @param key The key to check.
          * @param type The PersistentDataType.
          * @return true if the key exists, false otherwise.
-     	 * @deprecated Will be removed at a later date.
      	*/
-        @SuppressWarnings({ "unchecked", "rawtypes", "unused" })
+        @SuppressWarnings({ "unchecked", "rawtypes" })
         public static Boolean Has(JavaPlugin caller, PersistentDataContainer container, String key, PersistentDataType type) {
-            boolean result = false;
             try {
                 return container.has(new NamespacedKey(caller, key), type);
             } catch (Exception e) {
-
+            	return false;
             }
-            return false;
         }
     }
 }
