@@ -32,8 +32,10 @@ public class YamlFile extends FileStorage {
      * Reloads the YamlConfiguration from the associated file.
      */
     public void reload() {
-        this.config = YamlConfiguration.loadConfiguration(getFile());
+    	this.config = loadConfiguration(getFile());
     }
+    
+    
 
     /**
      * Sets a value in the YamlConfiguration.

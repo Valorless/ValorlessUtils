@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 
 import java.io.*;
 
+import org.bukkit.plugin.java.JavaPlugin;
+
 public class JsonFile extends FileStorage {
 
     // Gson instance with pretty printing
@@ -16,7 +18,7 @@ public class JsonFile extends FileStorage {
      * Constructor for JsonFile class.
      * @param file The File object representing the JSON file.
      */
-    public JsonFile(File file) {
+    public JsonFile(JavaPlugin plugin, File file) {
         super(file);
     }
 

@@ -25,7 +25,7 @@ public class Config {
      * @param file The name of the configuration file.
      */
     public Config(JavaPlugin plugin, String file) {
-        this.plugin = plugin;
+    	this.plugin = plugin;
         this.file = new YamlFile(new File(plugin.getDataFolder(), file));
         if (!this.file.fileExists()) {
             plugin.saveResource(file, false);
@@ -287,18 +287,19 @@ public class Config {
     public void Validate() {
         Boolean missing = false;
         if (this.GetBool("debug")) {
-            Log.Debug(plugin, "Validating Config");
+            Log.Debug(plugin, "Validating " + file.getName());
         }
         
         for (ValidationListEntry item : this.validationList) {
             if (!this.HasKey(item.key)) { 
-                Log.Warning(plugin, "Config value '" + item.key + "' is missing, fixing.");
+                //Log.Warning(plugin, "Config value '" + item.key + "' is missing, fixing.");
                 this.Set(item.key, item.defaultValue);
                 missing = true; 
             }
         }
         
         if (missing) { 
+            Log.Warning(plugin, "New or missing config values have been added.");
             this.SaveConfig(); 
         }
     }
