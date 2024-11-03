@@ -18,6 +18,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import valorless.valorlessutils.Server.Version;
 import valorless.valorlessutils.config.Config;
 import valorless.valorlessutils.crafting.CraftRecipe;
 import valorless.valorlessutils.crafting.CraftRecipe.RecipeType;
@@ -26,13 +27,11 @@ import valorless.valorlessutils.types.Vector;
 import valorless.valorlessutils.types.Vector3;
 
 public final class ValorlessUtils extends JavaPlugin implements Listener {
-	public enum Version { NULL, v1_17, v1_17_1, v1_18, v1_18_1, v1_18_2, v1_19, v1_19_1, v1_19_2, v1_19_3, v1_19_4, v1_20, v1_20_1, v1_20_3, v1_20_4, v1_20_5, v1_20_6, v1_21, v1_21_1 }
     public static JavaPlugin thisPlugin;
+    public static JavaPlugin plugin;
     String Name = "§7[§6Valorless§bUtils§7]§r";
 	
-	public static class Server {
-		public static Version version;
-	}
+	private static Version version;
 
     public static Config config;
     
@@ -60,10 +59,17 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
      */
     public void onLoad() {
         thisPlugin = this;
-		Log.Debug(this, Bukkit.getVersion());
-		Log.Debug(this, Bukkit.getBukkitVersion());
-		ResolveVersion();
+        plugin = this;
+		Server.ResolveVersion();
     }
+    
+    /**
+     * Gets the Version of the server.
+     * @return {@link valorless.valorlessutils.Server.Version Version}.
+     */
+    public static Version getServerVersion() {
+		return version;
+	}
 
     @Override
     public void onEnable() {
@@ -144,7 +150,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
      * @return The instance of the plugin.
      */
     public static ValorlessUtils GetInstance() {
-        return (ValorlessUtils) thisPlugin;
+        return (ValorlessUtils) plugin;
     }
 
     /**
@@ -159,21 +165,10 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
             getCommand(alias[0]).setExecutor(this);
         }
     }
-    
-    void ResolveVersion() {
-    	try {
-    		String v = Bukkit.getBukkitVersion().split("-")[0];
-    		Server.version = Version.valueOf("v" + v.replace(".", "_"));
-    		//Log.Debug(plugin, server.toString());
-    	} catch (Exception e) {
-    		Server.version = Version.NULL;
-    		Log.Error(this, "Failed to resolve server version, some functions might not work correctly.");
-    	}
-    }
 
     // Functions
 
-    /**
+	/**
      * Deprecated utility class. Use 'valorless.valorlessutils.utils.Utils' instead.
      * @deprecated Will be removed at a later date.
      */
