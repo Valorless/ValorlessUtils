@@ -238,7 +238,9 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
 
     /**
      * Tags utility class for working with PersistentDataContainers.<br>
+     * @Deprecated Replaced with {@link valorless.valorlessutils.tags.Tags valorless.valorlessutils.tags.Tags}
      */
+    @Deprecated
     public static class Tags {
 
         /**

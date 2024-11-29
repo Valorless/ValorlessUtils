@@ -21,6 +21,7 @@ E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessut
 E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\uuid\UUIDFetcher.java
 E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\gui\Slot.java
 E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\json\StringUtils.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\tags\TagType.java
 E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\types\Vector3.java
 E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\ValorlessUtils.java
 E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\json\OldBukkitYamlRepresenter.java
@@ -33,5 +34,7 @@ E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessut
 E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\utils\Utils.java
 E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\json\CompactYamlRepresenter.java
 E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\file\FileStorage.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\items\ItemUtils.java
+E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\tags\Tags.java
 E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\text\TextFeatures.java
 E:\Projects\Minecraft Plugins\ValorlessUtils\src\main\java\valorless\valorlessutils\json\CommonMessageArguments.java

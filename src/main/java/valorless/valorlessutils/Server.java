@@ -53,8 +53,8 @@ public class Server {
 	
 	public static Version ResolveVersion() {
     	try {
-    		Log.Debug(ValorlessUtils.plugin, Bukkit.getVersion());
-    		Log.Debug(ValorlessUtils.plugin, Bukkit.getBukkitVersion());
+    		Log.Info(ValorlessUtils.plugin, Bukkit.getVersion());
+    		Log.Info(ValorlessUtils.plugin, Bukkit.getBukkitVersion());
     		String v = Bukkit.getBukkitVersion().split("-")[0];
     		return Version.valueOf("v" + v.replace(".", "_"));
     		//Log.Debug(plugin, server.toString());
