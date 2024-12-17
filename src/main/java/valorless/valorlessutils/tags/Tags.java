@@ -2,6 +2,7 @@ package valorless.valorlessutils.tags;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -15,6 +16,7 @@ public class Tags {
 	
 	/**
      * Sets a value in the PersistentDataContainer using a specific key.<br>
+     * Use before or after setting metadata.
      * @param caller The calling plugin.
      * @param item ItemStack to modify.
      * @param key The key to set.
@@ -22,12 +24,14 @@ public class Tags {
      * @param type The TagType.
  	*/
     public static void SetString(JavaPlugin caller, ItemStack item, String key, String value) {
-    	PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
-        container.set(new NamespacedKey(caller, key), PersistentDataType.STRING, value);
+    	ItemMeta meta = item.getItemMeta();
+        meta.getPersistentDataContainer().set(new NamespacedKey(caller, key), PersistentDataType.STRING, value);
+        item.setItemMeta(meta);
     }
     
     /**
      * Sets a value in the PersistentDataContainer using a specific key.<br>
+     * Use before or after setting metadata.
      * @param caller The calling plugin.
      * @param item ItemStack to modify.
      * @param key The key to set.
@@ -35,12 +39,14 @@ public class Tags {
      * @param type The TagType.
  	*/
     public static void SetInteger(JavaPlugin caller, ItemStack item, String key, Integer value) {
-    	PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
-        container.set(new NamespacedKey(caller, key), PersistentDataType.INTEGER, value);
+    	ItemMeta meta = item.getItemMeta();
+        meta.getPersistentDataContainer().set(new NamespacedKey(caller, key), PersistentDataType.INTEGER, value);
+        item.setItemMeta(meta);
     }
     
     /**
      * Sets a value in the PersistentDataContainer using a specific key.<br>
+     * Use before or after setting metadata.
      * @param caller The calling plugin.
      * @param item ItemStack to modify.
      * @param key The key to set.
@@ -48,12 +54,14 @@ public class Tags {
      * @param type The TagType.
  	*/
     public static void SetDouble(JavaPlugin caller, ItemStack item, String key, Double value) {
-    	PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
-        container.set(new NamespacedKey(caller, key), PersistentDataType.DOUBLE, value);
+    	ItemMeta meta = item.getItemMeta();
+        meta.getPersistentDataContainer().set(new NamespacedKey(caller, key), PersistentDataType.DOUBLE, value);
+        item.setItemMeta(meta);
     }
     
     /**
      * Sets a value in the PersistentDataContainer using a specific key.<br>
+     * Use before or after setting metadata.
      * @param caller The calling plugin.
      * @param item ItemStack to modify.
      * @param key The key to set.
@@ -61,12 +69,14 @@ public class Tags {
      * @param type The TagType.
  	*/
     public static void SetFloat(JavaPlugin caller, ItemStack item, String key, Float value) {
-    	PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
-        container.set(new NamespacedKey(caller, key), PersistentDataType.FLOAT, value);
+    	ItemMeta meta = item.getItemMeta();
+        meta.getPersistentDataContainer().set(new NamespacedKey(caller, key), PersistentDataType.FLOAT, value);
+        item.setItemMeta(meta);
     }
     
     /**
      * Sets a value in the PersistentDataContainer using a specific key.<br>
+     * Use before or after setting metadata.
      * @param caller The calling plugin.
      * @param item ItemStack to modify.
      * @param key The key to set.
@@ -74,8 +84,9 @@ public class Tags {
      * @param type The TagType.
  	*/
     public static void SetBoolean(JavaPlugin caller, ItemStack item, String key, Boolean value) {
-    	PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
-        container.set(new NamespacedKey(caller, key), PersistentDataType.BOOLEAN, value);
+    	ItemMeta meta = item.getItemMeta();
+        meta.getPersistentDataContainer().set(new NamespacedKey(caller, key), PersistentDataType.BOOLEAN, value);
+        item.setItemMeta(meta);
     }
     
     
@@ -146,6 +157,7 @@ public class Tags {
     
     /**
      * Sets a value in the PersistentDataContainer using a specific key.<br>
+     * Use before or after setting metadata.
      * @param caller The calling plugin.
      * @param item ItemStack to modify.
      * @param key The key to set.
@@ -155,10 +167,11 @@ public class Tags {
 	
 	@SuppressWarnings("unchecked")
 	public static void Set(JavaPlugin caller, ItemStack item, String key, Object value, TagType type) {
-    	PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
     	@SuppressWarnings("rawtypes")
 		PersistentDataType m_type = TagType.GetPersistentDataType(type);
-        container.set(new NamespacedKey(caller, key), m_type, value);
+    	ItemMeta meta = item.getItemMeta();
+        meta.getPersistentDataContainer().set(new NamespacedKey(caller, key), m_type, value);
+        item.setItemMeta(meta);
     }
 
     /**

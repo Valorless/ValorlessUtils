@@ -5,7 +5,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 /**
- * Utility class to get certain ItemMeta values on versions < 1.21.
+ * Utility class to get certain ItemMeta values on versions < 1.21.<br>
+ * Be sure to check if the server is 1.20.5 or above before using,<br>
+ * otherwise errors may get thrown.
  */
 public class ItemUtils {
 
@@ -59,7 +61,22 @@ public class ItemUtils {
 		meta.setRarity(ItemRarity.valueOf(rarity));
 		item.setItemMeta(meta);
 	}
-	
 
+	public static Boolean HasMaxStackSize(ItemStack item) {
+		if(!item.hasItemMeta()) {
+			return false;
+		}
+		return item.getItemMeta().hasMaxStackSize();
+	}
+
+	public static Integer GetMaxStackSize(ItemStack item) {
+		return item.getItemMeta().getMaxStackSize();
+	}
+
+	public static void SetMaxStackSize(ItemStack item, Integer value) {
+		ItemMeta meta = item.getItemMeta();
+		meta.setMaxStackSize(value);
+		item.setItemMeta(meta);
+	}
 	
 }
