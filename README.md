@@ -105,7 +105,7 @@ public final Translator translator = new Translator("en-us");
 
 | Function | Parameters  | Description | Returns |
 | --- | --- | --- | --- |
-| `Translate()` | `String translationKey` |	Translate item/block name. **([Example](https://github.com/Valorless/HavenBags/blob/main/src/main/java/valorless/havenbags/BagGUI.java#L306))** | String |
+| `Translate()` | `String translationKey` |	Translate item/block name. **([Example](https://github.com/Valorless/HavenBags/blob/1.19.0/src/main/java/valorless/havenbags/HavenBags.java#L317))** | String |
 | `GetLanguageKey()` |  |	Returns current language. (i.e. "en-us") | String |
 | `SetLanguage()` | `String key` | Change langauge of the translator. |  |
 | `GetLanguageFileContent()` | `String key` |	Returns all content of the current language file. | String |
