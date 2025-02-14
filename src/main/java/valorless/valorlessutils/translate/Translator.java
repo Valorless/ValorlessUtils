@@ -130,7 +130,7 @@ public class Translator {
         }
         if (!languageFile.exists()) {
             languageFile.getParentFile().mkdirs();
-            ValorlessUtils.thisPlugin.saveResource("languages\\" + key + ".lang", false);
+            ValorlessUtils.thisPlugin.saveResource("languages\\" + key + ".lang", true);
         }
 
         try {

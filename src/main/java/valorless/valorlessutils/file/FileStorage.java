@@ -74,8 +74,8 @@ public abstract class FileStorage extends YamlConfiguration {
         } catch (IOException | InvalidConfigurationException ex) {
             //Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, ex);
             // If config is invalid, back it up before resetting
-            Log.Error(ValorlessUtils.thisPlugin, "Invalid " + file + " detected. Creating a backup and resetting to default.");
-            Log.Error(ValorlessUtils.thisPlugin, "" + ex);
+            Log.Error(ValorlessUtils.plugin, "Invalid " + file + " detected. Creating a backup and resetting to default.");
+            Log.Error(ValorlessUtils.plugin, "" + ex);
          // Create a backup file with a timestamp in its name
             String timestamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
             File backupFile = new File(file.getParent(), file.getName() + "_" + timestamp + ".yml");
@@ -83,10 +83,10 @@ public abstract class FileStorage extends YamlConfiguration {
             try {
                 // Copy the config file to the backup file
                 Files.copy(new File(file.getParent(), file.getName()).toPath(), backupFile.toPath());
-                Log.Info(ValorlessUtils.thisPlugin, "Backup created: " + backupFile.getName());
+                Log.Info(ValorlessUtils.plugin, "Backup created: " + backupFile.getName());
             } catch (IOException E) {
-            	Log.Error(ValorlessUtils.thisPlugin, "Failed to create backup of the config file!");
-                Log.Error(ValorlessUtils.thisPlugin, "" + E);
+            	Log.Error(ValorlessUtils.plugin, "Failed to create backup of the config file!");
+                Log.Error(ValorlessUtils.plugin, "" + E);
             }
         }
 
