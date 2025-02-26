@@ -22,6 +22,7 @@ import valorless.valorlessutils.Server.Version;
 import valorless.valorlessutils.config.Config;
 import valorless.valorlessutils.crafting.CraftRecipe;
 import valorless.valorlessutils.crafting.CraftRecipe.RecipeType;
+import valorless.valorlessutils.havenbags.HavenBagsPlacementBlocker;
 import valorless.valorlessutils.crafting.Ingredient;
 import valorless.valorlessutils.types.Vector;
 import valorless.valorlessutils.types.Vector3;
@@ -94,6 +95,8 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
 
         // Registering commands
         AddCommand("valorlessutils", "vu");
+        
+        HavenBagsPlacementBlocker.init();
         
         //Testing Function
         //VectorTest();
