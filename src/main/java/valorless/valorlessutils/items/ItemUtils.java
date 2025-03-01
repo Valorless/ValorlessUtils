@@ -1,5 +1,6 @@
 package valorless.valorlessutils.items;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemRarity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -76,6 +77,25 @@ public class ItemUtils {
 	public static void SetMaxStackSize(ItemStack item, Integer value) {
 		ItemMeta meta = item.getItemMeta();
 		meta.setMaxStackSize(value);
+		item.setItemMeta(meta);
+	}
+	
+	public static NamespacedKey GetItemModel(ItemStack item) {
+		return item.getItemMeta().getItemModel();
+	}
+	
+	public static void SetItemModel(ItemStack item, NamespacedKey value) {
+		ItemMeta meta = item.getItemMeta();
+		meta.setItemModel(value);
+		item.setItemMeta(meta);
+	}
+	
+	public static void SetItemModel(ItemStack item, String value) {
+		ItemMeta meta = item.getItemMeta();
+		String[] split = value.split(":");
+		if(split.length != 2) return;
+		NamespacedKey key = new NamespacedKey(split[0], split[1]);
+		meta.setItemModel(key);
 		item.setItemMeta(meta);
 	}
 	
