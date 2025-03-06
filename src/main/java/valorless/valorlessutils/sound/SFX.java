@@ -2,6 +2,8 @@ package valorless.valorlessutils.sound;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
@@ -23,9 +25,9 @@ public class SFX {
 	    if (!Utils.IsStringNullOrEmpty(sound)) {
 	    	try {
 	    		if(ValorlessUtils.getServerVersion() == Version.v1_17 || ValorlessUtils.getServerVersion() == Version.v1_17_1) {
-	    			player.playSound(player.getLocation(), Sound.valueOf(sound.toUpperCase()), volume, pitch);
+	    			player.playSound(player.getLocation(), GetSound(sound.toUpperCase()), volume, pitch);
 	    		} else {
-	    			player.playSound(player, Sound.valueOf(sound.toUpperCase()), volume, pitch);
+	    			player.playSound(player, GetSound(sound.toUpperCase()), volume, pitch);
 	    		}
 	    	} catch (Exception e) {
 	    		Log.Error(ValorlessUtils.GetInstance(), e.getMessage());
@@ -44,10 +46,17 @@ public class SFX {
 	public static void Play(String sound, float volume, float pitch, Location location) {
 	    if (!Utils.IsStringNullOrEmpty(sound)) {
 	    	try {
-	    		Bukkit.getWorld(location.getWorld().getName()).playSound(location, Sound.valueOf(sound.toUpperCase()), volume, pitch);
+	    		Bukkit.getWorld(location.getWorld().getName()).playSound(location, GetSound(sound.toUpperCase()), volume, pitch);
 	    	} catch (Exception e) {
 	    		Log.Error(ValorlessUtils.GetInstance(), e.getMessage());
 	    	}
 	    }
+	}
+	
+	public static Sound GetSound(String sound) {
+		for (Sound key : Registry.SOUNDS) {
+			if(key.toString().equalsIgnoreCase(sound)) return key;
+		}
+		return null;
 	}
 }
