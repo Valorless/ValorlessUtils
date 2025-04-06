@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 
 import com.google.gson.Gson;
 
+import valorless.valorlessutils.Server;
 import valorless.valorlessutils.ValorlessUtils;
 import valorless.valorlessutils.ValorlessUtils.Log;
 
@@ -82,14 +83,24 @@ public class Translator {
     }
 
     /**
-     * Loads language translations from a file.
-     * @param key The language key.
-     * @return A map of translations.
+     * Loads language translations from a file or downloads it if necessary.
+     * <p>
+     * This method checks if the specified language file exists. If it does, it loads the content of the file. 
+     * If the file doesn't exist or the server version is NULL, it attempts to download the language file 
+     * or fall back to a default language. If any errors occur during the loading process, it logs the error 
+     * and returns the content of the English language file as a fallback.
+     * </p>
+     * 
+     * @param key The language key (e.g., "en_us").
+     * @return A map containing the translations as key-value pairs.
      */
     Map<String, String> LoadLanguage(String key)  {
     	try {
     		String json = "";
-    		if(FileExists(key)) {
+    		if(ValorlessUtils.getServerVersion() == Server.Version.NULL) {
+    			json = LoadFallbackLanguage();
+    		}
+    		else if(FileExists(key)) {
     			json = GetLanguageFileContent(key);
     		}else {
     			json = DownloadLanguage(key);
@@ -116,8 +127,44 @@ public class Translator {
         	return son;
     	}
     }
+    
+    /**
+     * Loads the fallback language file from the plugin's data folder. 
+     * If the file doesn't exist, it is copied from the plugin's resources.
+     * 
+     * @return The content of the fallback language file, or {@code null} if an error occurs.
+     */
+    public String LoadFallbackLanguage() {
+    	String path = String.format("%s/languages/fallback.lang", ValorlessUtils.thisPlugin.getDataFolder());
 
-    private boolean FileExists(String key) {
+        File languageFile;
+        try {
+            languageFile = new File(path);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        if (!languageFile.exists()) {
+            languageFile.getParentFile().mkdirs();
+            ValorlessUtils.thisPlugin.saveResource("languages\\" + "fallback.lang", true);
+        }
+
+        try {
+            Path filePath = Path.of(path);
+            return Files.readString(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Checks if the specified language file exists in the plugin's data folder.
+     * 
+     * @param key The name of the language file (without the extension).
+     * @return {@code true} if the language file exists, {@code false} otherwise.
+     */
+    public boolean FileExists(String key) {
     	String path = String.format("%s/languages/%s/%s.lang", ValorlessUtils.thisPlugin.getDataFolder(),
     			ValorlessUtils.getServerVersion().toString(), key);
 
@@ -157,7 +204,17 @@ public class Translator {
             return null;
         }
     }
-        	
+        
+    /**
+     * Downloads a language file from GitHub and saves it to the plugin's data folder.
+     * <p>
+     * This method fetches the language file from a specified GitHub URL and saves it in the plugin's data folder. 
+     * It also ensures the necessary directories are created and logs the success or failure of the download.
+     * </p>
+     * 
+     * @param key The name of the language file (without the extension).
+     * @return The content of the downloaded language file as a string, or {@code null} if an error occurs during the download or reading process.
+     */
     public String DownloadLanguage(String key) {
     	Log.Info(ValorlessUtils.thisPlugin, String.format("Downloading '%s' language file from GitHub..", key));
     	
