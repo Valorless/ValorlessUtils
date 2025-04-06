@@ -109,6 +109,7 @@ public class Translator {
         	@SuppressWarnings("serial")
         	Type mapType = new TypeToken<Map<String, String>>() {}.getType();
         	Map<String, String> son = new Gson().fromJson(json, mapType);
+        	Log.Info(ValorlessUtils.thisPlugin, String.format("Loaded language '%s'.", key));
         	return son;
     	} catch(Exception e) {
     		String clas = Thread.currentThread().getStackTrace()[3].getClassName();
@@ -166,7 +167,7 @@ public class Translator {
      */
     public boolean FileExists(String key) {
     	String path = String.format("%s/languages/%s/%s.lang", ValorlessUtils.thisPlugin.getDataFolder(),
-    			ValorlessUtils.getServerVersion().toString(), key);
+    			ValorlessUtils.getServerVersionString(), key);
 
         File languageFile;
         try {
@@ -194,7 +195,7 @@ public class Translator {
      */
     public String GetLanguageFileContent(String key) {
     	String path = String.format("%s/languages/%s/%s.lang", ValorlessUtils.thisPlugin.getDataFolder(),
-    			ValorlessUtils.getServerVersion().toString(), key);
+    			ValorlessUtils.getServerVersionString(), key);
 
         try {
             Path filePath = Path.of(path);
@@ -216,14 +217,15 @@ public class Translator {
      * @return The content of the downloaded language file as a string, or {@code null} if an error occurs during the download or reading process.
      */
     public String DownloadLanguage(String key) {
-    	Log.Info(ValorlessUtils.thisPlugin, String.format("Downloading '%s' language file from GitHub..", key));
-    	
-        String netpath = String.format(
+		long startTime = System.currentTimeMillis();
+    	String netpath = String.format(
                 "https://raw.githubusercontent.com/Valorless/ValorlessUtils/refs/heads/main/languages/%s/%s.lang", 
-                ValorlessUtils.getServerVersion().toString(), key);
+                ValorlessUtils.getServerVersionString(), key);
+    	
+    	Log.Info(ValorlessUtils.thisPlugin, String.format("Downloading '%s' language file from GitHub..\n%s", key, netpath));
 
         String path = String.format("%s/languages/%s/%s.lang", ValorlessUtils.thisPlugin.getDataFolder(),
-                ValorlessUtils.getServerVersion().toString(), key);
+                ValorlessUtils.getServerVersionString(), key);
 
         File languageFile;
         try {
@@ -245,10 +247,14 @@ public class Translator {
             try (InputStream in = connection.getInputStream()) {
                 // Copy the content from the URL to the local file
                 Files.copy(in, languageFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            	Log.Info(ValorlessUtils.thisPlugin, String.format("Download success.", key));
+        		long endTime = System.currentTimeMillis();
+        		long duration = endTime - startTime;
+            	Log.Info(ValorlessUtils.thisPlugin, String.format("Download success. %sms", duration));
             }
         } catch (IOException e) {
-        	Log.Error(ValorlessUtils.thisPlugin, String.format("Download failed.", key));
+    		long endTime = System.currentTimeMillis();
+    		long duration = endTime - startTime;
+        	Log.Error(ValorlessUtils.thisPlugin, String.format("Download failed. %sms", duration));
             e.printStackTrace();
             return LoadFallbackLanguage(); // Return fallback language if an error occurred during download
         }

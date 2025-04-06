@@ -61,7 +61,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     public void onLoad() {
         thisPlugin = this;
         plugin = this;
-		Server.ResolveVersion();
+		version = Server.ResolveVersion();
     }
     
     /**
@@ -70,6 +70,10 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
      */
     public static Version getServerVersion() {
 		return version;
+	}
+    
+    public static String getServerVersionString() {
+		return version.toString().replace("v", "");
 	}
 
     @Override
