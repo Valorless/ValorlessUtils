@@ -219,7 +219,7 @@ public class Translator {
     	Log.Info(ValorlessUtils.thisPlugin, String.format("Downloading '%s' language file from GitHub..", key));
     	
         String netpath = String.format(
-                "https://raw.githubusercontent.com/Valorless/ValorlessUtils/refs/heads/languages/%s/%s.lang", 
+                "https://raw.githubusercontent.com/Valorless/ValorlessUtils/refs/heads/main/languages/%s/%s.lang", 
                 ValorlessUtils.getServerVersion().toString(), key);
 
         String path = String.format("%s/languages/%s/%s.lang", ValorlessUtils.thisPlugin.getDataFolder(),
