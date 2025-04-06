@@ -219,7 +219,7 @@ public class Translator {
     	Log.Info(ValorlessUtils.thisPlugin, String.format("Downloading '%s' language file from GitHub..", key));
     	
         String netpath = String.format(
-                "https://raw.githubusercontent.com/Valorless/ValorlessUtils/refs/heads/main/src/main/resources/languages/%s/%s.lang", 
+                "https://raw.githubusercontent.com/Valorless/ValorlessUtils/refs/heads/languages/%s/%s.lang", 
                 ValorlessUtils.getServerVersion().toString(), key);
 
         String path = String.format("%s/languages/%s/%s.lang", ValorlessUtils.thisPlugin.getDataFolder(),
@@ -250,7 +250,7 @@ public class Translator {
         } catch (IOException e) {
         	Log.Error(ValorlessUtils.thisPlugin, String.format("Download failed.", key));
             e.printStackTrace();
-            return null; // Return null if an error occurred during download
+            return LoadFallbackLanguage(); // Return fallback language if an error occurred during download
         }
 
         // Read and return the file content
