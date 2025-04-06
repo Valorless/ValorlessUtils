@@ -32,6 +32,7 @@ public class Server {
 		v1_21_2, 
 		v1_21_3, 
 		v1_21_4, 
+		v1_21_5, 
 		v1_22
 	}
 	

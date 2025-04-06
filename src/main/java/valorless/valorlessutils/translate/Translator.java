@@ -2,6 +2,9 @@ package valorless.valorlessutils.translate;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
+
+import org.bukkit.Bukkit;
 
 import com.google.gson.Gson;
 
@@ -12,9 +15,13 @@ import com.google.common.reflect.TypeToken;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 public class Translator {
 
@@ -81,7 +88,12 @@ public class Translator {
      */
     Map<String, String> LoadLanguage(String key)  {
     	try {
-    		String json = GetLanguageFileContent(key);
+    		String json = "";
+    		if(FileExists(key)) {
+    			json = GetLanguageFileContent(key);
+    		}else {
+    			json = DownloadLanguage(key);
+    		}
     		
         	@SuppressWarnings("serial")
         	Type mapType = new TypeToken<Map<String, String>>() {}.getType();
@@ -105,7 +117,22 @@ public class Translator {
     	}
     }
 
-    /**
+    private boolean FileExists(String key) {
+    	String path = String.format("%s/languages/%s/%s.lang", ValorlessUtils.thisPlugin.getDataFolder(),
+    			ValorlessUtils.getServerVersion().toString(), key);
+
+        File languageFile;
+        try {
+            languageFile = new File(path);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        
+        return languageFile.exists();
+	}
+
+	/**
      * Sets the language for translation.
      * @param key The language key to set.
      */
@@ -119,7 +146,27 @@ public class Translator {
      * @return The content of the language file as a string.
      */
     public String GetLanguageFileContent(String key) {
-        String path = String.format("%s/languages/%s.lang", ValorlessUtils.thisPlugin.getDataFolder(), key);
+    	String path = String.format("%s/languages/%s/%s.lang", ValorlessUtils.thisPlugin.getDataFolder(),
+    			ValorlessUtils.getServerVersion().toString(), key);
+
+        try {
+            Path filePath = Path.of(path);
+            return Files.readString(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+        	
+    public String DownloadLanguage(String key) {
+    	Log.Info(ValorlessUtils.thisPlugin, String.format("Downloading '%s' language file from GitHub..", key));
+    	
+        String netpath = String.format(
+                "https://raw.githubusercontent.com/Valorless/ValorlessUtils/refs/heads/main/src/main/resources/languages/%s/%s.lang", 
+                ValorlessUtils.getServerVersion().toString(), key);
+
+        String path = String.format("%s/languages/%s/%s.lang", ValorlessUtils.thisPlugin.getDataFolder(),
+                ValorlessUtils.getServerVersion().toString(), key);
 
         File languageFile;
         try {
@@ -128,17 +175,33 @@ public class Translator {
             e.printStackTrace();
             return null;
         }
-        if (!languageFile.exists()) {
-            languageFile.getParentFile().mkdirs();
-            ValorlessUtils.thisPlugin.saveResource("languages\\" + key + ".lang", true);
-        }
 
         try {
-            Path filePath = Path.of(path);
-            return Files.readString(filePath);
+            // Create necessary directories
+            languageFile.getParentFile().mkdirs();
+
+            // Open a connection to the URL
+            URL url = new URL(netpath);
+            URLConnection connection = url.openConnection();
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+
+            try (InputStream in = connection.getInputStream()) {
+                // Copy the content from the URL to the local file
+                Files.copy(in, languageFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            	Log.Info(ValorlessUtils.thisPlugin, String.format("Download success.", key));
+            }
+        } catch (IOException e) {
+        	Log.Error(ValorlessUtils.thisPlugin, String.format("Download failed.", key));
+            e.printStackTrace();
+            return null; // Return null if an error occurred during download
+        }
+
+        // Read and return the file content
+        try {
+            return Files.readString(languageFile.toPath());
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return null; // Return null if an error occurred while reading the file
         }
     }
 }
