@@ -78,7 +78,7 @@ public abstract class FileStorage extends YamlConfiguration {
             Log.Error(ValorlessUtils.plugin, "" + ex);
          // Create a backup file with a timestamp in its name
             String timestamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
-            File backupFile = new File(file.getParent(), file.getName() + "_" + timestamp + ".yml");
+            File backupFile = new File(file.getParent(), file.getName() + "_" + timestamp + ".txt");
 
             try {
                 // Copy the config file to the backup file

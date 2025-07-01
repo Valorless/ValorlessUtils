@@ -209,4 +209,53 @@ public class Tags {
         	return false;
         }
     }
+    
+    /**
+     * Sets a value in the PersistentDataContainer using a specific key.<br>
+     * @param caller The calling plugin.
+     * @param container The PersistentDataContainer to modify.
+     * @param key The key to set.
+     * @param value The value to set.
+     * @param type The TagType.
+ 	*/
+    @SuppressWarnings({ "unchecked" })
+    public static void Set(JavaPlugin caller, PersistentDataContainer container, String key, Object value, TagType type) {
+		@SuppressWarnings("rawtypes")
+		PersistentDataType m_type = TagType.GetPersistentDataType(type);
+        container.set(new NamespacedKey(caller, key), m_type, value);
+    }
+
+    /**
+     * Gets a value from the PersistentDataContainer using a specific key.<br>
+     * @param caller The calling plugin.
+     * @param container The PersistentDataContainer to retrieve from.
+     * @param key The key to retrieve.
+     * @param type The TagType.
+     * @return The retrieved value.
+ 	*/
+    @SuppressWarnings({ "unchecked" })
+    public static Object Get(JavaPlugin caller, PersistentDataContainer container, String key, TagType type) {
+		@SuppressWarnings("rawtypes")
+		PersistentDataType m_type = TagType.GetPersistentDataType(type);
+        return container.get(new NamespacedKey(caller, key), m_type);
+    }
+
+    /**
+     * Checks if a key exists in the PersistentDataContainer.<br>
+     * @param caller The calling plugin.
+     * @param container The PersistentDataContainer to check.
+     * @param key The key to check.
+     * @param type The TagType.
+     * @return true if the key exists, false otherwise.
+ 	*/
+    @SuppressWarnings("unchecked")
+	public static Boolean Has(JavaPlugin caller, PersistentDataContainer container, String key, TagType type) {
+        try {
+    		@SuppressWarnings("rawtypes")
+			PersistentDataType m_type = TagType.GetPersistentDataType(type);
+            return container.has(new NamespacedKey(caller, key), m_type);
+        } catch (Exception e) {
+        	return false;
+        }
+    }
 }

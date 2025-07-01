@@ -8,6 +8,7 @@ import valorless.valorlessutils.types.Vector3;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -99,8 +100,20 @@ public class Config {
      * Retrieves a float value from the configuration file.
      * @param key The key to retrieve.
      * @return The float value.
+     * @deprecated This method is outdated and will be removed in future versions.<br>
+     * This was created before I knew the difference between Float and Double, and ended up never changed.
      */
+    @Deprecated
     public Double GetFloat(String key) {
+        return this.file.getConfig().getDouble(key);
+    }
+    
+    /**
+     * Retrieves a double value from the configuration file.
+     * @param key The key to retrieve.
+     * @return The double value.
+     */
+    public Double GetDouble(String key) {
         return this.file.getConfig().getDouble(key);
     }
     
@@ -183,6 +196,15 @@ public class Config {
     }
     
     /**
+     * Retrieves a ItemStack from the configuration file.
+     * @param key The key to retrieve.
+     * @return The ItemStack value.
+     */
+    public ItemStack GetItemStack(String key) {
+    	return this.file.getConfig().getItemStack(key);
+    }
+    
+    /**
      * Checks if a key exists in the configuration file.
      * @param key The key to check for.
      * @return true if the key exists, false otherwise.
@@ -202,10 +224,11 @@ public class Config {
      */
     public ConfigurationSection GetConfigurationSection(String key) {
         if (Utils.IsStringNullOrEmpty(key)) {
-            Log.Error(plugin, "[ValorlessUtils] " + plugin.getName() + ".config.HasKey() was called with a null or empty key!");
+            Log.Error(plugin, "[ValorlessUtils] " + plugin.getName() + ".config.GetConfigurationSection() was called with a null or empty key!");
             return null;
         }
-        return this.file.getSection(key);
+        //return this.file.getSection(key);
+        return this.file.getConfig().getConfigurationSection(key);
     }
     
     /**

@@ -33,6 +33,8 @@ public class Server {
 		v1_21_3, 
 		v1_21_4, 
 		v1_21_5, 
+		v1_21_6, 
+		v1_21_7, 
 		v1_22
 	}
 	
@@ -66,4 +68,24 @@ public class Server {
     		return Version.NULL;
     	}
     }
+	
+	/**
+	 * Checks if the current server version is higher than or equal to the specified version.
+	 *
+	 * @param version The version to compare against.
+	 * @return {@code true} if the current server version is higher than or equal to the given version; {@code false} otherwise.
+	 */
+	public static Boolean VersionHigherOrEqualTo(Version version) {
+	    return VersionCompare(ValorlessUtils.getServerVersion(), version) >= 0;
+	}
+
+	/**
+	 * Checks if the current server version is exactly equal to the specified version.
+	 *
+	 * @param version The version to compare against.
+	 * @return {@code true} if the current server version equals the given version; {@code false} otherwise.
+	 */
+	public static Boolean VersionEqualTo(Version version) {
+	    return ValorlessUtils.getServerVersion() == version;
+	}
 }
