@@ -2,8 +2,6 @@ package valorless.valorlessutils.utils;
 
 import java.util.Random;
 
-import valorless.valorlessutils.types.Vector3;
-
 /**
  * Utility class consisting of various functions.
  */
@@ -53,18 +51,21 @@ public class Utils {
         else return false;
     }
     
+    private static final Random rand = new Random();
+    
     /**
      * Generates a random integer within the specified range (inclusive).
      *
      * @param min The minimum value of the range.
      * @param max The maximum value of the range.
      * @return A randomly generated integer within the specified range.
+     * @throws IllegalArgumentException if min > max
      */
-    public static Integer RandomRange(Integer min, Integer max) {
-        Random rand = new Random();
+    public static int RandomRange(int min, int max) {
+        if (min > max) throw new IllegalArgumentException("min cannot be greater than max");
         return rand.nextInt((max - min) + 1) + min;
     }
-
+    
     /**
      * Generates a random double within the specified range (inclusive).
      *
@@ -73,8 +74,8 @@ public class Utils {
      * @return A randomly generated double within the specified range.
      */
     public static double RandomRange(double min, double max) {
-        Random rand = new Random();
-        return rand.nextDouble((max - min) + 1) + min;
+        if (min > max) throw new IllegalArgumentException("min cannot be greater than max");
+        return min + (rand.nextDouble() * (max - min));
     }
     
     /**

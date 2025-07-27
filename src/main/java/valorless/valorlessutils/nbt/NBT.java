@@ -268,4 +268,12 @@ public class NBT {
 	public static boolean Has(ItemStack item, String key) {
 		return de.tr7zw.changeme.nbtapi.NBT.readNbt(item).hasTag(key);
 	}
+	
+	public static boolean Remove(ItemStack item, String key) {
+		de.tr7zw.changeme.nbtapi.NBT.modify(item, nbt -> {
+			nbt.removeKey(key);
+			return true;
+		});
+		return false;
+	}
 }

@@ -1,11 +1,16 @@
 package valorless.valorlessutils.tags;
 
+import java.util.List;
+
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import valorless.valorlessutils.json.JsonUtils;
+import valorless.valorlessutils.utils.Utils;
 
 /**
  * Tags utility class for working with PersistentDataContainers.<br>
@@ -21,7 +26,6 @@ public class Tags {
      * @param item ItemStack to modify.
      * @param key The key to set.
      * @param value The value to set.
-     * @param type The TagType.
  	*/
     public static void SetString(JavaPlugin caller, ItemStack item, String key, String value) {
     	ItemMeta meta = item.getItemMeta();
@@ -36,7 +40,20 @@ public class Tags {
      * @param item ItemStack to modify.
      * @param key The key to set.
      * @param value The value to set.
-     * @param type The TagType.
+ 	*/
+    public static void SetStringList(JavaPlugin caller, ItemStack item, String key, List<String> value) {
+    	ItemMeta meta = item.getItemMeta();
+        meta.getPersistentDataContainer().set(new NamespacedKey(caller, key), PersistentDataType.STRING, JsonUtils.toJson(value));
+        item.setItemMeta(meta);
+    }
+    
+    /**
+     * Sets a value in the PersistentDataContainer using a specific key.<br>
+     * Use before or after setting metadata.
+     * @param caller The calling plugin.
+     * @param item ItemStack to modify.
+     * @param key The key to set.
+     * @param value The value to set.
  	*/
     public static void SetInteger(JavaPlugin caller, ItemStack item, String key, Integer value) {
     	ItemMeta meta = item.getItemMeta();
@@ -51,7 +68,20 @@ public class Tags {
      * @param item ItemStack to modify.
      * @param key The key to set.
      * @param value The value to set.
-     * @param type The TagType.
+ 	*/
+    public static void SetIntegerList(JavaPlugin caller, ItemStack item, String key, List<Integer> value) {
+    	ItemMeta meta = item.getItemMeta();
+        meta.getPersistentDataContainer().set(new NamespacedKey(caller, key), PersistentDataType.STRING, JsonUtils.toJson(value));
+        item.setItemMeta(meta);
+    }
+    
+    /**
+     * Sets a value in the PersistentDataContainer using a specific key.<br>
+     * Use before or after setting metadata.
+     * @param caller The calling plugin.
+     * @param item ItemStack to modify.
+     * @param key The key to set.
+     * @param value The value to set.
  	*/
     public static void SetDouble(JavaPlugin caller, ItemStack item, String key, Double value) {
     	ItemMeta meta = item.getItemMeta();
@@ -66,7 +96,20 @@ public class Tags {
      * @param item ItemStack to modify.
      * @param key The key to set.
      * @param value The value to set.
-     * @param type The TagType.
+ 	*/
+    public static void SetDoubleList(JavaPlugin caller, ItemStack item, String key, List<Double> value) {
+    	ItemMeta meta = item.getItemMeta();
+        meta.getPersistentDataContainer().set(new NamespacedKey(caller, key), PersistentDataType.STRING, JsonUtils.toJson(value));
+        item.setItemMeta(meta);
+    }
+    
+    /**
+     * Sets a value in the PersistentDataContainer using a specific key.<br>
+     * Use before or after setting metadata.
+     * @param caller The calling plugin.
+     * @param item ItemStack to modify.
+     * @param key The key to set.
+     * @param value The value to set.
  	*/
     public static void SetFloat(JavaPlugin caller, ItemStack item, String key, Float value) {
     	ItemMeta meta = item.getItemMeta();
@@ -81,7 +124,20 @@ public class Tags {
      * @param item ItemStack to modify.
      * @param key The key to set.
      * @param value The value to set.
-     * @param type The TagType.
+ 	*/
+    public static void SetFloatList(JavaPlugin caller, ItemStack item, String key, List<Float> value) {
+    	ItemMeta meta = item.getItemMeta();
+        meta.getPersistentDataContainer().set(new NamespacedKey(caller, key), PersistentDataType.STRING, JsonUtils.toJson(value));
+        item.setItemMeta(meta);
+    }
+    
+    /**
+     * Sets a value in the PersistentDataContainer using a specific key.<br>
+     * Use before or after setting metadata.
+     * @param caller The calling plugin.
+     * @param item ItemStack to modify.
+     * @param key The key to set.
+     * @param value The value to set.
  	*/
     public static void SetBoolean(JavaPlugin caller, ItemStack item, String key, Boolean value) {
     	ItemMeta meta = item.getItemMeta();
@@ -105,6 +161,18 @@ public class Tags {
     }
 
     /**
+     * Gets a String List value from the PersistentDataContainer using a specific key.
+     * @param caller The calling plugin.
+     * @param item ItemStack to retrieve the value from.
+     * @param key The key to retrieve.
+     * @return The retrieved String List value, or null if not present.
+     */
+    public static List<String> GetStringList(JavaPlugin caller, ItemStack item, String key) {
+        PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
+        return JsonUtils.fromJson(container.get(new NamespacedKey(caller, key), PersistentDataType.STRING));
+    }
+
+    /**
      * Gets an Integer value from the PersistentDataContainer using a specific key.
      * @param caller The calling plugin.
      * @param item ItemStack to retrieve the value from.
@@ -114,6 +182,18 @@ public class Tags {
     public static Integer GetInteger(JavaPlugin caller, ItemStack item, String key) {
         PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
         return container.get(new NamespacedKey(caller, key), PersistentDataType.INTEGER);
+    }
+
+    /**
+     * Gets a Integer List value from the PersistentDataContainer using a specific key.
+     * @param caller The calling plugin.
+     * @param item ItemStack to retrieve the value from.
+     * @param key The key to retrieve.
+     * @return The retrieved Integer List value, or null if not present.
+     */
+    public static List<Integer> GetIntegerList(JavaPlugin caller, ItemStack item, String key) {
+        PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
+        return JsonUtils.fromJson(container.get(new NamespacedKey(caller, key), PersistentDataType.STRING));
     }
 
     /**
@@ -129,6 +209,18 @@ public class Tags {
     }
 
     /**
+     * Gets a Double List value from the PersistentDataContainer using a specific key.
+     * @param caller The calling plugin.
+     * @param item ItemStack to retrieve the value from.
+     * @param key The key to retrieve.
+     * @return The retrieved Double List value, or null if not present.
+     */
+    public static List<Double> GetDoubleList(JavaPlugin caller, ItemStack item, String key) {
+        PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
+        return JsonUtils.fromJson(container.get(new NamespacedKey(caller, key), PersistentDataType.STRING));
+    }
+
+    /**
      * Gets a Float value from the PersistentDataContainer using a specific key.
      * @param caller The calling plugin.
      * @param item ItemStack to retrieve the value from.
@@ -138,6 +230,18 @@ public class Tags {
     public static Float GetFloat(JavaPlugin caller, ItemStack item, String key) {
         PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
         return container.get(new NamespacedKey(caller, key), PersistentDataType.FLOAT);
+    }
+
+    /**
+     * Gets a Float List value from the PersistentDataContainer using a specific key.
+     * @param caller The calling plugin.
+     * @param item ItemStack to retrieve the value from.
+     * @param key The key to retrieve.
+     * @return The retrieved Float List value, or null if not present.
+     */
+    public static List<Float> GetFloatList(JavaPlugin caller, ItemStack item, String key) {
+        PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
+        return JsonUtils.fromJson(container.get(new NamespacedKey(caller, key), PersistentDataType.STRING));
     }
 
     /**
@@ -151,7 +255,6 @@ public class Tags {
         PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
         return container.get(new NamespacedKey(caller, key), PersistentDataType.BYTE) == (byte) 1;
     }
-    
     
     //Generic
     
@@ -208,6 +311,33 @@ public class Tags {
         } catch (Exception e) {
         	return false;
         }
+    }
+
+    /**
+     * Checks if a key exists in the PersistentDataContainer.<br>
+     * @param caller The calling plugin.
+     * @param item ItemStack to check.
+     * @param key The key to check.
+     * @return true if the key exists, false otherwise.
+ 	*/
+	public static Boolean Has(JavaPlugin caller, ItemStack item, String key) {
+        try {
+        	PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
+            return container.has(new NamespacedKey(caller, key));
+        } catch (Exception e) {
+        	return false;
+        }
+    }
+	public static Boolean Remove(JavaPlugin caller, ItemStack item, String key) {
+        try {
+        	ItemMeta meta = item.getItemMeta();
+        	PersistentDataContainer container = meta.getPersistentDataContainer();
+            container.remove(new NamespacedKey(caller, key));
+            item.setItemMeta(meta);
+        } catch (Exception e) {
+        	return false;
+        }
+        return true;
     }
     
     /**
