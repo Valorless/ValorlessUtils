@@ -1,5 +1,23 @@
 package valorless.valorlessutils.encoding;
 
+/**
+ * Utility class providing simple Caesar Cipher encoding and decoding methods.
+ * <p>
+ * The Caesar Cipher is a substitution cipher where each letter in the input
+ * is shifted by a specified number of positions in the alphabet.
+ * Non-letter characters remain unchanged.
+ * <p>
+ * This class supports both encoding and decoding with a customizable shift value.
+ * 
+ * <h2>Example Usage:</h2>
+ * <pre>{@code
+ * String original = "Hello, World!";
+ * String encoded  = Encoder.encode(original, 3); // "Khoor, Zruog!"
+ * String decoded  = Encoder.decode(encoded, 3);  // "Hello, World!"
+ * }</pre>
+ * 
+ * The class is stateless and thread-safe.
+ */
 public class Encoder {
 	
 	// If you need to encode something.. for.. some reason..

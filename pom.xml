@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>valorless.valorlessutils</groupId>
   <artifactId>ValorlessUtils</artifactId>
-  <version>1.15.2</version>
+  <version>1.16.0</version>
   <scm>
     <connection>scm:svn:http://127.0.0.1/dummy</connection>
     <developerConnection>scm:svn:https://127.0.0.1/dummy</developerConnection>
@@ -114,13 +114,17 @@
             <artifactId>maven-javadoc-plugin</artifactId>
             <version>3.5.0</version>
             <configuration>
-                <!-- Don't fail the build if there are missing Javadocs -->
-                <failOnError>false</failOnError>
-                
-                <!-- Optionally, allow missing comments/tags -->
-                <quiet>true</quiet>
+                <failOnError>false</failOnError> <!-- don’t fail build if Javadocs missing -->
+                <quiet>true</quiet>              <!-- suppress warnings -->
             </configuration>
-        </plugin>
+      <executions>
+        <execution>
+          <goals>
+            <goal>javadoc</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
       </plugins>
       <finalName>${project.artifactId}-${project.version}.${buildNumber}</finalName>
   </build>

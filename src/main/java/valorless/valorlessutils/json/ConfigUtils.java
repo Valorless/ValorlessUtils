@@ -3,8 +3,6 @@ package valorless.valorlessutils.json;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import org.bukkit.configuration.ConfigurationSection;
