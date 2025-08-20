@@ -6,6 +6,22 @@ ValorlessUtils is a library of various utilities, created to make the creation o
 
 My primary programing language is C#, so the functions will resemble those.
 
+```xml
+<repository>
+ <id>jitpack.io</id>
+ <url>https://jitpack.io</url>
+</repository>
+
+<dependency>
+ <groupId>com.github.Valorless</groupId>
+ <artifactId>ValorlessUtils</artifactId>
+ <version>1.16.0</version>
+ <scope>provided</scope>
+</dependency>
+```
+
+API Docs: [https://valorless.github.io/ValorlessUtils](https://valorless.github.io/ValorlessUtils)
+
 ## Features
 
 ### - Variable Types.
@@ -167,7 +183,7 @@ recipe.Add();
 | `GetResult()` |  | Gets the result of the crafting recipe. |  |
 | `toString()` |  | Returns a string representation of this CraftRecipe object. |  |
 
-# Integration
+# Integration (Very old)
 
 As I've just recently started making plugins, I'm going to asume you're using Eclipse & Maven, as that's what I am.<br>
 The way I'm about to show if the say I've found out how to do this.<br>
