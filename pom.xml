@@ -109,6 +109,18 @@
           </relocations>
         </configuration>
       </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>3.5.1</version>
+            <configuration>
+                <!-- Don't fail the build if there are missing Javadocs -->
+                <failOnError>false</failOnError>
+                
+                <!-- Optionally, allow missing comments/tags -->
+                <quiet>true</quiet>
+            </configuration>
+        </plugin>
       </plugins>
       <finalName>${project.artifactId}-${project.version}.${buildNumber}</finalName>
   </build>
