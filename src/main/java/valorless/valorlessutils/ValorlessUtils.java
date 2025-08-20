@@ -20,36 +20,45 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import valorless.valorlessutils.Server.Version;
 import valorless.valorlessutils.config.Config;
-import valorless.valorlessutils.crafting.CraftRecipe;
-import valorless.valorlessutils.crafting.CraftRecipe.RecipeType;
 import valorless.valorlessutils.havenbags.HavenBagsPlacementBlocker;
-import valorless.valorlessutils.crafting.Ingredient;
-import valorless.valorlessutils.types.Vector;
-import valorless.valorlessutils.types.Vector3;
 
+/**
+ * Main plugin class for ValorlessUtils.
+ * <p>
+ * Provides utility methods for server interaction, debugging, item manipulation,
+ * logging, and PersistentDataContainer handling. Also contains deprecated
+ * legacy methods for backward compatibility.
+ * </p>
+ */
 public final class ValorlessUtils extends JavaPlugin implements Listener {
+    /** Instance of this plugin for static access. */
     public static JavaPlugin thisPlugin;
     public static JavaPlugin plugin;
-    String Name = "§7[§6Valorless§bUtils§7]§r";
-	
-	private static Version version;
 
+    /** Prefix used for plugin messages. */
+    String Name = "§7[§6Valorless§bUtils§7]§r";
+
+    /** Detected server version. */
+    private static Version version;
+
+    /** Plugin configuration handler. */
     public static Config config;
-    
+
     /**
-     * bread
+     * Gives all online players a custom enchanted "bread" item.
      */
     public static void bread() {
-    	for (Player player : Bukkit.getOnlinePlayers()) {
-    		ItemStack bread = new ItemStack(Material.BREAD, 1);
-    		ItemMeta meta = bread.getItemMeta();
-    		meta.setDisplayName("bread");
-    		List<String> lore = new ArrayList<String>();
-    		lore.add("bread");
-    		meta.setLore(lore);
-		    meta.addEnchant(Enchantment.MENDING, 255, true);
-		    meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-		    bread.setItemMeta(meta);
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            ItemStack bread = new ItemStack(Material.BREAD, 1);
+            ItemMeta meta = bread.getItemMeta();
+            meta.setDisplayName("bread");
+            List<String> lore = new ArrayList<>();
+            lore.add("bread");
+            meta.setLore(lore);
+            meta.addEnchant(Enchantment.MENDING, 255, true);
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            bread.setItemMeta(meta);
+
             player.getInventory().addItem(bread);
             player.sendMessage("bread");
         }
@@ -57,24 +66,33 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
 
     /**
      * Called when the plugin is being loaded.
+     * <p>
+     * Initializes plugin instances and resolves the server version.
+     * </p>
      */
     public void onLoad() {
         thisPlugin = this;
         plugin = this;
-		version = Server.ResolveVersion();
+        version = Server.ResolveVersion();
     }
-    
+
     /**
-     * Gets the Version of the server.
-     * @return {@link valorless.valorlessutils.Server.Version Version}.
+     * Returns the resolved server version.
+     *
+     * @return The current {@link Version} of the server.
      */
     public static Version getServerVersion() {
-		return version;
-	}
-    
+        return version;
+    }
+
+    /**
+     * Returns the resolved server version as a string without the "v" prefix.
+     *
+     * @return Server version as a string.
+     */
     public static String getServerVersionString() {
-		return version.toString().replace("v", "");
-	}
+        return version.toString().replace("v", "");
+    }
 
     @Override
     public void onEnable() {
@@ -83,113 +101,68 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
         @SuppressWarnings("unused")
         Metrics metrics = new Metrics(this, pluginId);
 
-        // Loading and validating the configuration file
+        // Load configuration
         config = new Config(this, "config.yml");
         config.AddValidationEntry("debug", false);
 
-        // Logging debug information if enabled
         if (config.GetBool("debug")) {
             Log.Info(this, "Debugging enabled.");
-        }
-
-        // Logging plugin enable message
-        if (config.GetBool("debug")) {
             Log.Info(this, "§aEnabled!");
         }
 
-        // Registering commands
+        // Register commands
         AddCommand("valorlessutils", "vu");
-        
+
+        // Initialize HavenBags placement blocker
         HavenBagsPlacementBlocker.init();
-        
-        //Testing Function
-        //VectorTest();
-        //RecipeTest();
-    }
-    
-    void VectorTest() {
-    	Vector3<Integer> v = new Vector3<Integer>(1,35,44);
-    	Log.Warning(this, v.x.toString());
-    	Log.Warning(this, v.y.toString());
-    	v.Set(Vector.X, 4);
-    	Log.Warning(this, v.x.toString());
-    	v.x = 76;
-    	Log.Warning(this, v.x.toString());
-    	Integer e = v.x + 5;
-    	Log.Warning(this, e.toString());
-    }
-    
-    void RecipeTest() {
-    	List<String> shape = new ArrayList<String>();
-    	shape.add("XXX");
-    	shape.add("XDX");
-    	shape.add("XXX");
-    	
-    	List<Ingredient> ingredients = new ArrayList<Ingredient>();
-    	ingredients.add(new Ingredient("D", Material.DIRT));
-    	
-    	CraftRecipe recipe = new CraftRecipe(
-    			this, 
-    			"TestRecipe1", 
-    			RecipeType.Shaped, 
-    			ingredients, 
-    			new ItemStack(Material.GRASS_BLOCK), 
-    			shape);
-    	recipe.SetPermission("Test.Permission");
-    	recipe.Add();
-    	
     }
 
-    /**
-     * Called when the plugin is being disabled.
-     */
     @Override
     public void onDisable() {
-        // Logging plugin disable message
         if (config.GetBool("debug")) {
             Log.Info(this, "§cDisabled!");
         }
-        
     }
 
     /**
-     * Gets the instance of the ValorlessUtils plugin.
-     * @return The instance of the plugin.
+     * Returns the instance of the ValorlessUtils plugin.
+     *
+     * @return The plugin instance.
      */
     public static ValorlessUtils GetInstance() {
         return (ValorlessUtils) plugin;
     }
 
     /**
-     * Adds a command executor for the specified command and aliases.
+     * Registers a command and optional aliases to this plugin.
+     *
      * @param command The main command.
-     * @param alias Additional command aliases.
+     * @param alias   Optional command aliases.
      */
     public void AddCommand(String command, String... alias) {
         getCommand(command).setExecutor(this);
-        //Once deprecated Utils is removed, this'll be renamed to just Utils.
-        if (!valorless.valorlessutils.utils.Utils.IsStringNullOrEmpty(alias[0])) { 
+        if (!valorless.valorlessutils.utils.Utils.IsStringNullOrEmpty(alias[0])) {
             getCommand(alias[0]).setExecutor(this);
         }
     }
 
-    // Functions
-
-	/**
-     * Deprecated utility class. Use 'valorless.valorlessutils.utils.Utils' instead.
-     * @deprecated Will be removed at a later date.
+    // Deprecated Utility Class
+    /**
+     * Deprecated utility methods.
+     *
+     * @deprecated Use {@link valorless.valorlessutils.utils.Utils} instead.
      */
     @Deprecated
     public static class Utils {
 
         /**
-         * Deprecated utility class. Use 'valorless.valorlessutils.utils.Utils' instead.<br>
-         * Checks if a string is null or empty.
+         * Checks if a string is null, empty, blank, or only whitespace.
+         *
          * @param string The string to check.
-         * @return true if the string is null or empty, false otherwise.
-         * @deprecated Will be removed at a later date.
+         * @return true if the string is null or empty; false otherwise.
+         * @deprecated Will be removed in a future version.
          */
-    	@Deprecated
+        @Deprecated
         public static boolean IsStringNullOrEmpty(String string) {
             if (string == null) return true;
             else if (string.isEmpty()) return true;
@@ -200,14 +173,15 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     }
 
     /**
-     * Logging utility class for plugin messages.
+     * Logging utility methods.
      */
     public static class Log {
 
         /**
-         * Logs an information message.
-         * @param caller The calling plugin.
-         * @param msg The message to log.
+         * Logs an informational message.
+         *
+         * @param caller Plugin sending the log.
+         * @param msg    Message to log.
          */
         public static void Info(JavaPlugin caller, String msg) {
             Logger.getLogger("Minecraft").log(Level.INFO, "[" + caller.getName() + "] " + msg);
@@ -215,8 +189,9 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
 
         /**
          * Logs a warning message.
-         * @param caller The calling plugin.
-         * @param msg The message to log.
+         *
+         * @param caller Plugin sending the log.
+         * @param msg    Message to log.
          */
         public static void Warning(JavaPlugin caller, String msg) {
             Logger.getLogger("Minecraft").log(Level.WARNING, "[" + caller.getName() + "] " + msg);
@@ -224,72 +199,51 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
 
         /**
          * Logs an error message.
-         * @param caller The calling plugin.
-         * @param msg The message to log.
+         *
+         * @param caller Plugin sending the log.
+         * @param msg    Message to log.
          */
         public static void Error(JavaPlugin caller, String msg) {
             Logger.getLogger("Minecraft").log(Level.SEVERE, "[" + caller.getName() + "] " + msg);
         }
 
         /**
-         * Logs a debug message if debugging is enabled.
-         * @param caller The calling plugin.
-         * @param msg The debug message to log.
+         * Logs a debug message if debug mode is enabled.
+         *
+         * @param caller Plugin sending the log.
+         * @param msg    Debug message to log.
          */
         public static void Debug(JavaPlugin caller, String msg) {
-            if (Bukkit.getPluginManager().getPlugin(caller.getName()).getConfig().getBoolean("debug") == true) {
+            if (Bukkit.getPluginManager().getPlugin(caller.getName()).getConfig().getBoolean("debug")) {
                 Logger.getLogger("Minecraft").log(Level.WARNING, "[DEBUG][" + caller.getName() + "] " + msg);
             }
         }
     }
 
     /**
-     * Tags utility class for working with PersistentDataContainers.<br>
-     * @Deprecated Replaced with {@link valorless.valorlessutils.tags.Tags valorless.valorlessutils.tags.Tags}
+     * Deprecated tags utility class for PersistentDataContainer operations.
+     *
+     * @deprecated Replaced with {@link valorless.valorlessutils.tags.Tags}.
      */
     @Deprecated
     public static class Tags {
 
-        /**
-         * Sets a value in the PersistentDataContainer using a specific key.<br>
-         * @param caller The calling plugin.
-         * @param container The PersistentDataContainer to modify.
-         * @param key The key to set.
-         * @param value The value to set.
-         * @param type The PersistentDataType.
-     	*/
         @SuppressWarnings({ "unchecked", "rawtypes" })
         public static void Set(JavaPlugin caller, PersistentDataContainer container, String key, Object value, PersistentDataType type) {
             container.set(new NamespacedKey(caller, key), type, value);
         }
 
-        /**
-         * Gets a value from the PersistentDataContainer using a specific key.<br>
-         * @param caller The calling plugin.
-         * @param container The PersistentDataContainer to retrieve from.
-         * @param key The key to retrieve.
-         * @param type The PersistentDataType.
-         * @return The retrieved value.
-     	*/
         @SuppressWarnings({ "unchecked", "rawtypes" })
         public static Object Get(JavaPlugin caller, PersistentDataContainer container, String key, PersistentDataType type) {
             return container.get(new NamespacedKey(caller, key), type);
         }
 
-        /**
-         * Checks if a key exists in the PersistentDataContainer.<br>
-         * @param caller The calling plugin.
-         * @param container The PersistentDataContainer to check.
-         * @param key The key to check.
-         * @param type The PersistentDataType.
-         * @return true if the key exists, false otherwise.
-     	*/
         @SuppressWarnings({ "unchecked", "rawtypes" })
         public static Boolean Has(JavaPlugin caller, PersistentDataContainer container, String key, PersistentDataType type) {
             try {
                 return container.has(new NamespacedKey(caller, key), type);
             } catch (Exception e) {
-            	return false;
+                return false;
             }
         }
     }

@@ -22,12 +22,15 @@ import valorless.valorlessutils.ValorlessUtils;
 import valorless.valorlessutils.ValorlessUtils.Log;
 
 /**
- * Represents a custom crafting recipe in Minecraft.<br>
- * These recipes are not advanced, and only use the base crafting system in Minecraft.
+ * Represents a custom crafting recipe in Minecraft.
+ * <p>
+ * Supports both shaped and shapeless recipes using the base Minecraft crafting system.
+ * Recipes can optionally require a permission to craft.
+ * </p>
  */
 public class CraftRecipe implements Listener {
 
-    /** The type of the crafting recipe. */
+    /** Enum representing the type of crafting recipe. */
     public enum RecipeType { Shaped, Shapeless }
 
     /** The shapeless recipe object. */
@@ -36,36 +39,37 @@ public class CraftRecipe implements Listener {
     /** The shaped recipe object. */
     ShapedRecipe shapedRecipe;
 
-    /** The namespaced key of the recipe. */
+    /** The unique namespaced key of the recipe. */
     NamespacedKey key;
 
-    /** The permission required to craft the recipe. */
+    /** The permission required to craft the recipe. Null if no permission required. */
     Permission permission = null;
 
     /** The list of ingredients required for the recipe. */
-    List<Ingredient> ingredients = new ArrayList<Ingredient>();
+    List<Ingredient> ingredients = new ArrayList<>();
 
     /** The shape of the recipe (for shaped recipes). */
-    List<String> shape = new ArrayList<String>();
+    List<String> shape = new ArrayList<>();
 
     /** The type of the recipe (shaped or shapeless). */
     RecipeType type;
 
     /** The result of the crafting recipe. */
     ItemStack result;
-    
+
     /**
-     * Constructs a CraftRecipe object with the provided parameters.
-     * @param plugin     The plugin to be used in the NamespacedKey.
-     * @param recipe     The ID of the recipe.
-     * @param type       The type of the recipe (shaped or shapeless).
-     * @param ingredients  The list of ingredients required for the recipe.
-     * @param result     The result of the crafting recipe.
-     * @param shape      (Optional) The shape of the recipe (required for shaped recipes).
+     * Constructs a new CraftRecipe.
+     *
+     * @param plugin      The plugin used for the NamespacedKey.
+     * @param recipe      The unique recipe ID.
+     * @param type        The type of the recipe (shaped or shapeless).
+     * @param ingredients The ingredients required for crafting.
+     * @param result      The resulting item.
+     * @param shape       Optional shape for shaped recipes.
      */
-	@SafeVarargs
-	public CraftRecipe(JavaPlugin plugin, String recipe, RecipeType type, List<Ingredient> ingredients, ItemStack result, List<String>... shape) {
-		this.key = new NamespacedKey(plugin, recipe);
+    @SafeVarargs
+    public CraftRecipe(JavaPlugin plugin, String recipe, RecipeType type, List<Ingredient> ingredients, ItemStack result, List<String>... shape) {
+        this.key = new NamespacedKey(plugin, recipe);
         this.type = type;
         this.ingredients = ingredients;
         this.result = result;
@@ -76,14 +80,12 @@ public class CraftRecipe implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    /**
-     * Sets up the crafting recipe based on its type.
-     */
+    /** Initializes the recipe based on its type and ingredients. */
     void SetUpRecipe() {
         if (type == RecipeType.Shaped) {
             shapedRecipe = new ShapedRecipe(this.key, this.result);
-			for(String s : shape) { s = s.replace("X", " "); }
-			shapedRecipe.shape(shape.get(0), shape.get(1), shape.get(2));
+            for (String s : shape) s = s.replace("X", " "); // Remove placeholders
+            shapedRecipe.shape(shape.get(0), shape.get(1), shape.get(2));
             for (Ingredient ing : ingredients) {
                 if (ing.item != null) {
                     shapedRecipe.setIngredient(ing.letter, new RecipeChoice.ExactChoice(ing.item));
@@ -91,201 +93,155 @@ public class CraftRecipe implements Listener {
                     shapedRecipe.setIngredient(ing.letter, ing.material);
                 }
             }
-
         } else if (type == RecipeType.Shapeless) {
             shapelessRecipe = new ShapelessRecipe(this.key, this.result);
             for (Ingredient ing : ingredients) {
                 if (ing.item != null) {
-                		shapelessRecipe.addIngredient(new RecipeChoice.ExactChoice(ing.item));
-                    //shapedRecipe.setIngredient(ing.letter, new RecipeChoice.ExactChoice(ing.item));
+                    shapelessRecipe.addIngredient(new RecipeChoice.ExactChoice(ing.item));
                 } else {
-                	if(ing.amount > 1) {
-                		shapelessRecipe.addIngredient(ing.amount, ing.material);
-
-                	}else {
-                		shapelessRecipe.addIngredient(ing.material);
-                	}
-                    //shapedRecipe.setIngredient(ing.letter, ing.material);
+                    if (ing.amount > 1) {
+                        shapelessRecipe.addIngredient(ing.amount, ing.material);
+                    } else {
+                        shapelessRecipe.addIngredient(ing.material);
+                    }
                 }
             }
         }
     }
-	
-    /**
-     * Sets the shape of the recipe (for shaped recipes).
-     * @param shape The shape of the recipe.
-     */
+
+    /** Sets the shape of a shaped recipe. */
     public void SetShape(List<String> shape) {
         this.shape = shape;
         SetUpRecipe();
     }
 
-    /**
-     * Gets the shape of the recipe.
-     * @return The shape of the recipe.
-     */
-    public List<String> GetShape(){
+    /** Gets the shape of the recipe. */
+    public List<String> GetShape() {
         return shape;
     }
 
-    /**
-     * Sets the ingredients required for the recipe.
-     * @param ingredients The list of ingredients.
-     */
+    /** Sets the ingredients of the recipe. */
     public void SetIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
         SetUpRecipe();
     }
 
-    /**
-     * Gets the list of ingredients required for the recipe.
-     * @return The list of ingredients.
-     */
-    public List<Ingredient> GetIngredients(){
+    /** Gets the ingredients of the recipe. */
+    public List<Ingredient> GetIngredients() {
         return ingredients;
     }
 
-    /**
-     * Sets the type of the crafting recipe.
-     * @param type The type of the crafting recipe (shaped or shapeless).
-     */
+    /** Sets the recipe type (shaped or shapeless). */
     public void SetType(RecipeType type) {
         this.type = type;
         SetUpRecipe();
     }
 
-    /**
-     * Gets the type of the crafting recipe.
-     * @return The type of the crafting recipe.
-     */
+    /** Gets the recipe type. */
     public RecipeType GetType() {
         return type;
     }
 
     /**
-     * Sets the permission required to craft the recipe.<br>
-     * If the permission is set to null, anyone can craft the item.
-     * @param permission The permission required to craft the recipe.
+     * Sets the permission required to craft this recipe by string.
+     * <p>If null, no permission is required.</p>
      */
     public void SetPermission(@Nullable String permission) {
         this.permission = new Permission(permission);
     }
 
-    /**
-     * Sets the permission required to craft the recipe.<br>
-     * If the permission is set to null, anyone can craft the item.
-     * @param permission The permission required to craft the recipe.
-     */
+    /** Sets the permission required to craft this recipe directly. */
     public void SetPermission(@Nullable Permission permission) {
         this.permission = permission;
     }
 
-    /**
-     * Gets the permission required to craft the recipe.
-     * @return The permission required to craft the recipe.
-     */
+    /** Gets the permission required to craft this recipe. */
     public Permission GetPermission() {
         return permission;
     }
 
-    /**
-     * Sets the result of the crafting recipe.
-     * @param result The result of the crafting recipe.
-     */
+    /** Sets the result of the recipe. */
     public void SetResult(ItemStack result) {
         this.result = result;
     }
 
-    /**
-     * Gets the result of the crafting recipe.
-     * @return The result of the crafting recipe.
-     */
+    /** Gets the result of the recipe. */
     public ItemStack GetResult() {
         return result;
     }
 
-    /**
-     * Removes the crafting recipe from the server.
-     */
+    /** Removes this recipe from the server. */
     public void Remove() {
         Bukkit.removeRecipe(key);
     }
 
-    /**
-     * Adds the crafting recipe to the server.
-     */
+    /** Adds this recipe to the server. */
     public void Add() {
-    	if(key == null || result == null || ingredients.size() == 0 || shape.size() == 0) throw new NullPointerException();
-    	
-    	try {
-    		if (type == RecipeType.Shaped && shapedRecipe != null) {
-        		Bukkit.getServer().addRecipe(shapedRecipe);
-        	} else if (type == RecipeType.Shapeless && shapelessRecipe != null) {
-        		Bukkit.getServer().addRecipe(shapelessRecipe);
-        	}else {
-    			Log.Error(ValorlessUtils.thisPlugin, String.format("Recipe '%s' could not be added.", key.toString()));
-        	}
-    		if(permission != null) {
-    			if(Bukkit.getPluginManager().getPermission(permission.getName()) != null) {
-					Bukkit.getPluginManager().addPermission(permission);
-				}
-    		}
-        	Log.Info(ValorlessUtils.thisPlugin, String.format("Recipe '%s' added.", key.toString()));
-    	} catch (Exception e) {
-			Log.Error(ValorlessUtils.thisPlugin, String.format("Recipe '%s' could not be added.", key.toString()));
-			e.printStackTrace();
-		}
+        if (key == null || result == null || ingredients.size() == 0 || shape.size() == 0)
+            throw new NullPointerException();
+        try {
+            if (type == RecipeType.Shaped && shapedRecipe != null) {
+                Bukkit.getServer().addRecipe(shapedRecipe);
+            } else if (type == RecipeType.Shapeless && shapelessRecipe != null) {
+                Bukkit.getServer().addRecipe(shapelessRecipe);
+            } else {
+                Log.Error(ValorlessUtils.thisPlugin, String.format("Recipe '%s' could not be added.", key.toString()));
+            }
+            if (permission != null && Bukkit.getPluginManager().getPermission(permission.getName()) != null) {
+                Bukkit.getPluginManager().addPermission(permission);
+            }
+            Log.Info(ValorlessUtils.thisPlugin, String.format("Recipe '%s' added.", key.toString()));
+        } catch (Exception e) {
+            Log.Error(ValorlessUtils.thisPlugin, String.format("Recipe '%s' could not be added.", key.toString()));
+            e.printStackTrace();
+        }
     }
 
     /**
-     * Handles the event when an item is prepared for crafting.
-     * @param event The event object.
+     * Event handler for when a player prepares an item for crafting.
+     * <p>
+     * Ensures that only players with the required permission can craft the recipe.
+     * </p>
+     *
+     * @param event The PrepareItemCraftEvent.
      */
     @EventHandler
     public void onPrepareItemCraft(PrepareItemCraftEvent event) {
-    	try {
-    		if(event.getRecipe() == null) return;
-    		if (type == RecipeType.Shaped) {
-    			try {
-        	    	ShapedRecipe recipe = (ShapedRecipe)event.getRecipe();
-        	    	if(recipe.getKey().toString().equalsIgnoreCase(key.toString())) {
-            	    	if(permission != null) {
-                        	for (HumanEntity player : event.getViewers()) {
-                        		if (!player.hasPermission(permission)) {
-                        			event.getInventory().setResult(null);
-                            	}
-                        	}
+        try {
+            if (event.getRecipe() == null) return;
+            if (type == RecipeType.Shaped) {
+                try {
+                    ShapedRecipe recipe = (ShapedRecipe) event.getRecipe();
+                    if (recipe.getKey().toString().equalsIgnoreCase(key.toString()) && permission != null) {
+                        for (HumanEntity player : event.getViewers()) {
+                            if (!player.hasPermission(permission)) event.getInventory().setResult(null);
                         }
-            	    }
-        	    }catch(Exception er) {}
-        	} else if (type == RecipeType.Shapeless) {
-        		try {
-        	    	ShapelessRecipe recipe = (ShapelessRecipe)event.getRecipe();
-        	    	if(recipe.getKey().toString().equalsIgnoreCase(key.toString())) {
-            	    	if(permission != null) {
-                        	for (HumanEntity player : event.getViewers()) {
-                        		if (!player.hasPermission(permission)) {
-                        			event.getInventory().setResult(null);
-                            	}
-                        	}
+                    }
+                } catch (Exception ignored) {}
+            } else if (type == RecipeType.Shapeless) {
+                try {
+                    ShapelessRecipe recipe = (ShapelessRecipe) event.getRecipe();
+                    if (recipe.getKey().toString().equalsIgnoreCase(key.toString()) && permission != null) {
+                        for (HumanEntity player : event.getViewers()) {
+                            if (!player.hasPermission(permission)) event.getInventory().setResult(null);
                         }
-            	    }
-        	    }catch(Exception er) {}
-        	}
-    	}catch(Exception e) {
-    		e.printStackTrace();
-    	}
+                    }
+                } catch (Exception ignored) {}
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    
-    /**
-     * Returns a string representation of this CraftRecipe object.
-     * @return A string representation of this CraftRecipe object.
-     */
+
+    /** Returns a string representation of this CraftRecipe. */
     @Override
     public String toString() {
-    	List<String> ing = new ArrayList<String>();
-    	for(Ingredient i : ingredients) ing.add(i.toString());
-    	return String.format("CraftRecipe{key=%s, type=%s, shape=%s, ingredients=%s, result=%s, permission=%s}", key.toString(), type.toString(), shape.toString(), ing.toString(), result.toString(), permission.toString());
-    	
+        List<String> ing = new ArrayList<>();
+        for (Ingredient i : ingredients) ing.add(i.toString());
+        return String.format(
+                "CraftRecipe{key=%s, type=%s, shape=%s, ingredients=%s, result=%s, permission=%s}",
+                key.toString(), type.toString(), shape.toString(), ing.toString(), result.toString(),
+                permission != null ? permission.toString() : "none"
+        );
     }
 }

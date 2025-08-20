@@ -114,13 +114,17 @@
             <artifactId>maven-javadoc-plugin</artifactId>
             <version>3.5.0</version>
             <configuration>
-                <!-- Don't fail the build if there are missing Javadocs -->
-                <failOnError>false</failOnError>
-                
-                <!-- Optionally, allow missing comments/tags -->
-                <quiet>true</quiet>
+                <failOnError>false</failOnError> <!-- don’t fail build if Javadocs missing -->
+                <quiet>true</quiet>              <!-- suppress warnings -->
             </configuration>
-        </plugin>
+      <executions>
+        <execution>
+          <goals>
+            <goal>javadoc</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
       </plugins>
       <finalName>${project.artifactId}-${project.version}.${buildNumber}</finalName>
   </build>
