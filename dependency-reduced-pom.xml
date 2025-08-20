@@ -108,6 +108,14 @@
           </relocations>
         </configuration>
       </plugin>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.5.0</version>
+        <configuration>
+          <failOnError>false</failOnError>
+          <quiet>true</quiet>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <repositories>
