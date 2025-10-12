@@ -2,9 +2,9 @@ package valorless.valorlessutils.sound;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 
 import valorless.valorlessutils.Server.Version;
@@ -29,6 +29,17 @@ public class SFX {
 	    		} else {
 	    			player.playSound(player, GetSound(sound.toUpperCase()), volume, pitch);
 	    		}
+	    	} catch (Exception e) {
+	    		Log.Error(ValorlessUtils.GetInstance(), e.getMessage());
+	    	}
+	    }
+	}
+	
+
+	public static void PlayNamespace(String sound, float volume, float pitch, Player player) {
+	    if (!Utils.IsStringNullOrEmpty(sound)) {
+	    	try {
+	    		player.playSound(player.getLocation(), sound, SoundCategory.MASTER, volume, pitch);
 	    	} catch (Exception e) {
 	    		Log.Error(ValorlessUtils.GetInstance(), e.getMessage());
 	    	}

@@ -1,6 +1,7 @@
 package valorless.valorlessutils;
 
 import org.bukkit.Bukkit;
+
 import valorless.valorlessutils.ValorlessUtils.Log;
 
 /**
@@ -26,7 +27,7 @@ public class Server {
         v1_17, v1_17_1, v1_18, v1_18_1, v1_18_2, 
         v1_19, v1_19_1, v1_19_2, v1_19_3, v1_19_4, 
         v1_20, v1_20_1, v1_20_2, v1_20_3, v1_20_4, v1_20_5, v1_20_6, 
-        v1_21, v1_21_1, v1_21_2, v1_21_3, v1_21_4, v1_21_5, v1_21_6, v1_21_7, v1_21_8, v1_21_9, 
+        v1_21, v1_21_1, v1_21_2, v1_21_3, v1_21_4, v1_21_5, v1_21_6, v1_21_7, v1_21_8, v1_21_9, v1_21_10, v1_21_11, v1_21_12, v1_21_13, v1_21_14, v1_21_15, v1_21_16, v1_21_17, v1_21_18, v1_21_19, // Added some extra for good measure hehe
         v1_22
     }
     
@@ -83,6 +84,36 @@ public class Server {
      */
     public static Boolean VersionHigherOrEqualTo(Version version) {
         return VersionCompare(ValorlessUtils.getServerVersion(), version) >= 0;
+    }
+    
+    /**
+     * Checks if the current server version is strictly higher than a specified version.
+     *
+     * @param version The version to compare against.
+     * @return {@code true} if the current server version is higher than {@code version}; {@code false} otherwise.
+     */
+    public static Boolean VersionHigherThan(Version version) {
+        return VersionCompare(ValorlessUtils.getServerVersion(), version) > 0;
+    }
+    
+    /**
+     * Checks if the current server version is lower than or equal to a specified version.
+     *
+     * @param version The version to compare against.
+     * @return {@code true} if the current server version is lower than or equal to {@code version}; {@code false} otherwise.
+     */
+    public static Boolean VersionLowerOrEqualTo(Version version) {
+        return VersionCompare(ValorlessUtils.getServerVersion(), version) <= 0;
+    }
+    
+    /**
+     * Checks if the current server version is strictly lower than a specified version.
+     *
+     * @param version The version to compare against.
+     * @return {@code true} if the current server version is lower than {@code version}; {@code false} otherwise.
+     */
+    public static Boolean VersionLowerThan(Version version) {
+        return VersionCompare(ValorlessUtils.getServerVersion(), version) < 0;
     }
 
     /**
