@@ -15,7 +15,7 @@ My primary programing language is C#, so the functions will resemble those.
 <dependency>
  <groupId>com.github.Valorless</groupId>
  <artifactId>ValorlessUtils</artifactId>
- <version>1.16.0</version>
+ <version>CHOOSE FROM https://github.com/Valorless/ValorlessUtils/tags</version>
  <scope>provided</scope>
 </dependency>
 ```
