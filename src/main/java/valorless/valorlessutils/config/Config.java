@@ -81,7 +81,7 @@ public class Config {
 			plugin.saveResource(file, false);
 			this.file = new YamlFile(new File(plugin.getDataFolder(), file));
 		}
-		this.Validate();
+		//this.Validate();
 	}
 	
 	/**
@@ -98,7 +98,7 @@ public class Config {
 		if (!this.file.fileExists()) {
 			throw new IllegalArgumentException("Config was initialized with a file that does not exist: " + file.getPath());
 		}
-		this.Validate();
+		//this.Validate();
 	}
 	
 	/**
@@ -115,7 +115,7 @@ public class Config {
 		if (!this.file.fileExists()) {
 			throw new IllegalArgumentException("Config was initialized with a file that does not exist: " + path.toString());
 		}
-		this.Validate();
+		//this.Validate();
 	}
 	
 	/**
@@ -132,7 +132,7 @@ public class Config {
 		if (!this.file.fileExists()) {
 			throw new IllegalArgumentException("Config was initialized with a file that does not exist: " + path);
 		}
-		this.Validate();
+		//this.Validate();
 	}
 
 	/**
@@ -538,11 +538,11 @@ public class Config {
 	}
 
 	/**
-	 * Reloads the configuration from disk and runs {@link #Validate()}.
+	 * Reloads the configuration from disk.
 	 */
 	public void Reload() {
 		this.file.reload();
-		this.Validate();
+		//this.Validate();
 	}
 
 	/**
@@ -638,9 +638,8 @@ public class Config {
 	 */
 	public void Validate() {
 		Boolean missing = false;
-		if (this.GetBool("debug")) {
-			Log.Debug(plugin, "Validating " + file.getFile().getName() + "...");
-		}
+		String parent = new File(file.getFile().getParent()).getName();
+		Log.Debug(plugin, "Validating " + parent + "/" + file.getFile().getName() + "...");
 
 		for (ValidationListEntry item : this.validationList) {
 			if (!this.HasKey(item.key)) {

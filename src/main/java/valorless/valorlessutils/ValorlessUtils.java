@@ -1,6 +1,7 @@
 package valorless.valorlessutils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +32,9 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     /** Instance of this plugin for static access. */
     public static JavaPlugin thisPlugin;
     public static JavaPlugin plugin;
+    
+    /** Map to store plugin-specific configurations. */
+    protected static HashMap<JavaPlugin, Config> pluginConfigs = new HashMap<>();
 
     /** Prefix used for plugin messages. */
     String Name = "§7[§6Valorless§bUtils§7]§r";
@@ -142,7 +146,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
             getCommand(alias[0]).setExecutor(this);
         }
     }
-
+    
     /**
      * Logging utility methods.
      */
@@ -185,16 +189,19 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
          * @param msg    Debug message to log.
          */
         public static void Debug(JavaPlugin caller, String msg) {
-        	Config config = null;
-        	try {
-        		config = new Config(caller, "config.yml");
-        	}catch(Exception e) {
-        		return;
+        	if(!pluginConfigs.containsKey(caller)) {
+        		try {
+					pluginConfigs.put(caller, new Config(caller, "config.yml"));
+				} catch (Exception e) {
+					//Logger.getLogger("Minecraft").log(Level.SEVERE, "[DEBUG][" + caller.getName() + "] Failed to load config for debug logging.", e);
+					return;
+				}
         	}
-        	if(config.GetBool("debug")) {
-        		Logger.getLogger("Minecraft").log(Level.WARNING, "[DEBUG][" + caller.getName() + "] " + msg);
-        		
-        	}
+        	Config config = pluginConfigs.get(caller);
+        	config.Reload(); // Ensure we have the latest config values
+        	if (config.GetBool("debug")) {
+                Logger.getLogger("Minecraft").log(Level.WARNING, "[DEBUG][" + caller.getName() + "] " + msg);
+            }
         }
     }
 }
