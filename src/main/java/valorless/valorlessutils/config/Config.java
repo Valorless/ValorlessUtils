@@ -469,15 +469,22 @@ public class Config {
 	/**
 	 * Gets a {@link ConfigurationSection} at the given key.
 	 *
+	 * <p>This first attempts {@link YamlFile#getConfigurationSection(String)}. If that returns
+	 * {@code null}, it falls back to {@link #GetSection(String)} for compatibility with different
+	 * underlying YAML implementations.</p>
+	 *
 	 * @param key config path
-	 * @return the section, or {@code null} if missing/invalid key
+	 * @return the configuration section for {@code key}, or {@code null} if {@code key} is
+	 *         {@code null}/empty (logs an error) or the section does not exist
 	 */
 	public ConfigurationSection GetConfigurationSection(String key) {
 		if (Utils.IsStringNullOrEmpty(key)) {
 			Log.Error(plugin, "[ValorlessUtils] " + plugin.getName() + ".config.GetConfigurationSection() was called with a null or empty key!");
 			return null;
 		}
-		return GetFile().getConfigurationSection(key);
+		
+		ConfigurationSection section = GetFile().getConfigurationSection(key);
+		return section != null ? section : GetSection(key);
 	}
 
 	/**
