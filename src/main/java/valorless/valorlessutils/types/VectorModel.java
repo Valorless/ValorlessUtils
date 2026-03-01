@@ -3,7 +3,7 @@ package valorless.valorlessutils.types;
 /**
  * An enumeration representing vector components in 3D space.
  */
-public enum Vector {
+public enum VectorModel {
     /**
      * The X component of a vector.
      */

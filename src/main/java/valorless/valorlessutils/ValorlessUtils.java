@@ -7,15 +7,12 @@ import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import valorless.valorlessutils.Server.Version;
@@ -146,32 +143,6 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
         }
     }
 
-    // Deprecated Utility Class
-    /**
-     * Deprecated utility methods.
-     *
-     * @deprecated Use {@link valorless.valorlessutils.utils.Utils} instead.
-     */
-    @Deprecated
-    public static class Utils {
-
-        /**
-         * Checks if a string is null, empty, blank, or only whitespace.
-         *
-         * @param string The string to check.
-         * @return true if the string is null or empty; false otherwise.
-         * @deprecated Will be removed in a future version.
-         */
-        @Deprecated
-        public static boolean IsStringNullOrEmpty(String string) {
-            if (string == null) return true;
-            else if (string.isEmpty()) return true;
-            else if (string.isBlank()) return true;
-            else if (string.trim().isEmpty()) return true;
-            else return false;
-        }
-    }
-
     /**
      * Logging utility methods.
      */
@@ -214,37 +185,16 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
          * @param msg    Debug message to log.
          */
         public static void Debug(JavaPlugin caller, String msg) {
-            if (Bukkit.getPluginManager().getPlugin(caller.getName()).getConfig().getBoolean("debug")) {
-                Logger.getLogger("Minecraft").log(Level.WARNING, "[DEBUG][" + caller.getName() + "] " + msg);
-            }
-        }
-    }
-
-    /**
-     * Deprecated tags utility class for PersistentDataContainer operations.
-     *
-     * @deprecated Replaced with {@link valorless.valorlessutils.tags.Tags}.
-     */
-    @Deprecated
-    public static class Tags {
-
-        @SuppressWarnings({ "unchecked", "rawtypes" })
-        public static void Set(JavaPlugin caller, PersistentDataContainer container, String key, Object value, PersistentDataType type) {
-            container.set(new NamespacedKey(caller, key), type, value);
-        }
-
-        @SuppressWarnings({ "unchecked", "rawtypes" })
-        public static Object Get(JavaPlugin caller, PersistentDataContainer container, String key, PersistentDataType type) {
-            return container.get(new NamespacedKey(caller, key), type);
-        }
-
-        @SuppressWarnings({ "unchecked", "rawtypes" })
-        public static Boolean Has(JavaPlugin caller, PersistentDataContainer container, String key, PersistentDataType type) {
-            try {
-                return container.has(new NamespacedKey(caller, key), type);
-            } catch (Exception e) {
-                return false;
-            }
+        	Config config = null;
+        	try {
+        		config = new Config(caller, "config.yml");
+        	}catch(Exception e) {
+        		return;
+        	}
+        	if(config.GetBool("debug")) {
+        		Logger.getLogger("Minecraft").log(Level.WARNING, "[DEBUG][" + caller.getName() + "] " + msg);
+        		
+        	}
         }
     }
 }

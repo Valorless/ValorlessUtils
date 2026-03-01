@@ -28,14 +28,14 @@ public class Vector3<T extends Number> {
      * @param component The vector component to set (X, Y, or Z).
      * @param value The value to set for the specified component.
      */
-    public void Set(Vector component, T value) {
-        if (component == Vector.X) {
+    public void Set(VectorModel component, T value) {
+        if (component == VectorModel.X) {
             x = value;
         }
-        if (component == Vector.Y) {
+        if (component == VectorModel.Y) {
             y = value;
         }
-        if (component == Vector.Z) {
+        if (component == VectorModel.Z) {
             z = value;
         }
     }

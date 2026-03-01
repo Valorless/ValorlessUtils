@@ -9,8 +9,8 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import valorless.valorlessutils.json.JsonStringOnlyUtil;
 import valorless.valorlessutils.json.JsonUtils;
-import valorless.valorlessutils.utils.Utils;
 
 /**
  * Tags utility class for working with PersistentDataContainers.<br>
@@ -43,7 +43,7 @@ public class Tags {
  	*/
     public static void SetStringList(JavaPlugin caller, ItemStack item, String key, List<String> value) {
     	ItemMeta meta = item.getItemMeta();
-        meta.getPersistentDataContainer().set(new NamespacedKey(caller, key), PersistentDataType.STRING, JsonUtils.toJson(value));
+        meta.getPersistentDataContainer().set(new NamespacedKey(caller, key), PersistentDataType.STRING, JsonStringOnlyUtil.toJsonList(value));
         item.setItemMeta(meta);
     }
     
@@ -169,7 +169,7 @@ public class Tags {
      */
     public static List<String> GetStringList(JavaPlugin caller, ItemStack item, String key) {
         PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
-        return JsonUtils.fromJson(container.get(new NamespacedKey(caller, key), PersistentDataType.STRING));
+        return JsonStringOnlyUtil.fromJsonList(container.get(new NamespacedKey(caller, key), PersistentDataType.STRING));
     }
 
     /**
