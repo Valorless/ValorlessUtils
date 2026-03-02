@@ -36,7 +36,7 @@ public class PluginReloader {
      * @param delay The delay in ticks before re-enabling
      * @param silent Whether to suppress log messages during reload
      */
-    static void reloadPlugin(Plugin target, long delay, boolean silent) {
+    public static void reloadPlugin(Plugin target, long delay, boolean silent) {
     	reloadPlugin(target, delay, silent, null);
     }
     
@@ -52,7 +52,7 @@ public class PluginReloader {
      * @param silent Whether to suppress log messages during reload
      * @param sender CommandSender to send status messages to during the reload process
      */
-    static void reloadPlugin(Plugin target, long delay, boolean silent, CommandSender sender) {
+    public static void reloadPlugin(Plugin target, long delay, boolean silent, CommandSender sender) {
         if (target == null) {
             // Print stack trace if the plugin reference was invalid
             new Exception("Plugin not found!").printStackTrace();
