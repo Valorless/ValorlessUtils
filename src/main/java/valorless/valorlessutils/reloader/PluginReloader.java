@@ -24,41 +24,6 @@ import valorless.valorlessutils.ValorlessUtils.Log;
  * if the plugin is not designed to handle being disabled and re-enabled properly.</p>
  */
 public class PluginReloader {
-
-    /**
-     * Reloads a plugin by name, disabling it immediately and scheduling it
-     * to be re-enabled after the given delay.
-     *
-     * @param pluginName The name of the plugin to reload
-     * @param delayTicks The delay in ticks before re-enabling the plugin
-     * @param silent Whether to suppress log messages during reload
-     */
-    public static void reloadPlugin(String pluginName, long delayTicks, boolean silent) {
-        PluginManager pm = Bukkit.getPluginManager();
-        reload(pm.getPlugin(pluginName), delayTicks, silent);
-    }
-    
-    /**
-     * Reloads a plugin from a {@link JavaPlugin} reference.
-     *
-     * @param plugin The plugin to reload
-     * @param delayTicks The delay in ticks before re-enabling the plugin
-     * @param silent Whether to suppress log messages during reload
-     */
-    public static void reloadPlugin(JavaPlugin plugin, long delayTicks, boolean silent) {
-        reload(plugin, delayTicks, silent);
-    }
-    
-    /**
-     * Reloads a plugin from a generic {@link Plugin} reference.
-     *
-     * @param plugin The plugin to reload
-     * @param delayTicks The delay in ticks before re-enabling the plugin
-     * @param silent Whether to suppress log messages during reload
-     */
-    public static void reloadPlugin(Plugin plugin, long delayTicks, boolean silent) {
-        reload(plugin, delayTicks, silent);
-    }
     
     /**
      * Handles the actual plugin reload logic.
@@ -71,8 +36,8 @@ public class PluginReloader {
      * @param delay The delay in ticks before re-enabling
      * @param silent Whether to suppress log messages during reload
      */
-    static void reload(Plugin target, long delay, boolean silent) {
-    	reload(target, delay, silent, null);
+    static void reloadPlugin(Plugin target, long delay, boolean silent) {
+    	reloadPlugin(target, delay, silent, null);
     }
     
     /**
@@ -87,7 +52,7 @@ public class PluginReloader {
      * @param silent Whether to suppress log messages during reload
      * @param sender CommandSender to send status messages to during the reload process
      */
-    static void reload(Plugin target, long delay, boolean silent, CommandSender sender) {
+    static void reloadPlugin(Plugin target, long delay, boolean silent, CommandSender sender) {
         if (target == null) {
             // Print stack trace if the plugin reference was invalid
             new Exception("Plugin not found!").printStackTrace();
