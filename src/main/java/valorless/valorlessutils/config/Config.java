@@ -644,6 +644,9 @@ public class Config {
 		for (ValidationListEntry item : this.validationList) {
 			if (!this.HasKey(item.key)) {
 				this.Set(item.key, item.defaultValue);
+				if(item.comments != null && !item.comments.isEmpty()) {
+					this.SetComments(item.key, item.comments);
+				}
 				missing = true;
 			}
 		}
