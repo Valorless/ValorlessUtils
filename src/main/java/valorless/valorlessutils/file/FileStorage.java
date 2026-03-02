@@ -71,6 +71,7 @@ public abstract class FileStorage extends YamlConfiguration {
         try {
             config.load(file);
         } catch (FileNotFoundException ex) {
+        	Log.Error(ValorlessUtils.plugin, "File not found: " + file.getName());
         } catch (IOException | InvalidConfigurationException ex) {
             //Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, ex);
             // If config is invalid, back it up before resetting

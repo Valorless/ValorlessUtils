@@ -8,6 +8,7 @@ import java.io.File;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
@@ -15,6 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 
 /**
  * A safeguard listener that prevents players from placing "HavenBags" items or skin tokens as blocks
@@ -121,6 +123,10 @@ public class HavenBagsPlacementBlocker implements Listener {
 	public static Boolean IsBag(ItemStack item) {
 		if(item == null) return false;
 		if(item.hasItemMeta()) {
+			PersistentDataContainer data = item.getItemMeta().getPersistentDataContainer();
+			if(data.has(NamespacedKey.fromString("havenbags:uuid"))) {
+				return true;
+			}
 			if(NBT.Has(item, "bag-uuid")) {
 				return true;
 			}
@@ -137,6 +143,10 @@ public class HavenBagsPlacementBlocker implements Listener {
 	public static Boolean IsSkinToken(ItemStack item) {
 		if(item == null) return false;
 		if(item.hasItemMeta()) {
+			PersistentDataContainer data = item.getItemMeta().getPersistentDataContainer();
+			if(data.has(NamespacedKey.fromString("havenbags:token-skin"))) {
+				return true;
+			}
 			if(NBT.Has(item, "bag-token-skin")) {
 				return true;
 			}

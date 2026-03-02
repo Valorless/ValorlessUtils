@@ -26,11 +26,11 @@ public class Vector2<T extends Number> {
      * @param component The vector component to set (X or Y).
      * @param value The value to set for the specified component.
      */
-    public void Set(Vector component, T value) {
-        if (component == Vector.X) {
+    public void Set(VectorModel component, T value) {
+        if (component == VectorModel.X) {
             x = value;
         }
-        if (component == Vector.Y) {
+        if (component == VectorModel.Y) {
             y = value;
         }
     }
