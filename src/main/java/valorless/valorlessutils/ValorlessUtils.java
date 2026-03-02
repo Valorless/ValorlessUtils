@@ -34,7 +34,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     public static JavaPlugin plugin;
     
     /** Map to store plugin-specific configurations. */
-    protected static HashMap<JavaPlugin, Config> pluginConfigs = new HashMap<>();
+    private static HashMap<JavaPlugin, Config> pluginConfigs = new HashMap<>();
 
     /** Prefix used for plugin messages. */
     String Name = "§7[§6Valorless§bUtils§7]§r";
