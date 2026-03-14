@@ -512,7 +512,7 @@ public class Config {
 			Log.Error(plugin, "[ValorlessUtils] " + plugin.getName() + ".config.GetComment() was called with a null or empty key!");
 			return null;
 		}
-		return GetFile().getComments(key);
+		return GetFile().getConfig().getComments(key);
 	}
 
 	/**
@@ -525,7 +525,8 @@ public class Config {
 		if (Utils.IsStringNullOrEmpty(key)) {
 			Log.Error(plugin, "[ValorlessUtils] " + plugin.getName() + ".config.SetComment() was called with a null or empty key!");
 		}
-		GetFile().setComments(key, comments);
+		//GetFile().setComments(key, comments);
+		GetFile().getConfig().setComments(key, comments);
 	}
 
 	/**
@@ -603,6 +604,17 @@ public class Config {
 	public void AddValidationEntry(String key, Object value, List<String> comments) {
 		this.validationList.add(new ValidationListEntry(key, value, comments));
 	}
+	
+	/**
+	 * Adds a validation entry with a single comment line.
+	 *
+	 * @param key config path
+	 * @param value default value to write when missing
+	 * @param comment comment line to associate with the key
+	 */
+	public void AddValidationEntry(String key, Object value, String comment) {
+		this.validationList.add(new ValidationListEntry(key, value, comment != null ? List.of(comment) : null));
+	}
 
 	/**
 	 * Adds validation entries for a {@link Vector2} under {@code key}.
@@ -644,6 +656,9 @@ public class Config {
 		for (ValidationListEntry item : this.validationList) {
 			if (!this.HasKey(item.key)) {
 				this.Set(item.key, item.defaultValue);
+				if(item.comments != null && !item.comments.isEmpty()) {
+					this.SetComments(item.key, item.comments);
+				}
 				missing = true;
 			}
 		}

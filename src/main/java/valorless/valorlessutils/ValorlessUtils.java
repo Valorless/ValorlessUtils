@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import valorless.valorlessutils.Server.Version;
 import valorless.valorlessutils.config.Config;
@@ -34,7 +35,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     public static JavaPlugin plugin;
     
     /** Map to store plugin-specific configurations. */
-    protected static HashMap<JavaPlugin, Config> pluginConfigs = new HashMap<>();
+    private static HashMap<JavaPlugin, Config> pluginConfigs = new HashMap<>();
 
     /** Prefix used for plugin messages. */
     String Name = "§7[§6Valorless§bUtils§7]§r";
@@ -116,6 +117,20 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
 
         // Initialize HavenBags placement blocker
         HavenBagsPlacementBlocker.init();
+        
+        BukkitRunnable configReloadTask = new BukkitRunnable() {
+    		
+    		// This runs every second.
+    		@Override
+    		public void run() {        
+    			for(Config config : pluginConfigs.values()) {
+					config.Reload();
+    			}
+    		}
+
+    	};
+    	
+    	configReloadTask.runTaskTimer(this, 0L, 100L);
     }
 
     @Override
@@ -198,7 +213,6 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
 				}
         	}
         	Config config = pluginConfigs.get(caller);
-        	config.Reload(); // Ensure we have the latest config values
         	if (config.GetBool("debug")) {
                 Logger.getLogger("Minecraft").log(Level.WARNING, "[DEBUG][" + caller.getName() + "] " + msg);
             }
