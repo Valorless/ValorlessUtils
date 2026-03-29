@@ -1,6 +1,7 @@
 package valorless.valorlessutils.translate;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -218,11 +219,20 @@ public class Translator {
      */
     public String DownloadLanguage(String key) {
 		long startTime = System.currentTimeMillis();
-    	String netpath = String.format(
+    	/*String netpath = String.format(
                 "https://raw.githubusercontent.com/Valorless/ValorlessUtils/refs/heads/main/languages/%s/%s.lang", 
-                ValorlessUtils.getServerVersionString(), key);
+                ValorlessUtils.getServerVersionString(), key);*/
     	
-    	Log.Info(ValorlessUtils.thisPlugin, String.format("Downloading '%s' language file from GitHub..\n%s", key, netpath));
+    	List<String> netpathList = List.of(
+    			String.format(
+    	                "https://raw.githubusercontent.com/Valorless/ValorlessUtils/refs/heads/main/languages/%s/%s.lang", 
+    	                ValorlessUtils.getServerVersionString(), key),
+    			String.format(
+    	                "https://raw.githubusercontent.com/Valorless/ValorlessUtils/refs/heads/dev/languages/%s/%s.lang", 
+    	                ValorlessUtils.getServerVersionString(), key)
+    			);
+    	
+    	
 
         String path = String.format("%s/languages/%s/%s.lang", ValorlessUtils.thisPlugin.getDataFolder(),
                 ValorlessUtils.getServerVersionString(), key);
@@ -235,36 +245,41 @@ public class Translator {
             return null;
         }
 
-        try {
-            // Create necessary directories
-            languageFile.getParentFile().mkdirs();
+        for(String netpath : netpathList) {
+        	Log.Info(ValorlessUtils.thisPlugin, String.format("Downloading '%s' language file from GitHub..\nPlease wait.", key));
+        	try {
+        		// Create necessary directories
+        		languageFile.getParentFile().mkdirs();
 
-            // Open a connection to the URL
-            URL url = new URL(netpath);
-            URLConnection connection = url.openConnection();
-            connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+        		// Open a connection to the URL
+        		URL url = new URL(netpath);
+        		URLConnection connection = url.openConnection();
+        		connection.setRequestProperty("User-Agent", "Mozilla/5.0");
 
-            try (InputStream in = connection.getInputStream()) {
-                // Copy the content from the URL to the local file
-                Files.copy(in, languageFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        		try (InputStream in = connection.getInputStream()) {
+        			// Copy the content from the URL to the local file
+        			Files.copy(in, languageFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        			long endTime = System.currentTimeMillis();
+        			long duration = endTime - startTime;
+        			Log.Info(ValorlessUtils.thisPlugin, String.format("Download success. %sms", duration));
+        		}
+        	} catch (IOException e) {
         		long endTime = System.currentTimeMillis();
         		long duration = endTime - startTime;
-            	Log.Info(ValorlessUtils.thisPlugin, String.format("Download success. %sms", duration));
-            }
-        } catch (IOException e) {
-    		long endTime = System.currentTimeMillis();
-    		long duration = endTime - startTime;
-        	Log.Error(ValorlessUtils.thisPlugin, String.format("Download failed. %sms", duration));
-            e.printStackTrace();
-            return LoadFallbackLanguage(); // Return fallback language if an error occurred during download
-        }
+        		Log.Error(ValorlessUtils.thisPlugin, String.format("Download failed. %sms", duration));
+        		e.printStackTrace();
+        		continue; // Try the next URL if the download fails
+        	}
 
-        // Read and return the file content
-        try {
-            return Files.readString(languageFile.toPath());
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null; // Return null if an error occurred while reading the file
+        	// Read and return the file content
+        	try {
+        		return Files.readString(languageFile.toPath());
+        	} catch (IOException e) {
+        		e.printStackTrace();
+        		continue; // Try the next URL if reading the file fails
+        	}
         }
+        Log.Error(ValorlessUtils.thisPlugin, String.format("All download attempts for '%s' language file failed. Falling back to default language.", key));
+        return LoadFallbackLanguage(); // Return null if all download attempts failed
     }
 }
