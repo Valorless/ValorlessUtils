@@ -17,6 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import valorless.annotations.MarkedForRemoval;
 import valorless.valorlessutils.Server.Version;
 import valorless.valorlessutils.config.Config;
 import valorless.valorlessutils.havenbags.HavenBagsPlacementBlocker;
@@ -34,8 +35,9 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     public static JavaPlugin thisPlugin;
     public static JavaPlugin plugin;
     
+
     /** Map to store plugin-specific configurations. */
-    private static HashMap<JavaPlugin, Config> pluginConfigs = new HashMap<>();
+    private static final HashMap<JavaPlugin, Config> pluginConfigs = new HashMap<>();
 
     /** Prefix used for plugin messages. */
     String Name = "§7[§6Valorless§bUtils§7]§r";
@@ -105,9 +107,9 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
 
         // Load configuration
         config = new Config(this, "config.yml");
-        config.AddValidationEntry("debug", false);
+        config.addValidationEntry("debug", false);
 
-        if (config.GetBool("debug")) {
+        if (config.getBool("debug")) {
             Log.Info(this, "Debugging enabled.");
             Log.Info(this, "§aEnabled!");
         }
@@ -124,7 +126,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     		@Override
     		public void run() {        
     			for(Config config : pluginConfigs.values()) {
-					config.Reload();
+					config.reload();
     			}
     		}
 
@@ -135,7 +137,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-        if (config.GetBool("debug")) {
+        if (config.getBool("debug")) {
             Log.Info(this, "§cDisabled!");
         }
     }
@@ -164,7 +166,9 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     
     /**
      * Logging utility methods.
+     * @deprecated Replaced by {@link valorless.valorlessutils.logging.Log}.
      */
+    @MarkedForRemoval("Replaced by valorless.valorlessutils.logging.Log") @Deprecated
     public static class Log {
 
         /**
@@ -173,6 +177,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
          * @param caller Plugin sending the log.
          * @param msg    Message to log.
          */
+        @MarkedForRemoval("Replaced by valorless.valorlessutils.logging.Log.info()") @Deprecated
         public static void Info(JavaPlugin caller, String msg) {
             Logger.getLogger("Minecraft").log(Level.INFO, "[" + caller.getName() + "] " + msg);
         }
@@ -183,6 +188,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
          * @param caller Plugin sending the log.
          * @param msg    Message to log.
          */
+        @MarkedForRemoval("Replaced by valorless.valorlessutils.logging.Log.warning()") @Deprecated
         public static void Warning(JavaPlugin caller, String msg) {
             Logger.getLogger("Minecraft").log(Level.WARNING, "[" + caller.getName() + "] " + msg);
         }
@@ -193,6 +199,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
          * @param caller Plugin sending the log.
          * @param msg    Message to log.
          */
+        @MarkedForRemoval("Replaced by valorless.valorlessutils.logging.Log.error()") @Deprecated
         public static void Error(JavaPlugin caller, String msg) {
             Logger.getLogger("Minecraft").log(Level.SEVERE, "[" + caller.getName() + "] " + msg);
         }
@@ -203,6 +210,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
          * @param caller Plugin sending the log.
          * @param msg    Debug message to log.
          */
+        @MarkedForRemoval("Replaced by valorless.valorlessutils.logging.Log.debug()") @Deprecated
         public static void Debug(JavaPlugin caller, String msg) {
         	if(!pluginConfigs.containsKey(caller)) {
         		try {
@@ -213,7 +221,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
 				}
         	}
         	Config config = pluginConfigs.get(caller);
-        	if (config.GetBool("debug")) {
+        	if (config.getBool("debug")) {
                 Logger.getLogger("Minecraft").log(Level.WARNING, "[DEBUG][" + caller.getName() + "] " + msg);
             }
         }

@@ -1,11 +1,9 @@
 package valorless.annotations;
 
-import static java.lang.annotation.ElementType.CONSTRUCTOR;
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.METHOD;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.*;
 
 /**
  * Marks a field, method, or constructor as slated for removal in a future release.
@@ -15,7 +13,7 @@ import java.lang.annotation.Target;
  * </p>
  */
 @Documented
-@Target({ FIELD, METHOD, CONSTRUCTOR })
+@Target({ TYPE, FIELD, METHOD, CONSTRUCTOR })
 public @interface MarkedForRemoval {
 	
 	/**

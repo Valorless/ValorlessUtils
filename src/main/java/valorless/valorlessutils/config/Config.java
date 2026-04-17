@@ -1,8 +1,10 @@
 package valorless.valorlessutils.config;
 
+import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import valorless.annotations.MarkedForRemoval;
 import valorless.valorlessutils.ValorlessUtils;
-import valorless.valorlessutils.ValorlessUtils.Log;
+import valorless.valorlessutils.logging.Log;
 import valorless.valorlessutils.utils.Utils;
 import valorless.valorlessutils.file.YamlFile;
 import valorless.valorlessutils.types.Vector2;
@@ -45,22 +47,22 @@ import java.util.List;
  *   <li>Lists (string/int/double and generic lists) using Bukkit's configuration API.</li>
  * </ul>
  *
- * <h2>Validation</h2>
- * <p>Validation entries can be registered via {@link #AddValidationEntry(String, Object)} (including
- * vector overloads). When {@link #Validate()} runs, missing keys are added with their default values
- * and the configuration is saved. {@link #Reload()} also triggers validation.</p>
+	 * <h2>Validation</h2>
+	 * <p>Validation entries can be registered via {@link #addValidationEntry(String, Object)} (including
+	 * vector overloads). When {@link #validate()} runs, missing keys are added with their default values
+	 * and the configuration is saved. {@link #reload()} reloads the file content from disk.</p>
  *
  * <h2>Notes</h2>
  * <ul>
- *   <li>Most setters update the in-memory configuration only; call {@link #SaveConfig()} to persist.</li>
- *   <li>{@link #HasKey(String)} and section accessors log errors and may return {@code null} when
+	 *   <li>Most setters update the in-memory configuration only; call {@link #saveConfig()} to persist.</li>
+	 *   <li>{@link #hasKey(String)} and section accessors log errors and may return {@code null} when
  *       invoked with a {@code null} or empty key.</li>
  * </ul>
  */
 public class Config {
 
 	/** The YAML configuration file. */
-	private YamlFile file;
+	private final YamlFile file;
 
 	/** The plugin instance. */
 	private final JavaPlugin plugin;
@@ -76,12 +78,13 @@ public class Config {
 	 */
 	public Config(JavaPlugin plugin, String file) {
 		this.plugin = plugin;
-		this.file = new YamlFile(new File(plugin.getDataFolder(), file));
-		if (!this.file.fileExists()) {
+		if (!new File(plugin.getDataFolder(), file).exists()) {
 			plugin.saveResource(file, false);
 			this.file = new YamlFile(new File(plugin.getDataFolder(), file));
+		}else{
+			this.file = new YamlFile(new File(plugin.getDataFolder(), file));
 		}
-		//this.Validate();
+		//this.validate();
 	}
 	
 	/**
@@ -98,7 +101,7 @@ public class Config {
 		if (!this.file.fileExists()) {
 			throw new IllegalArgumentException("Config was initialized with a file that does not exist: " + file.getPath());
 		}
-		//this.Validate();
+		//this.validate();
 	}
 	
 	/**
@@ -115,7 +118,7 @@ public class Config {
 		if (!this.file.fileExists()) {
 			throw new IllegalArgumentException("Config was initialized with a file that does not exist: " + path.toString());
 		}
-		//this.Validate();
+		//this.validate();
 	}
 	
 	/**
@@ -132,7 +135,7 @@ public class Config {
 		if (!this.file.fileExists()) {
 			throw new IllegalArgumentException("Config was initialized with a file that does not exist: " + path);
 		}
-		//this.Validate();
+		//this.validate();
 	}
 
 	/**
@@ -144,12 +147,20 @@ public class Config {
 	 *
 	 * @return the attached {@link JavaPlugin}, or {@code null} when no plugin is attached.
 	 */
-	public JavaPlugin GetPlugin() {
+	public JavaPlugin getPlugin() {
 		if(ValorlessUtils.plugin.getName().equalsIgnoreCase(this.plugin.getName())) {
-			Log.Error(ValorlessUtils.plugin, "config.GetPlugin() was called but no plugin was attached to the instance.");
+			Log.error(ValorlessUtils.plugin, "config.getPlugin() was called but no plugin was attached to the instance.");
 			return null;
 		}
 		return this.plugin;
+	}
+
+	/**
+	 * @deprecated Use {@link #getPlugin()}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public JavaPlugin GetPlugin() {
+		return getPlugin();
 	}
 
 	/**
@@ -158,19 +169,35 @@ public class Config {
 	 * @param key config path
 	 * @return string value or {@code null} if not present
 	 */
-	public String GetString(String key) {
+	public String getString(String key) {
 		return this.file.getConfig().getString(key);
 	}
-	
+
+	/**
+	 * @deprecated Use {@link #getString(String)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public String GetString(String key) {
+		return getString(key);
+	}
+
 	/**
 	 * Sets a string value in-memory.
 	 *
 	 * @param key config path
 	 * @param value value to set
-	 * @see #SaveConfig()
+	 * @see #saveConfig()
 	 */
+	public void setString(String key, String value) {
+		set(key, value);
+	}
+
+	/**
+	 * @deprecated Use {@link #setString(String, String)}.
+	 */
+	@Deprecated @MarkedForRemoval
 	public void SetString(String key, String value) {
-		Set(key, value);
+		setString(key, value);
 	}
 
 	/**
@@ -179,19 +206,35 @@ public class Config {
 	 * @param key config path
 	 * @return boolean value (defaults to {@code false} if missing)
 	 */
-	public Boolean GetBool(String key) {
+	public Boolean getBool(String key) {
 		return this.file.getConfig().getBoolean(key);
 	}
-	
+
+	/**
+	 * @deprecated Use {@link #getBool(String)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public Boolean GetBool(String key) {
+		return getBool(key);
+	}
+
 	/**
 	 * Sets a boolean value in-memory.
 	 *
 	 * @param key config path
 	 * @param value value to set
-	 * @see #SaveConfig()
+	 * @see #saveConfig()
 	 */
+	public void setBool(String key, Boolean value) {
+		set(key, value);
+	}
+
+	/**
+	 * @deprecated Use {@link #setBool(String, Boolean)}.
+	 */
+	@Deprecated @MarkedForRemoval
 	public void SetBool(String key, Boolean value) {
-		Set(key, value);
+		setBool(key, value);
 	}
 
 	/**
@@ -200,28 +243,59 @@ public class Config {
 	 * @param key config path
 	 * @return integer value (defaults to {@code 0} if missing)
 	 */
-	public Integer GetInt(String key) {
+	public Integer getInt(String key) {
 		return this.file.getConfig().getInt(key);
 	}
-	
+
+	/**
+	 * @deprecated Use {@link #getInt(String)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public Integer GetInt(String key) {
+		return getInt(key);
+	}
+
 	/**
 	 * Sets an integer value in-memory.
 	 *
 	 * @param key config path
 	 * @param value value to set
-	 * @see #SaveConfig()
+	 * @see #saveConfig()
 	 */
-	public void SetInt(String key, Integer value) {
-		Set(key, value);
+	public void setInt(String key, Integer value) {
+		set(key, value);
 	}
 
-	/** 
+	/**
+	 * @deprecated Use {@link #setInt(String, Integer)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public void SetInt(String key, Integer value) {
+		setInt(key, value);
+	}
+
+	/**
 	 * Retrieves a float (double) value from the config.
-	 * @deprecated This method is outdated and will be removed in future versions.
+	 *
+	 * @param key config path
+	 * @return double value stored at {@code key}
+	 * @deprecated This method is outdated and will be removed in future versions. Use {@link #getDouble(String)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public Double getFloat(String key) {
+		return this.file.getConfig().getDouble(key);
+	}
+
+	/**
+	 * Retrieves a float (double) value from the config.
+	 *
+	 * @param key config path
+	 * @return double value stored at {@code key}
+	 * @deprecated Use {@link #getFloat(String)}.
 	 */
 	@Deprecated @MarkedForRemoval
 	public Double GetFloat(String key) {
-		return this.file.getConfig().getDouble(key);
+		return getFloat(key);
 	}
 
 	/**
@@ -230,20 +304,76 @@ public class Config {
 	 * @param key config path
 	 * @return double value (defaults to {@code 0.0} if missing)
 	 */
-	public Double GetDouble(String key) {
+	public Double getDouble(String key) {
 		return this.file.getConfig().getDouble(key);
 	}
-	
+
+	/**
+	 * @deprecated Use {@link #getDouble(String)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public Double GetDouble(String key) {
+		return getDouble(key);
+	}
+
 	/**
 	 * Sets a double value in-memory.
 	 *
 	 * @param key config path
 	 * @param value value to set
-	 * @see #SaveConfig()
+	 * @see #saveConfig()
 	 */
-	public void SetDouble(String key, Double value) {
-		Set(key, value);
+	public void setDouble(String key, Double value) {
+		set(key, value);
 	}
+
+	/**
+	 * @deprecated Use {@link #setDouble(String, Double)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public void SetDouble(String key, Double value) {
+		setDouble(key, value);
+	}
+
+	/** Gets an OfflinePlayer value.
+	 *
+	 * @param key config path
+	 * @return OfflinePlayer value or {@code null} if not present
+	 */
+	public OfflinePlayer getOfflinePlayer(String key) {
+		return this.file.getConfig().getOfflinePlayer(key);
+	}
+
+	/** Sets an OfflinePlayer value in-memory.
+	 *
+	 * @param key config path
+	 * @param value value to set
+	 * @see #saveConfig()
+	 */
+	public void setOfflinePlayer(String key, OfflinePlayer value) {
+		set(key, value);
+	}
+
+	/** Sets a ConfigurationSerializable value in-memory.
+	 *
+	 * @param key config path
+	 * @param value value to set
+	 * @see #saveConfig()
+	 */
+	public void setSerializable(String key, ConfigurationSerializable value) {
+		this.file.getConfig().set(key, value);
+	}
+
+	/** Gets a ConfigurationSerializable value.
+	 *
+	 * @param key config path
+	 * @param type class of the value to get
+	 * @return deserialized value, or {@code null} if not present
+	 */
+	public <T extends ConfigurationSerializable> T getSerializable(String key, Class<T> type) {
+		return this.file.getConfig().getSerializable(key, type);
+	}
+
 
 	/**
 	 * Gets a 2D vector.
@@ -254,10 +384,18 @@ public class Config {
 	 * @return vector composed from the stored x/y values (may contain {@code null}s if keys are missing)
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public <T extends Number> Vector2<T> GetVector2(String key) {
+	public <T extends Number> Vector2<T> getVector2(String key) {
 		return new Vector2((T) this.file.getConfig().get(key + ".x"), (T) this.file.getConfig().get(key + ".y"));
 	}
-	
+
+	/**
+	 * @deprecated Use {@link #getVector2(String)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public <T extends Number> Vector2<T> GetVector2(String key) {
+		return getVector2(key);
+	}
+
 	/**
 	 * Sets a 2D vector in-memory.
 	 *
@@ -265,11 +403,19 @@ public class Config {
 	 *
 	 * @param key base config path
 	 * @param value vector to store
-	 * @see #SaveConfig()
+	 * @see #saveConfig()
 	 */
+	public <T extends Number> void setVector2(String key, Vector2<T> value) {
+		set(key + ".x", value.x);
+		set(key + ".y", value.y);
+	}
+
+	/**
+	 * @deprecated Use {@link #setVector2(String, Vector2)}.
+	 */
+	@Deprecated @MarkedForRemoval
 	public <T extends Number> void SetVector2(String key, Vector2<T> value) {
-		Set(key + ".x", value.x);
-		Set(key + ".y", value.y);
+		setVector2(key, value);
 	}
 
 	/**
@@ -281,14 +427,22 @@ public class Config {
 	 * @return vector composed from the stored x/y/z values (may contain {@code null}s if keys are missing)
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public <T extends Number> Vector3<T> GetVector3(String key) {
+	public <T extends Number> Vector3<T> getVector3(String key) {
 		return new Vector3(
 				(T) this.file.getConfig().get(key + ".x"),
 				(T) this.file.getConfig().get(key + ".y"),
 				(T) this.file.getConfig().get(key + ".z")
 				);
 	}
-	
+
+	/**
+	 * @deprecated Use {@link #getVector3(String)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public <T extends Number> Vector3<T> GetVector3(String key) {
+		return getVector3(key);
+	}
+
 	/**
 	 * Sets a 3D vector in-memory.
 	 *
@@ -296,12 +450,20 @@ public class Config {
 	 *
 	 * @param key base config path
 	 * @param value vector to store
-	 * @see #SaveConfig()
+	 * @see #saveConfig()
 	 */
+	public <T extends Number> void setVector3(String key, Vector3<T> value) {
+		set(key + ".x", value.x);
+		set(key + ".y", value.y);
+		set(key + ".z", value.z);
+	}
+
+	/**
+	 * @deprecated Use {@link #setVector3(String, Vector3)}.
+	 */
+	@Deprecated @MarkedForRemoval
 	public <T extends Number> void SetVector3(String key, Vector3<T> value) {
-		Set(key + ".x", value.x);
-		Set(key + ".y", value.y);
-		Set(key + ".z", value.z);
+		setVector3(key, value);
 	}
 
 	/**
@@ -310,8 +472,16 @@ public class Config {
 	 * @param key config path containing the material name
 	 * @return resolved material, or {@code null} if the name is missing/invalid
 	 */
+	public Material getMaterial(String key) {
+		return Material.getMaterial(getString(key));
+	}
+
+	/**
+	 * @deprecated Use {@link #getMaterial(String)}.
+	 */
+	@Deprecated @MarkedForRemoval
 	public Material GetMaterial(String key) {
-		return Material.getMaterial(GetString(key));
+		return getMaterial(key);
 	}
 	
 	/**
@@ -319,10 +489,18 @@ public class Config {
 	 *
 	 * @param key config path
 	 * @param material material to store
-	 * @see #SaveConfig()
+	 * @see #saveConfig()
 	 */
+	public void setMaterial(String key, Material material) {
+		set(key, material.toString());
+	}
+
+	/**
+	 * @deprecated Use {@link #setMaterial(String, Material)}.
+	 */
+	@Deprecated @MarkedForRemoval
 	public void SetMaterial(String key, Material material) {
-		Set(key, material.toString());
+		setMaterial(key, material);
 	}
 
 	/**
@@ -331,8 +509,16 @@ public class Config {
 	 * @param key config path
 	 * @return stored value, or {@code null} if missing
 	 */
-	public Object Get(String key) {
+	public Object get(String key) {
 		return this.file.getConfig().get(key);
+	}
+
+	/**
+	 * @deprecated Use {@link #get(String)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public Object Get(String key) {
+		return get(key);
 	}
 
 	/**
@@ -340,10 +526,18 @@ public class Config {
 	 *
 	 * @param key config path
 	 * @param value value to set
-	 * @see #SaveConfig()
+	 * @see #saveConfig()
 	 */
-	public void Set(String key, Object value) {
+	public void set(String key, Object value) {
 		this.file.getConfig().set(key, value);
+	}
+
+	/**
+	 * @deprecated Use {@link #set(String, Object)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public void Set(String key, Object value) {
+		set(key, value);
 	}
 
 	/**
@@ -352,19 +546,35 @@ public class Config {
 	 * @param key config path
 	 * @return list (never {@code null}; may be empty)
 	 */
-	public List<String> GetStringList(String key) {
+	public List<String> getStringList(String key) {
 		return this.file.getConfig().getStringList(key);
 	}
-	
+
+	/**
+	 * @deprecated Use {@link #getStringList(String)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public List<String> GetStringList(String key) {
+		return getStringList(key);
+	}
+
 	/**
 	 * Sets a list of strings in-memory.
 	 *
 	 * @param key config path
 	 * @param value list to store
-	 * @see #SaveConfig()
+	 * @see #saveConfig()
 	 */
+	public void setStringList(String key, List<String> value) {
+		set(key, value);
+	}
+
+	/**
+	 * @deprecated Use {@link #setStringList(String, List)}.
+	 */
+	@Deprecated @MarkedForRemoval
 	public void SetStringList(String key, List<String> value) {
-		Set(key, value);
+		setStringList(key, value);
 	}
 
 	/**
@@ -373,19 +583,35 @@ public class Config {
 	 * @param key config path
 	 * @return list (never {@code null}; may be empty)
 	 */
-	public List<Integer> GetIntList(String key) {
+	public List<Integer> getIntList(String key) {
 		return this.file.getConfig().getIntegerList(key);
 	}
-	
+
+	/**
+	 * @deprecated Use {@link #getIntList(String)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public List<Integer> GetIntList(String key) {
+		return getIntList(key);
+	}
+
 	/**
 	 * Sets a list of integers in-memory.
 	 *
 	 * @param key config path
 	 * @param value list to store
-	 * @see #SaveConfig()
+	 * @see #saveConfig()
 	 */
+	public void setIntList(String key, List<Integer> value) {
+		set(key, value);
+	}
+
+	/**
+	 * @deprecated Use {@link #setIntList(String, List)}.
+	 */
+	@Deprecated @MarkedForRemoval
 	public void SetIntList(String key, List<Integer> value) {
-		Set(key, value);
+		setIntList(key, value);
 	}
 
 	/**
@@ -394,19 +620,35 @@ public class Config {
 	 * @param key config path
 	 * @return list (never {@code null}; may be empty)
 	 */
-	public List<Double> GetDoubleList(String key) {
+	public List<Double> getDoubleList(String key) {
 		return this.file.getConfig().getDoubleList(key);
 	}
-	
+
+	/**
+	 * @deprecated Use {@link #getDoubleList(String)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public List<Double> GetDoubleList(String key) {
+		return getDoubleList(key);
+	}
+
 	/**
 	 * Sets a list of doubles in-memory.
 	 *
 	 * @param key config path
 	 * @param value list to store
-	 * @see #SaveConfig()
+	 * @see #saveConfig()
 	 */
+	public void setDoubleList(String key, List<Double> value) {
+		set(key, value);
+	}
+
+	/**
+	 * @deprecated Use {@link #setDoubleList(String, List)}.
+	 */
+	@Deprecated @MarkedForRemoval
 	public void SetDoubleList(String key, List<Double> value) {
-		Set(key, value);
+		setDoubleList(key, value);
 	}
 
 	/**
@@ -415,19 +657,35 @@ public class Config {
 	 * @param key config path
 	 * @return list, or {@code null} if missing
 	 */
-	public List<?> GetList(String key) {
+	public List<?> getList(String key) {
 		return this.file.getConfig().getList(key);
 	}
-	
+
+	/**
+	 * @deprecated Use {@link #getList(String)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public List<?> GetList(String key) {
+		return getList(key);
+	}
+
 	/**
 	 * Sets a raw list in-memory.
 	 *
 	 * @param key config path
 	 * @param value list to store
-	 * @see #SaveConfig()
+	 * @see #saveConfig()
 	 */
+	public void setList(String key, List<?> value) {
+		set(key, value);
+	}
+
+	/**
+	 * @deprecated Use {@link #setList(String, List)}.
+	 */
+	@Deprecated @MarkedForRemoval
 	public void SetList(String key, List<?> value) {
-		Set(key, value);
+		setList(key, value);
 	}
 
 	/**
@@ -436,19 +694,35 @@ public class Config {
 	 * @param key config path
 	 * @return deserialized item, or {@code null} if missing
 	 */
-	public ItemStack GetItemStack(String key) {
+	public ItemStack getItemStack(String key) {
 		return this.file.getConfig().getItemStack(key);
 	}
-	
+
+	/**
+	 * @deprecated Use {@link #getItemStack(String)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public ItemStack GetItemStack(String key) {
+		return getItemStack(key);
+	}
+
 	/**
 	 * Stores an {@link ItemStack} (in-memory).
 	 *
 	 * @param key config path
 	 * @param item item to store
-	 * @see #SaveConfig()
+	 * @see #saveConfig()
 	 */
+	public void setItemStack(String key, ItemStack item) {
+		set(key, item);
+	}
+
+	/**
+	 * @deprecated Use {@link #setItemStack(String, ItemStack)}.
+	 */
+	@Deprecated @MarkedForRemoval
 	public void SetItemStack(String key, ItemStack item) {
-		Set(key, item);
+		setItemStack(key, item);
 	}
 
 	/**
@@ -458,33 +732,49 @@ public class Config {
 	 * @return {@code true} if present; {@code false} if not present; or {@code null} when {@code key}
 	 *         is {@code null}/empty (also logs an error)
 	 */
-	public Boolean HasKey(String key) {
+	public Boolean hasKey(String key) {
 		if (Utils.IsStringNullOrEmpty(key)) {
-			Log.Error(plugin, "[ValorlessUtils] " + plugin.getName() + ".config.HasKey() was called with a null or empty key!");
+			Log.error(plugin, "[ValorlessUtils] " + plugin.getName() + ".config.hasKey() was called with a null or empty key!");
 			return null;
 		}
 		return this.file.getConfig().contains(key, true);
 	}
 
 	/**
+	 * @deprecated Use {@link #hasKey(String)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public Boolean HasKey(String key) {
+		return hasKey(key);
+	}
+
+	/**
 	 * Gets a {@link ConfigurationSection} at the given key.
 	 *
 	 * <p>This first attempts {@link YamlFile#getConfigurationSection(String)}. If that returns
-	 * {@code null}, it falls back to {@link #GetSection(String)} for compatibility with different
+	 * {@code null}, it falls back to {@link #getSection(String)} for compatibility with different
 	 * underlying YAML implementations.</p>
 	 *
 	 * @param key config path
 	 * @return the configuration section for {@code key}, or {@code null} if {@code key} is
 	 *         {@code null}/empty (logs an error) or the section does not exist
 	 */
-	public ConfigurationSection GetConfigurationSection(String key) {
+	public ConfigurationSection getConfigurationSection(String key) {
 		if (Utils.IsStringNullOrEmpty(key)) {
-			Log.Error(plugin, "[ValorlessUtils] " + plugin.getName() + ".config.GetConfigurationSection() was called with a null or empty key!");
+			Log.error(plugin, "[ValorlessUtils] " + plugin.getName() + ".config.getConfigurationSection() was called with a null or empty key!");
 			return null;
 		}
 		
-		ConfigurationSection section = GetFile().getConfigurationSection(key);
-		return section != null ? section : GetSection(key);
+		ConfigurationSection section = getFile().getConfigurationSection(key);
+		return section != null ? section : getSection(key);
+	}
+
+	/**
+	 * @deprecated Use {@link #getConfigurationSection(String)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public ConfigurationSection GetConfigurationSection(String key) {
+		return getConfigurationSection(key);
 	}
 
 	/**
@@ -493,12 +783,20 @@ public class Config {
 	 * @param key config path
 	 * @return the section, or {@code null} if missing/invalid key
 	 */
-	public ConfigurationSection GetSection(String key) {
+	public ConfigurationSection getSection(String key) {
 		if (Utils.IsStringNullOrEmpty(key)) {
-			Log.Error(plugin, "[ValorlessUtils] " + plugin.getName() + ".config.GetSection() was called with a null or empty key!");
+			Log.error(plugin, "[ValorlessUtils] " + plugin.getName() + ".config.getSection() was called with a null or empty key!");
 			return null;
 		}
-		return GetFile().getSection(key);
+		return getFile().getSection(key);
+	}
+
+	/**
+	 * @deprecated Use {@link #getSection(String)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public ConfigurationSection GetSection(String key) {
+		return getSection(key);
 	}
 
 	/**
@@ -507,12 +805,20 @@ public class Config {
 	 * @param key config path
 	 * @return comment lines, or {@code null} if {@code key} is {@code null}/empty
 	 */
-	public List<String> GetComments(String key) {
+	public List<String> getComments(String key) {
 		if (Utils.IsStringNullOrEmpty(key)) {
-			Log.Error(plugin, "[ValorlessUtils] " + plugin.getName() + ".config.GetComment() was called with a null or empty key!");
+			Log.error(plugin, "[ValorlessUtils] " + plugin.getName() + ".config.getComment() was called with a null or empty key!");
 			return null;
 		}
-		return GetFile().getConfig().getComments(key);
+		return getFile().getConfig().getComments(key);
+	}
+
+	/**
+	 * @deprecated Use {@link #getComments(String)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public List<String> GetComments(String key) {
+		return getComments(key);
 	}
 
 	/**
@@ -521,12 +827,47 @@ public class Config {
 	 * @param key config path
 	 * @param comments comment lines to store
 	 */
-	public void SetComments(String key, List<String> comments) {
+	public void setComments(String key, List<String> comments) {
 		if (Utils.IsStringNullOrEmpty(key)) {
-			Log.Error(plugin, "[ValorlessUtils] " + plugin.getName() + ".config.SetComment() was called with a null or empty key!");
+			Log.error(plugin, "[ValorlessUtils] " + plugin.getName() + ".config.setComment() was called with a null or empty key!");
 		}
-		//GetFile().setComments(key, comments);
-		GetFile().getConfig().setComments(key, comments);
+		//getFile().setComments(key, comments);
+		getFile().getConfig().setComments(key, comments);
+	}
+
+	/**
+	 * @deprecated Use {@link #setComments(String, List)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public void SetComments(String key, List<String> comments) {
+		setComments(key, comments);
+	}
+
+	/**
+	 * Gets inline comments associated with a key.
+	 *
+	 * @param key config path
+	 * @return inline comment lines, or {@code null} if {@code key} is {@code null}/empty
+	 */
+	public List<String> getInlineComment(String key) {
+		if (Utils.IsStringNullOrEmpty(key)) {
+			Log.error(plugin, "[ValorlessUtils] " + plugin.getName() + ".config.getInlineComment() was called with a null or empty key!");
+			return null;
+		}
+		return getFile().getConfig().getInlineComments(key);
+	}
+
+	/**
+	 * Sets inline comments for a key.
+	 *
+	 * @param key config path
+	 * @param comments inline comment lines to store
+	 */
+	public void setInlineComment(String key, List<String> comments) {
+		if (Utils.IsStringNullOrEmpty(key)) {
+			Log.error(plugin, "[ValorlessUtils] " + plugin.getName() + ".config.setInlineComment() was called with a null or empty key!");
+		}
+		getFile().getConfig().setInlineComments(key, comments);
 	}
 
 	/**
@@ -534,23 +875,47 @@ public class Config {
 	 *
 	 * @return backing {@link YamlFile}
 	 */
-	public YamlFile GetFile() {
+	public YamlFile getFile() {
 		return this.file;
+	}
+
+	/**
+	 * @deprecated Use {@link #getFile()}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public YamlFile GetFile() {
+		return getFile();
 	}
 
 	/**
 	 * Reloads the configuration from disk.
 	 */
-	public void Reload() {
+	public void reload() {
 		this.file.reload();
-		//this.Validate();
+		//this.validate();
+	}
+
+	/**
+	 * @deprecated Use {@link #reload()}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public void Reload() {
+		reload();
 	}
 
 	/**
 	 * Saves the configuration to disk.
 	 */
-	public void SaveConfig() {
+	public void saveConfig() {
 		this.file.save();
+	}
+
+	/**
+	 * @deprecated Use {@link #saveConfig()}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public void SaveConfig() {
+		saveConfig();
 	}
 
 	// ====================
@@ -560,10 +925,11 @@ public class Config {
 	/**
 	 * Represents a key-value entry for configuration validation.
 	 */
-	public class ValidationListEntry {
+	public static class ValidationListEntry {
 		public String key;
 		public Object defaultValue;
-		public List<String> comments;	
+		public List<String> comments;
+		public boolean inline = false;
 
 		/** Constructs a ValidationListEntry with a key and default value. */
 		public ValidationListEntry(String key, Object defaultValue) {
@@ -576,7 +942,16 @@ public class Config {
 			this.key = key;
 			this.defaultValue = defaultValue;
 			this.comments = comments;
-		}	
+		}
+
+		/** Constructs a ValidationListEntry with a key, default value, comments, and inline flag. */
+		public ValidationListEntry(String key, Object defaultValue, List<String> comments, boolean inline) {
+			this.key = key;
+			this.defaultValue = defaultValue;
+			this.comments = comments;
+			this.inline = inline;
+		}
+
 	}
 
 	/** List of entries used for validating the config. */
@@ -585,15 +960,23 @@ public class Config {
 	/**
 	 * Adds a validation entry.
 	 *
-	 * <p>During {@link #Validate()}, missing keys will be created with {@code value}.</p>
+	 * <p>During {@link #validate()}, missing keys will be created with {@code value}.</p>
 	 *
 	 * @param key config path
 	 * @param value default value to write when missing
 	 */
-	public void AddValidationEntry(String key, Object value) {
+	public void addValidationEntry(String key, Object value) {
 		this.validationList.add(new ValidationListEntry(key, value));
 	}
-	
+
+	/**
+	 * @deprecated Use {@link #addValidationEntry(String, Object)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public void AddValidationEntry(String key, Object value) {
+		addValidationEntry(key, value);
+	}
+
 	/**
 	 * Adds a validation entry with comments.
 	 *
@@ -601,10 +984,18 @@ public class Config {
 	 * @param value default value to write when missing
 	 * @param comments comment lines to associate with the key
 	 */
-	public void AddValidationEntry(String key, Object value, List<String> comments) {
+	public void addValidationEntry(String key, Object value, List<String> comments) {
 		this.validationList.add(new ValidationListEntry(key, value, comments));
 	}
-	
+
+	/**
+	 * @deprecated Use {@link #addValidationEntry(String, Object, List)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public void AddValidationEntry(String key, Object value, List<String> comments) {
+		addValidationEntry(key, value, comments);
+	}
+
 	/**
 	 * Adds a validation entry with a single comment line.
 	 *
@@ -612,8 +1003,38 @@ public class Config {
 	 * @param value default value to write when missing
 	 * @param comment comment line to associate with the key
 	 */
-	public void AddValidationEntry(String key, Object value, String comment) {
+	public void addValidationEntry(String key, Object value, String comment) {
 		this.validationList.add(new ValidationListEntry(key, value, comment != null ? List.of(comment) : null));
+	}
+
+	/**
+	 * @deprecated Use {@link #addValidationEntry(String, Object, String)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public void AddValidationEntry(String key, Object value, String comment) {
+		addValidationEntry(key, value, comment);
+	}
+
+	/** Adds a validation entry with comments and an inline flag.
+	 *
+	 * @param key config path
+	 * @param value default value to write when missing
+	 * @param comments comment lines to associate with the key
+	 * @param inline whether the comments should be inline (true) or block (false)
+	 */
+	public void addValidationEntry(String key, Object value, List<String> comments, boolean inline) {
+		this.validationList.add(new ValidationListEntry(key, value, comments, inline));
+	}
+
+	/** Adds a validation entry with a single comment line and an inline flag.
+	 *
+	 * @param key config path
+	 * @param value default value to write when missing
+	 * @param comment comment line to associate with the key
+	 * @param inline whether the comment should be inline (true) or block (false)
+	 */
+	public void addValidationEntry(String key, Object value, String comment, boolean inline) {
+		this.validationList.add(new ValidationListEntry(key, value, comment != null ? List.of(comment) : null, inline));
 	}
 
 	/**
@@ -624,9 +1045,17 @@ public class Config {
 	 * @param key base config path
 	 * @param value vector providing default x/y values
 	 */
-	public <T extends Number> void AddValidationEntry(String key, Vector2<T> value) {
+	public <T extends Number> void addValidationEntry(String key, Vector2<T> value) {
 		this.validationList.add(new ValidationListEntry(key + ".x", value.x));
 		this.validationList.add(new ValidationListEntry(key + ".y", value.y));
+	}
+
+	/**
+	 * @deprecated Use {@link #addValidationEntry(String, Vector2)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public <T extends Number> void AddValidationEntry(String key, Vector2<T> value) {
+		addValidationEntry(key, value);
 	}
 
 	/**
@@ -637,10 +1066,18 @@ public class Config {
 	 * @param key base config path
 	 * @param value vector providing default x/y/z values
 	 */
-	public <T extends Number> void AddValidationEntry(String key, Vector3<T> value) {
+	public <T extends Number> void addValidationEntry(String key, Vector3<T> value) {
 		this.validationList.add(new ValidationListEntry(key + ".x", value.x));
 		this.validationList.add(new ValidationListEntry(key + ".y", value.y));
 		this.validationList.add(new ValidationListEntry(key + ".z", value.z));
+	}
+
+	/**
+	 * @deprecated Use {@link #addValidationEntry(String, Vector3)}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public <T extends Number> void AddValidationEntry(String key, Vector3<T> value) {
+		addValidationEntry(key, value);
 	}
 
 	/**
@@ -648,24 +1085,36 @@ public class Config {
 	 *
 	 * <p>If any keys are missing, they are added with their defaults and the file is saved.</p>
 	 */
-	public void Validate() {
-		Boolean missing = false;
+	public void validate() {
+		boolean missing = false;
 		String parent = new File(file.getFile().getParent()).getName();
-		Log.Debug(plugin, "Validating " + parent + "/" + file.getFile().getName() + "...");
+		Log.debug(plugin, "Validating " + parent + "/" + file.getFile().getName() + "...");
 
 		for (ValidationListEntry item : this.validationList) {
-			if (!this.HasKey(item.key)) {
-				this.Set(item.key, item.defaultValue);
+			if (!this.hasKey(item.key)) {
+				this.set(item.key, item.defaultValue);
 				if(item.comments != null && !item.comments.isEmpty()) {
-					this.SetComments(item.key, item.comments);
+					if(item.inline){
+						this.setInlineComment(item.key, item.comments);
+					}else {
+						this.setComments(item.key, item.comments);
+					}
 				}
 				missing = true;
 			}
 		}
 
 		if (missing) {
-			Log.Warning(plugin, "New or missing config values have been added.");
-			this.SaveConfig();
+			Log.warning(plugin, "New or missing config values have been added.");
+			this.saveConfig();
 		}
+	}
+
+	/**
+	 * @deprecated Use {@link #validate()}.
+	 */
+	@Deprecated @MarkedForRemoval
+	public void Validate() {
+		validate();
 	}
 }
