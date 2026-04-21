@@ -18,6 +18,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import valorless.annotations.MarkedForRemoval;
+import valorless.color.Lang;
 import valorless.valorlessutils.Server.Version;
 import valorless.valorlessutils.config.Config;
 import valorless.valorlessutils.havenbags.HavenBagsPlacementBlocker;
@@ -34,6 +35,9 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     /** Instance of this plugin for static access. */
     public static JavaPlugin thisPlugin;
     public static JavaPlugin plugin;
+
+    /** Language handler instance for localization and message parsing. */
+    private static Lang lang;
     
 
     /** Map to store plugin-specific configurations. */
@@ -68,6 +72,14 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
         }
     }
 
+    /** Returns the language handler instance for this plugin.
+     *
+     * @return The {@link Lang} instance used for localization.
+     */
+    public static Lang getLang() {
+        return lang;
+    }
+
     /**
      * Called when the plugin is being loaded.
      * <p>
@@ -78,6 +90,8 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
         thisPlugin = this;
         plugin = this;
         version = Server.ResolveVersion();
+
+        lang = new Lang(plugin);
     }
 
     /**
