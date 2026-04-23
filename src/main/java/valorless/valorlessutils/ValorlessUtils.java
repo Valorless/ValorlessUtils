@@ -18,9 +18,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import valorless.annotations.MarkedForRemoval;
-import valorless.color.Lang;
-import valorless.cache.PlayerCache;
-import valorless.cache.SkinCache;
+import valorless.valorlessutils.color.Lang;
+import valorless.valorlessutils.cache.PlayerCache;
+import valorless.valorlessutils.cache.SkinCache;
 import valorless.valorlessutils.Server.Version;
 import valorless.valorlessutils.config.Config;
 import valorless.valorlessutils.havenbags.HavenBagsPlacementBlocker;

@@ -1,4 +1,4 @@
-package valorless.cache;
+package valorless.valorlessutils.cache;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;

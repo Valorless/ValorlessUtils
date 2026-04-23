@@ -1,7 +1,7 @@
 package valorless.valorlessutils.logging;
 
 import org.bukkit.plugin.java.JavaPlugin;
-import valorless.color.McToAnsi;
+import valorless.valorlessutils.color.McToAnsi;
 import valorless.valorlessutils.ValorlessUtils;
 import valorless.valorlessutils.config.Config;
 

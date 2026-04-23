@@ -1,4 +1,4 @@
-package valorless.color;
+package valorless.valorlessutils.color;
 
 import java.util.Map;
 import java.util.regex.Matcher;

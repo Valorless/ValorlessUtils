@@ -1,4 +1,4 @@
-package valorless.color;
+package valorless.valorlessutils.color;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
