@@ -19,8 +19,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import valorless.annotations.MarkedForRemoval;
 import valorless.color.Lang;
-import valorless.player.PlayerCache;
-import valorless.player.SkinCache;
+import valorless.cache.PlayerCache;
+import valorless.cache.SkinCache;
 import valorless.valorlessutils.Server.Version;
 import valorless.valorlessutils.config.Config;
 import valorless.valorlessutils.havenbags.HavenBagsPlacementBlocker;

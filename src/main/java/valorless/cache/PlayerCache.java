@@ -1,4 +1,4 @@
-package valorless.player;
+package valorless.cache;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -53,7 +53,7 @@ public class PlayerCache implements Listener {
 	 * @param username the player's username to look up
 	 * @return the {@link UUID} of the player, or {@code null} if not found in the cache
 	 */
-	public static UUID getUUIDByUsername(String username) {
+	public static UUID getUUID(String username) {
 		for (String key : cache.keySet()) {
 			if (key.equals(username)) {
 				return cache.get(key);
@@ -68,7 +68,7 @@ public class PlayerCache implements Listener {
 	 * @param username the player's username to look up
 	 * @return the {@link OfflinePlayer} instance, or {@code null} if not found in the cache
 	 */
-	public static OfflinePlayer getPlayerByUsername(String username) {
+	public static OfflinePlayer getPlayer(String username) {
 		for (String key : cache.keySet()) {
 			if (key.equals(username)) {
 				UUID uuid = cache.get(key);
