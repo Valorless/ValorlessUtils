@@ -4,6 +4,8 @@ import org.bukkit.Bukkit;
 
 import valorless.valorlessutils.ValorlessUtils.Log;
 
+import java.lang.management.ManagementFactory;
+
 /**
  * Utility class for handling and comparing Minecraft server versions.
  * <p>
@@ -28,7 +30,7 @@ public class Server {
         v1_19, v1_19_1, v1_19_2, v1_19_3, v1_19_4, 
         v1_20, v1_20_1, v1_20_2, v1_20_3, v1_20_4, v1_20_5, v1_20_6, 
         v1_21, v1_21_1, v1_21_2, v1_21_3, v1_21_4, v1_21_5, v1_21_6, v1_21_7, v1_21_8, v1_21_9, v1_21_10, v1_21_11,
-        v26_1, v26_2, v26_3, v26_4,
+        v26_1, v26_1_1, v26_1_2, v26_1_3, v26_1_4, v26_2, v26_3, v26_4,
         v27_1, v27_2, v27_3, v27_4,
 		v28_1, v28_2, v28_3, v28_4,
 		v29_1, v29_2, v29_3, v29_4,
@@ -128,5 +130,34 @@ public class Server {
      */
     public static Boolean VersionEqualTo(Version version) {
         return ValorlessUtils.getServerVersion() == version;
+    }
+
+    /**
+     * Determines if the server has been fully loaded, hinting that the plugin
+     * was most likely enabled after startup rather than on initial server start.
+     * <p>
+     * Uses a 60-second threshold to detect if the server has been running long
+     * enough to be considered fully loaded.
+     * </p>
+     *
+     * @return true if the server has been up longer than 60 seconds; false otherwise
+     */
+    public static boolean isServerLikelyLoaded() {
+        return serverHasBeenUpLongerThan(60_000L);
+    }
+
+    /**
+     * Checks if the server JVM has been running longer than the specified milliseconds.
+     * <p>
+     * Used to infer whether the server is fully loaded by checking the JVM uptime against
+     * a threshold value.
+     * </p>
+     *
+     * @param millis the threshold in milliseconds to check against
+     * @return true if the server uptime exceeds the specified threshold; false otherwise
+     */
+    public static boolean serverHasBeenUpLongerThan(long millis) {
+        long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
+        return uptime > millis;
     }
 }
