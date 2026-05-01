@@ -1,4 +1,6 @@
 valorless.annotations
+valorless.valorlessutils.cache
+valorless.valorlessutils.color
 valorless.valorlessutils.config
 valorless.valorlessutils.crafting
 valorless.valorlessutils
@@ -7,6 +9,7 @@ valorless.valorlessutils.file
 valorless.valorlessutils.havenbags
 valorless.valorlessutils.items
 valorless.valorlessutils.json
+valorless.valorlessutils.logging
 valorless.valorlessutils.nbt
 valorless.valorlessutils.reloader
 valorless.valorlessutils.skulls
