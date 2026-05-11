@@ -231,7 +231,8 @@ public class Translator {
     	                "https://raw.githubusercontent.com/Valorless/ValorlessUtils/refs/heads/dev/languages/%s/%s.lang", 
     	                ValorlessUtils.getServerVersionString(), key)
     			);
-    	
+
+		List<String> branches = List.of("main", "dev");
     	
 
         String path = String.format("%s/languages/%s/%s.lang", ValorlessUtils.thisPlugin.getDataFolder(),
@@ -245,9 +246,11 @@ public class Translator {
             return null;
         }
 
+		int i = 0;
         for(String netpath : netpathList) {
-        	Log.Info(ValorlessUtils.thisPlugin, String.format("Downloading '%s' language file from GitHub..\nPlease wait.", key));
-        	try {
+        	Log.Info(ValorlessUtils.thisPlugin, String.format("Downloading '%s' language file from GitHub - Branch: %s..\nPlease wait.", key, branches.get(i)));
+        	i++;
+			try {
         		// Create necessary directories
         		languageFile.getParentFile().mkdirs();
 
@@ -267,7 +270,7 @@ public class Translator {
         		long endTime = System.currentTimeMillis();
         		long duration = endTime - startTime;
         		Log.Error(ValorlessUtils.thisPlugin, String.format("Download failed. %sms", duration));
-        		e.printStackTrace();
+        		//e.printStackTrace();
         		continue; // Try the next URL if the download fails
         	}
 
