@@ -92,7 +92,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
         thisPlugin = this;
         plugin = this;
         version = Server.resolveVersion();
-        Logger.getLogger("Minecraft").log(Level.SEVERE, "[" + ValorlessUtils.plugin.getName() + "] Found " + version.toString());
+        Logger.getLogger("Minecraft").log(Level.INFO, "[" + ValorlessUtils.plugin.getName() + "] Found " + version.toString());
 
 
         lang = new Lang(plugin);
