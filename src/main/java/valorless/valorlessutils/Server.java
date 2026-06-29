@@ -35,7 +35,7 @@ public class Server {
         v1_19, v1_19_1, v1_19_2, v1_19_3, v1_19_4, 
         v1_20, v1_20_1, v1_20_2, v1_20_3, v1_20_4, v1_20_5, v1_20_6, 
         v1_21, v1_21_1, v1_21_2, v1_21_3, v1_21_4, v1_21_5, v1_21_6, v1_21_7, v1_21_8, v1_21_9, v1_21_10, v1_21_11,
-        v26_1, v26_1_1, v26_1_2, v26_1_3, v26_1_4, v26_2, v26_3, v26_4,
+        v26_1, v26_1_1, v26_1_2, v26_2, v26_3, v26_4,
         v27_1, v27_2, v27_3, v27_4,
 		v28_1, v28_2, v28_3, v28_4,
 		v29_1, v29_2, v29_3, v29_4,
@@ -115,16 +115,17 @@ public class Server {
             Logger.getLogger("Minecraft").log(Level.INFO, "[" + ValorlessUtils.plugin.getName() + "] " + Bukkit.getBukkitVersion());
 
             String[] split = Bukkit.getBukkitVersion().split("\\.");
-            //Logger.getLogger("Minecraft").log(Level.SEVERE, "[" + ValorlessUtils.plugin.getName() + "] " + String.join(", ", split));
+            Logger.getLogger("Minecraft").log(Level.INFO, "[" + ValorlessUtils.plugin.getName() + "] " + String.join(", ", split));
 
             String i = split[0];
-            if(Integer.parseInt(i) == 1) {
+            Logger.getLogger("Minecraft").log(Level.INFO, "[" + ValorlessUtils.plugin.getName() + "] " + i);
+            int major = Integer.parseInt(i);
+            if(major == 1) {
                 // Parse version string (e.g., "1.19.4-R0.1-SNAPSHOT") into enum format
                 String v = Bukkit.getBukkitVersion().split("-")[0];
                 return Version.valueOf("v" + v.replace(".", "_"));
-            }else if (Integer.parseInt(i) >= 26) {
+            }else if (major >= 26) {
                 // Parse version string (e.g., "26.1.2.build.63-stable") into enum format
-                int major = Integer.parseInt(split[0]);
                 int minor = Integer.parseInt(split[1]);
                 int hotfix = 0;
                 try{
@@ -133,6 +134,8 @@ public class Server {
                     hotfix = 0;
                 }
                 String v = String.format("%s.%s.%s", major, minor, hotfix);
+                if(hotfix == 0) v = String.format("%s.%s", major, minor);
+                Logger.getLogger("Minecraft").log(Level.INFO, "[" + ValorlessUtils.plugin.getName() + "] " + v);
                 return Version.valueOf("v" + v.replace(".", "_"));
             }else{
                 String msg = McToAnsi.convert("Failed to resolve server version, some functions might not work correctly.");
