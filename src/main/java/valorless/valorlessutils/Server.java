@@ -283,4 +283,34 @@ public class Server {
         long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
         return uptime > millis;
     }
+
+    /**
+     * Utility class for detecting the server type (Paper or Spigot).
+     * Used to enable or disable features based on server capabilities.
+     */
+    public final class ServerType {
+        /**
+         * True if the server is Paper or a fork (Purpur, Pufferfish, Folia, etc.), false if Spigot.
+         */
+        private static final boolean PAPER;
+
+        static {
+            boolean found = false;
+            try {
+                // Paper-only API package (doesn't exist on Spigot)
+                Class.forName("com.destroystokyo.paper.PaperConfig");
+                found = true;
+            } catch (ClassNotFoundException ignored) {
+            }
+            PAPER = found;
+        }
+
+        /**
+         * Returns true if the server is Paper or a fork of it (Purpur, Pufferfish, Folia, etc.).
+         * @return true if running on Paper, false if Spigot.
+         */
+        public static boolean isPaper() {
+            return PAPER;
+        }
+    }
 }
