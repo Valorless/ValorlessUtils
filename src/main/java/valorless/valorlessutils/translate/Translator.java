@@ -1,17 +1,15 @@
 package valorless.valorlessutils.translate;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
-
-import org.bukkit.Bukkit;
 
 import com.google.gson.Gson;
 
 import valorless.valorlessutils.Server;
 import valorless.valorlessutils.ValorlessUtils;
-import valorless.valorlessutils.ValorlessUtils.Log;
+import valorless.valorlessutils.logging.Log;
 
 import com.google.common.reflect.TypeToken;
 
@@ -25,49 +23,78 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
+/**
+ * Handles loading, caching, and retrieving Minecraft item/block translation strings
+ * for a given {@link Language}.
+ *
+ * <p>On construction, the translator attempts to load the appropriate {@code .lang}
+ * file from the plugin's data folder. If the file is not present it will be downloaded
+ * from the ValorlessUtils GitHub repository. When no server version is available (e.g.
+ * during unit-tests or early startup) a bundled fallback file is used instead.</p>
+ *
+ * <p>All translation keys follow the standard Minecraft namespaced-key format
+ * (e.g. {@code "block.minecraft.stone"}).</p>
+ *
+ * @see Language
+ */
 public class Translator {
 
-    // Default language set to "en_us"
-    String language = "en_us";
-    
-    // Map to store language translations
-    Map<String, String> languageMap = new HashMap<String, String>();
-    
-    // List of all available languages
-    final String[] languages = {
-    		"da_dk (Danish)",
-    		"de_de (German)",
-    		"en_gb (English)",
-    		"en_pt (Pirate Speak)",
-    		"en_us (American English)",
-    		"es_es (Spanish)",
-    		"fr_fr (French)",
-    		"ja_jp (Japanese)",
-    		"ko_kr (Korean)",
-    		"nl_nl (Dutch)",
-    		"pl_pl (Polish)",
-    		"pt_br (Portuguese (Brasil))",
-    		"pt_pt (Portuguese (Portugal))",
-    		"ru_ru (Russian)",
-    		"tr_tr (Turkish)",
-    		"zh_cn (Chinese (Simplified))"
-    };
+	/** The URL pattern for downloading language files from the ValorlessUtils GitHub repository.
+	 * The placeholders are replaced with the server version and language code, respectively.
+	 */
+	final String BRANCH_MAIN_PATH = "https://raw.githubusercontent.com/Valorless/ValorlessUtils/refs/heads/main/languages/%s/%s.lang";
+	final String BRANCH_DEV_PATH = "https://raw.githubusercontent.com/Valorless/ValorlessUtils/refs/heads/dev/languages/%s/%s.lang";
+
+    /** The active language used for all translation look-ups. Defaults to {@link Language#EN_US}. */
+	Language language = Language.EN_US;
 
     /**
-     * Constructor for Translator class.
-     * @param key The language key to initialize the translator with.
+     * In-memory cache of translation key → localised string pairs loaded from the
+     * active language file.  {@code null} entries indicate a missing or corrupt file.
      */
+    Map<String, String> languageMap = new HashMap<String, String>();
+
+	/**
+	 * Creates a new {@code Translator} and immediately loads translations for the
+	 * given {@link Language}.
+	 *
+	 * @param language the language whose translation file should be loaded; must not
+	 *                 be {@code null}.
+	 */
+	public Translator(Language language) {
+		this.language = language;
+		this.languageMap = loadLanguage(language);
+	}
+
+    /**
+     * Creates a new {@code Translator} and immediately loads translations for the
+     * language identified by {@code key}.
+     *
+     * @param key the language code (e.g. {@code "en_us"}) used to look
+     *            up the corresponding {@link Language} constant.
+     * @deprecated Use {@link #Translator(Language)} instead.  This constructor will
+     *             be removed in a future release.
+     */
+	@Deprecated(since = "Replaced by Translator(Language), will still work until removed.", forRemoval = true)
     public Translator(String key) {
-        this.language = key;
-		this.languageMap = LoadLanguage(key);
+		Language language = Language.getLanguage(key);
+		this.language = language;
+		this.languageMap = loadLanguage(language);
     }
 
     /**
-     * Translates a given key to the corresponding language.
-     * @param translationKey The key to be translated.
-     * @return The translated string or the original key if translation is not available.
+     * Returns the localised string for the given Minecraft translation key.
+     *
+     * <p>If the language map has not been loaded (e.g. the language file could not be
+     * found or parsed), the original {@code translationKey} is returned unchanged so
+     * that callers always receive a non-{@code null} result.</p>
+     *
+     * @param translationKey the Minecraft translation key to look up
+     *                       (e.g. {@code "item.minecraft.diamond_sword"}).
+     * @return the localised display name, or {@code translationKey} itself if no
+     *         mapping is available.
      */
-    public String Translate(String translationKey) {
+    public String translate(String translationKey) {
         if (languageMap == null) {
             return translationKey;
         } else {
@@ -75,69 +102,103 @@ public class Translator {
         }
     }
 
+	/**
+	 * Returns the localised string for the given Minecraft translation key.
+	 *
+	 * @param translationKey the Minecraft translation key to look up.
+	 * @return the localised display name, or {@code translationKey} if no mapping is
+	 *         available.
+	 * @deprecated Use {@link #translate(String)} instead.  This method will be
+	 *             removed in a future release.
+	 */
+	@Deprecated(since = "Replaced by translate()", forRemoval = true)
+	public String Translate(String translationKey) {
+		return translate(translationKey);
+	}
+
     /**
-     * Gets the current language key.
-     * @return The current language key.
+     * Returns the {@link Language} that is currently active for this translator.
+     *
+     * @return the active {@link Language}; never {@code null}.
      */
-    public String GetLanguageKey() {
+    public Language getLanguage() {
         return language;
     }
 
+	/**
+	 * Returns the language code for the currently active language
+	 * (e.g. {@code "en_us"}).
+	 *
+	 * @return the language code string.
+	 * @deprecated Use {@link #getLanguage()} and call {@link Language#getCode()} on
+	 *             the result instead.  This method will be removed in a future release.
+	 */
+	@Deprecated(since = "Replaced by getLanguage()", forRemoval = true)
+	public String GetLanguageKey() {
+		return language.getCode();
+	}
+
     /**
-     * Loads language translations from a file or downloads it if necessary.
-     * <p>
-     * This method checks if the specified language file exists. If it does, it loads the content of the file. 
-     * If the file doesn't exist or the server version is NULL, it attempts to download the language file 
-     * or fall back to a default language. If any errors occur during the loading process, it logs the error 
-     * and returns the content of the English language file as a fallback.
-     * </p>
-     * 
-     * @param key The language key (e.g., "en_us").
-     * @return A map containing the translations as key-value pairs.
+     * Loads the translation map for the specified {@link Language}.
+     *
+     * <p>The resolution order is:</p>
+     * <ol>
+     *   <li>If the server version is {@link valorless.valorlessutils.Server.Version#NULL},
+     *       the bundled {@code fallback.lang} resource is used.</li>
+     *   <li>If the language file already exists in the plugin data folder, it is read
+     *       directly from disk.</li>
+     *   <li>Otherwise the file is downloaded from the ValorlessUtils GitHub repository
+     *       (see {@link #downloadLanguage(Language)}).</li>
+     * </ol>
+     *
+     * <p>If an error occurs at any stage, the method logs the failure and falls back to
+     * the bundled {@code fallback.lang} language file.</p>
+     *
+     * @param language the language to load; must not be {@code null}.
+     * @return a {@link Map} of translation key → localised string pairs, or the
+     *         fallback map if loading fails.
      */
-    Map<String, String> LoadLanguage(String key)  {
+    Map<String, String> loadLanguage(Language language)  {
     	try {
     		String json = "";
     		if(ValorlessUtils.getServerVersion() == Server.Version.NULL) {
-    			json = LoadFallbackLanguage();
+    			json = loadFallbackLanguage();
     		}
-    		else if(FileExists(key)) {
-    			json = GetLanguageFileContent(key);
+    		else if(fileExists(language)) {
+    			json = getLanguageFileContent(language);
     		}else {
-    			json = DownloadLanguage(key);
+    			json = downloadLanguage(language);
     		}
     		
-        	@SuppressWarnings("serial")
         	Type mapType = new TypeToken<Map<String, String>>() {}.getType();
         	Map<String, String> son = new Gson().fromJson(json, mapType);
-        	Log.Info(ValorlessUtils.thisPlugin, String.format("Loaded language '%s'.", key));
+        	Log.info(ValorlessUtils.plugin, String.format("Loaded language %s (%s).", language.getLang(), language.getCode()));
         	return son;
     	} catch(Exception e) {
     		String clas = Thread.currentThread().getStackTrace()[3].getClassName();
     		String method = Thread.currentThread().getStackTrace()[3].getMethodName();
-    		String err = String.format("Failed to load language '%s'!\n'%s()' (in '%s')", key, method, clas);
-    		Log.Error(ValorlessUtils.thisPlugin, err);
-    		Log.Error(ValorlessUtils.thisPlugin, "Supported Languages: ");
-    		for (String lang : languages) {
-    			Log.Error(ValorlessUtils.thisPlugin, lang);
-    		}
+    		String err = String.format("Failed to load language '%s'!\n'%s()' (in '%s')", language.getCode(), method, clas);
+    		Log.error(ValorlessUtils.plugin, err);
+			Log.error(ValorlessUtils.plugin, "Attempting to load fallback language.");
     		
-    		String json = GetLanguageFileContent("en_us");
-        	@SuppressWarnings("serial")
+    		String json = loadFallbackLanguage();
         	Type mapType = new TypeToken<Map<String, String>>() {}.getType();
-        	Map<String, String> son = new Gson().fromJson(json, mapType);
-        	return son;
+            return new Gson().fromJson(json, mapType);
     	}
     }
     
     /**
-     * Loads the fallback language file from the plugin's data folder. 
-     * If the file doesn't exist, it is copied from the plugin's resources.
-     * 
-     * @return The content of the fallback language file, or {@code null} if an error occurs.
+     * Reads the bundled {@code fallback.lang} resource from the plugin's data folder,
+     * copying it from the plugin JAR if it has not yet been extracted.
+     *
+     * <p>This method is used when the server version cannot be determined (e.g. during
+     * early startup or in test environments).</p>
+     *
+     * @return the raw JSON content of the fallback language file, or {@code null} if an
+     *         I/O error occurs.
      */
-    public String LoadFallbackLanguage() {
-    	String path = String.format("%s/languages/fallback.lang", ValorlessUtils.thisPlugin.getDataFolder());
+    public String loadFallbackLanguage() {
+    	String path = String.format("%s/languages/fallback.lang", ValorlessUtils.plugin.getDataFolder());
 
         File languageFile;
         try {
@@ -148,7 +209,7 @@ public class Translator {
         }
         if (!languageFile.exists()) {
             languageFile.getParentFile().mkdirs();
-            ValorlessUtils.thisPlugin.saveResource("languages\\" + "fallback.lang", true);
+            ValorlessUtils.plugin.saveResource("languages\\" + "fallback.lang", true);
         }
 
         try {
@@ -160,15 +221,33 @@ public class Translator {
         }
     }
 
+	/**
+	 * Reads the bundled {@code fallback.lang} resource from the plugin's data folder.
+	 *
+	 * @return the raw JSON content of the fallback language file, or {@code null} if an
+	 *         I/O error occurs.
+	 * @deprecated Use {@link #loadFallbackLanguage()} instead.  This method will be
+	 *             removed in a future release.
+	 */
+	@Deprecated(since = "Replaced by loadFallbackLanguage(String)", forRemoval = true)
+	public String LoadFallbackLanguage() {
+		return loadFallbackLanguage();
+	}
+
     /**
-     * Checks if the specified language file exists in the plugin's data folder.
-     * 
-     * @param key The name of the language file (without the extension).
-     * @return {@code true} if the language file exists, {@code false} otherwise.
+     * Checks whether the {@code .lang} file for the given {@link Language} already
+     * exists in the plugin's data folder for the current server version.
+     *
+     * <p>The expected path is:
+     * {@code <dataFolder>/languages/<serverVersion>/<languageCode>.lang}.</p>
+     *
+     * @param language the language whose file presence should be checked; must not be
+     *                 {@code null}.
+     * @return {@code true} if the file exists and can be found; {@code false} otherwise.
      */
-    public boolean FileExists(String key) {
-    	String path = String.format("%s/languages/%s/%s.lang", ValorlessUtils.thisPlugin.getDataFolder(),
-    			ValorlessUtils.getServerVersionString(), key);
+    public boolean fileExists(Language language) {
+    	String path = String.format("%s/languages/%s/%s.lang", ValorlessUtils.plugin.getDataFolder(),
+    			ValorlessUtils.getServerVersionString(), language.getCode());
 
         File languageFile;
         try {
@@ -182,21 +261,58 @@ public class Translator {
 	}
 
 	/**
-     * Sets the language for translation.
-     * @param key The language key to set.
+	 * Checks whether the {@code .lang} file for the language identified by {@code key}
+	 * exists in the plugin's data folder for the current server version.
+	 *
+	 * @param key the language code (e.g. {@code "en_us"}).
+	 * @return {@code true} if the file exists; {@code false} otherwise.
+	 * @deprecated Use {@link #fileExists(Language)} instead.  This method will be
+	 *             removed in a future release.
+	 */
+	@Deprecated(since = "Replaced by fileExists()", forRemoval = true)
+	public boolean FileExists(String key) {
+		return fileExists(Language.getLanguage(key));
+	}
+
+	/**
+     * Switches the active language to {@code language} and reloads the translation map.
+     *
+     * <p>After this call, subsequent {@link #translate(String)} invocations will return
+     * strings in the new language.</p>
+     *
+     * @param language the new language to use; must not be {@code null}.
      */
-    public void SetLanguage(String key) {
-		languageMap = LoadLanguage(key);
+    public void setLanguage(Language language) {
+		languageMap = loadLanguage(language);
     }
 
+	/**
+	 * Switches the active language to the one identified by {@code key} and reloads
+	 * the translation map.
+	 *
+	 * @param key the language code (e.g. {@code "en_us"}).
+	 * @deprecated Use {@link #setLanguage(Language)} instead.  This method will be
+	 *             removed in a future release.
+	 */
+	@Deprecated(since = "Replaced by setLanguage()", forRemoval = true)
+	public void SetLanguage(String key) {
+		setLanguage(Language.getLanguage(key));
+	}
+
     /**
-     * Reads the content of a language file.
-     * @param key The language key.
-     * @return The content of the language file as a string.
+     * Reads and returns the raw JSON content of the {@code .lang} file for the given
+     * {@link Language} from the plugin's data folder.
+     *
+     * <p>The file is expected at:
+     * {@code <dataFolder>/languages/<serverVersion>/<languageCode>.lang}.</p>
+     *
+     * @param language the language whose file should be read; must not be {@code null}.
+     * @return the file content as a {@link String}, or {@code null} if an I/O error
+     *         occurs or the file does not exist.
      */
-    public String GetLanguageFileContent(String key) {
-    	String path = String.format("%s/languages/%s/%s.lang", ValorlessUtils.thisPlugin.getDataFolder(),
-    			ValorlessUtils.getServerVersionString(), key);
+    public String getLanguageFileContent(Language language) {
+    	String path = String.format("%s/languages/%s/%s.lang", ValorlessUtils.plugin.getDataFolder(),
+    			ValorlessUtils.getServerVersionString(), language.getCode());
 
         try {
             Path filePath = Path.of(path);
@@ -208,35 +324,44 @@ public class Translator {
     }
         
     /**
-     * Downloads a language file from GitHub and saves it to the plugin's data folder.
-     * <p>
-     * This method fetches the language file from a specified GitHub URL and saves it in the plugin's data folder. 
-     * It also ensures the necessary directories are created and logs the success or failure of the download.
-     * </p>
-     * 
-     * @param key The name of the language file (without the extension).
-     * @return The content of the downloaded language file as a string, or {@code null} if an error occurs during the download or reading process.
+     * Downloads the {@code .lang} file for the specified {@link Language} from the
+     * ValorlessUtils GitHub repository and saves it to the plugin's data folder.
+     *
+     * <p>The method tries the following branches in order until a successful download
+     * is achieved:</p>
+     * <ol>
+     *   <li>{@code main}</li>
+     *   <li>{@code dev}</li>
+     * </ol>
+     *
+     * <p>The remote URL pattern is:
+     * {@code https://raw.githubusercontent.com/Valorless/ValorlessUtils/refs/heads/<branch>/languages/<serverVersion>/<languageCode>.lang}.</p>
+     *
+     * <p>If all download attempts fail, {@link #loadFallbackLanguage()} is returned as
+     * a last resort.</p>
+     *
+     * @param language the language to download; must not be {@code null}.
+     * @return the raw JSON content of the downloaded language file, the content of the
+     *         fallback language file if all downloads fail, or {@code null} if even the
+     *         fallback cannot be read.
      */
-    public String DownloadLanguage(String key) {
+    public String downloadLanguage(Language language) {
 		long startTime = System.currentTimeMillis();
-    	/*String netpath = String.format(
-                "https://raw.githubusercontent.com/Valorless/ValorlessUtils/refs/heads/main/languages/%s/%s.lang", 
-                ValorlessUtils.getServerVersionString(), key);*/
     	
     	List<String> netpathList = List.of(
     			String.format(
-    	                "https://raw.githubusercontent.com/Valorless/ValorlessUtils/refs/heads/main/languages/%s/%s.lang", 
-    	                ValorlessUtils.getServerVersionString(), key),
+    	                BRANCH_MAIN_PATH,
+    	                ValorlessUtils.getServerVersionString(), language.getCode()),
     			String.format(
-    	                "https://raw.githubusercontent.com/Valorless/ValorlessUtils/refs/heads/dev/languages/%s/%s.lang", 
-    	                ValorlessUtils.getServerVersionString(), key)
+    	                BRANCH_DEV_PATH,
+    	                ValorlessUtils.getServerVersionString(), language.getCode())
     			);
 
 		List<String> branches = List.of("main", "dev");
     	
 
-        String path = String.format("%s/languages/%s/%s.lang", ValorlessUtils.thisPlugin.getDataFolder(),
-                ValorlessUtils.getServerVersionString(), key);
+        String path = String.format("%s/languages/%s/%s.lang", ValorlessUtils.plugin.getDataFolder(),
+                ValorlessUtils.getServerVersionString(), language.getCode());
 
         File languageFile;
         try {
@@ -248,7 +373,7 @@ public class Translator {
 
 		int i = 0;
         for(String netpath : netpathList) {
-        	Log.Info(ValorlessUtils.thisPlugin, String.format("Downloading '%s' language file from GitHub - Branch: %s..\nPlease wait.", key, branches.get(i)));
+        	Log.info(ValorlessUtils.plugin, String.format("Downloading '%s' language file from GitHub - Branch: %s..\nPlease wait.", language.getCode(), branches.get(i)));
         	i++;
 			try {
         		// Create necessary directories
@@ -264,12 +389,12 @@ public class Translator {
         			Files.copy(in, languageFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
         			long endTime = System.currentTimeMillis();
         			long duration = endTime - startTime;
-        			Log.Info(ValorlessUtils.thisPlugin, String.format("Download success. %sms", duration));
+        			Log.info(ValorlessUtils.plugin, String.format("Download success. %sms", duration));
         		}
         	} catch (IOException e) {
         		long endTime = System.currentTimeMillis();
         		long duration = endTime - startTime;
-        		Log.Error(ValorlessUtils.thisPlugin, String.format("Download failed. %sms", duration));
+        		Log.error(ValorlessUtils.plugin, String.format("Download failed. %sms", duration));
         		//e.printStackTrace();
         		continue; // Try the next URL if the download fails
         	}
@@ -282,7 +407,7 @@ public class Translator {
         		continue; // Try the next URL if reading the file fails
         	}
         }
-        Log.Error(ValorlessUtils.thisPlugin, String.format("All download attempts for '%s' language file failed. Falling back to default language.", key));
-        return LoadFallbackLanguage(); // Return null if all download attempts failed
+        Log.error(ValorlessUtils.plugin, String.format("All download attempts for '%s' language file failed. Falling back to default language.", language.getCode()));
+        return loadFallbackLanguage(); // Return null if all download attempts failed
     }
 }

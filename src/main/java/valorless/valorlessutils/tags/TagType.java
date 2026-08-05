@@ -16,31 +16,19 @@ public enum TagType {
     TAG_CONTAINER;
 
 	public static PersistentDataType<?, ?> GetPersistentDataType(TagType type) {
-        switch (type) {
-            case BYTE:
-                return PersistentDataType.BYTE;
-            case BYTE_ARRAY:
-                return PersistentDataType.BYTE_ARRAY;
-            case DOUBLE:
-                return PersistentDataType.DOUBLE;
-            case FLOAT:
-                return PersistentDataType.FLOAT;
-            case INTEGER:
-                return PersistentDataType.INTEGER;
-            case INTEGER_ARRAY:
-                return PersistentDataType.INTEGER_ARRAY;
-            case LONG:
-                return PersistentDataType.LONG;
-            case LONG_ARRAY:
-                return PersistentDataType.LONG_ARRAY;
-            case SHORT:
-                return PersistentDataType.SHORT;
-            case STRING:
-                return PersistentDataType.STRING;
-            case TAG_CONTAINER:
-                return PersistentDataType.TAG_CONTAINER;
-            default:
-                throw new IllegalArgumentException("Cannot resolve type: " + type);
-        }
+        return switch (type) {
+            case BYTE -> PersistentDataType.BYTE;
+            case BYTE_ARRAY -> PersistentDataType.BYTE_ARRAY;
+            case DOUBLE -> PersistentDataType.DOUBLE;
+            case FLOAT -> PersistentDataType.FLOAT;
+            case INTEGER -> PersistentDataType.INTEGER;
+            case INTEGER_ARRAY -> PersistentDataType.INTEGER_ARRAY;
+            case LONG -> PersistentDataType.LONG;
+            case LONG_ARRAY -> PersistentDataType.LONG_ARRAY;
+            case SHORT -> PersistentDataType.SHORT;
+            case STRING -> PersistentDataType.STRING;
+            case TAG_CONTAINER -> PersistentDataType.TAG_CONTAINER;
+            default -> throw new IllegalArgumentException("Cannot resolve type: " + type);
+        };
     }
 }

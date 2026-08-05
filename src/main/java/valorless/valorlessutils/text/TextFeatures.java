@@ -9,7 +9,7 @@ public class TextFeatures {
 	 * @param barLength The length of the progress bar.
 	 * @return The created progress bar as a string.
 	 */
-	public static String CreateBar(double progress, double total, int barLength) {
+	public static String createBar(double progress, double total, int barLength) {
 	    double filledRatio = (double) progress / total;
 	    int filledLength = (int) (barLength * filledRatio);
 	    int remainingLength = barLength - filledLength;
@@ -24,6 +24,11 @@ public class TextFeatures {
 	    return bar.toString();
 	}
 
+	@Deprecated(since = "Replaced by createBar()", forRemoval = true)
+	public static String CreateBar(double progress, double total, int barLength) {
+		return createBar(progress, total, barLength);
+	}
+
 	/**
 	 * Creates a progress bar with specified parameters and customizable styles and colors.
 	 * @param progress The current progress.
@@ -35,7 +40,7 @@ public class TextFeatures {
 	 * @param fillStyle The style character for the filled part of the progress bar. i.e. '='
 	 * @return The created progress bar as a string with customizable styles and colors.
 	 */
-	public static String CreateBar(double progress, double total, int barLength, String barColor, String fillColor, char barStyle, char fillStyle) {
+	public static String createBar(double progress, double total, int barLength, String barColor, String fillColor, char barStyle, char fillStyle) {
 	    double filledRatio = (double) progress / total;
 	    int filledLength = (int) (barLength * filledRatio);
 	    int remainingLength = barLength - filledLength;
@@ -52,13 +57,18 @@ public class TextFeatures {
 	    return bar.toString();
 	}
 
+	@Deprecated(since = "Replaced by createBar()", forRemoval = true)
+	public static String CreateBar(double progress, double total, int barLength, String barColor, String fillColor, char barStyle, char fillStyle) {
+		return createBar(progress, total, barLength, barColor, fillColor, barStyle, fillStyle);
+	}
+
 	/**
 	 * Limits the characters in a text to a specified length.
 	 * @param text The text to limit.
 	 * @param length The maximum length of the text.
 	 * @return The limited text.
 	 */
-	public static String LimitCharacters(String text, int length) {
+	public static String limitCharacters(String text, int length) {
 	    String t = "";
 	    try {
 	        if(length > text.length()) length = text.length();
@@ -69,13 +79,18 @@ public class TextFeatures {
 	    return t;
 	}
 
+	@Deprecated(since = "Replaced by limitCharacters()", forRemoval = true)
+	public static String LimitCharacters(String text, int length) {
+		return limitCharacters(text, length);
+	}
+
 	/**
 	 * Limits the decimal places in a number to a specified length.
 	 * @param text The number to limit.
 	 * @param length The maximum length of the decimal places.
 	 * @return The number with limited decimal places.
 	 */
-	public static String LimitDecimal(String text, int length) {
+	public static String limitDecimal(String text, int length) {
 	    String t = "";
 	    try {
 	        String[] split = text.split("\\.");
@@ -87,5 +102,9 @@ public class TextFeatures {
 	    } catch (Exception e) { return text; }
 	    return t;
 	}
-	
+
+	@Deprecated(since = "Replaced by limitDecimal()", forRemoval = true)
+	public static String LimitDecimal(String text, int length) {
+		return limitDecimal(text, length);
+	}
 }

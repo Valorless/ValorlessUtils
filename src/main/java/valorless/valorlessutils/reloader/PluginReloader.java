@@ -66,7 +66,7 @@ public class PluginReloader {
 
         // Log before disabling (if not silent)
         if (!silent) {
-            Log.Info(ValorlessUtils.thisPlugin, 
+            Log.Info(ValorlessUtils.plugin, 
                 String.format("Attempting to disable %s, re-enabling in %s ticks", pluginName, delay));
             if(sender != null) sender.sendMessage("§fPlugin " + pluginName + " is being reloaded, please wait...");
         }
@@ -80,19 +80,19 @@ public class PluginReloader {
             	if(pm.isPluginEnabled(found)) return;
             	if (found != null) {
                     if (!silent) {
-                        Log.Info(ValorlessUtils.thisPlugin, 
+                        Log.Info(ValorlessUtils.plugin, 
                             String.format("Attempting to re-enable %s.", pluginName));
                     }
                     pm.enablePlugin(found);
                 } else {
                     if (!silent) {
-                        Log.Warning(ValorlessUtils.thisPlugin, 
+                        Log.Warning(ValorlessUtils.plugin, 
                             "Plugin " + pluginName + " could not be found for re-enable.");
                     }
                 }
             	if (!silent && sender != null) sender.sendMessage("§aPlugin " + pluginName + " has been reloaded.");
             	this.cancel(); // Stop the task after attempting to re-enable
             }
-        }.runTaskTimerAsynchronously(ValorlessUtils.thisPlugin, delay, 20L); // Check every second (20 ticks) until re-enabled
+        }.runTaskTimerAsynchronously(ValorlessUtils.plugin, delay, 20L); // Check every second (20 ticks) until re-enabled
     }
 }

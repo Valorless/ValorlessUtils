@@ -5,6 +5,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import valorless.annotations.NotNull;
 
 /**
  * Utility class for working with JSON using Gson.
@@ -40,7 +41,8 @@ public final class JsonUtils {
                 .disableHtmlEscaping()
                 .serializeSpecialFloatingPointValues()
                 .setLenient()
-                .registerTypeAdapterFactory(BukkitAwareObjectTypeAdapter.FACTORY);
+                .registerTypeAdapterFactory(BukkitAwareObjectTypeAdapter.FACTORY)
+                .registerTypeAdapterFactory(YamlLikeObjectTypeAdapter.FACTORY);
         assert builder != null;
         return builder;
     }
@@ -102,9 +104,24 @@ public final class JsonUtils {
      * @return Deserialized object or null if input is null
      * @throws IllegalArgumentException if deserialization fails
      */
-    public static <T> @Nullable T fromJson(@Nullable String json) throws IllegalArgumentException {
+    public static <T> @Nullable T fromJson(@NotNull String json) throws IllegalArgumentException {
         Gson gson = GSON.get();
         return BukkitAwareObjectTypeAdapter.fromJson(gson, json);
+    }
+
+    /**
+     * Deserializes a JSON string into an object of the same type as the provided instance.
+     * @param <T> The expected return type
+     * @param json JSON string to deserialize
+     * @param clazz An instance of the class to deserialize into (used for type inference)
+     * @return Deserialized object or null if input is null
+     * @throws IllegalArgumentException if deserialization fails
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> @Nullable T fromJson(@NotNull String json, T clazz) throws IllegalArgumentException {
+        Gson gson = GSON.get();
+        return (T) gson.fromJson(json, clazz.getClass());
+        //return BukkitAwareObjectTypeAdapter.fromJson(gson, json);
     }
 
     /** Private constructor to prevent instantiation of this utility class. */

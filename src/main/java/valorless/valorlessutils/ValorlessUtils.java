@@ -35,18 +35,16 @@ import valorless.valorlessutils.havenbags.HavenBagsPlacementBlocker;
  */
 public final class ValorlessUtils extends JavaPlugin implements Listener {
     /** Instance of this plugin for static access. */
-    public static JavaPlugin thisPlugin;
     public static JavaPlugin plugin;
 
     /** Language handler instance for localization and message parsing. */
     private static Lang lang;
-    
 
     /** Map to store plugin-specific configurations. */
     private static final HashMap<JavaPlugin, Config> pluginConfigs = new HashMap<>();
 
     /** Prefix used for plugin messages. */
-    String Name = "§7[§6Valorless§bUtils§7]§r";
+    String prefix = "§7[§6Valorless§bUtils§7]§r";
 
     /** Detected server version. */
     private static Version version;
@@ -89,7 +87,6 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
      * </p>
      */
     public void onLoad() {
-        thisPlugin = this;
         plugin = this;
         version = Server.resolveVersion();
         Logger.getLogger("Minecraft").log(Level.INFO, "[" + ValorlessUtils.plugin.getName() + "] Found " + version.toString());
@@ -132,9 +129,6 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
             Log.Info(this, "§aEnabled!");
         }
 
-        // Register commands
-        AddCommand("valorlessutils", "vu");
-
         // Initialize HavenBags placement blocker
         HavenBagsPlacementBlocker.init();
 
@@ -145,9 +139,10 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     		
     		// This runs every second.
     		@Override
-    		public void run() {        
-    			for(Config config : pluginConfigs.values()) {
-					config.reload();
+    		public void run() {
+                config.reload();
+    			for(Config c : pluginConfigs.values()) {
+					c.reload();
     			}
     		}
 
@@ -168,28 +163,26 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
      *
      * @return The plugin instance.
      */
-    public static ValorlessUtils GetInstance() {
+    public static ValorlessUtils getInstance() {
         return (ValorlessUtils) plugin;
     }
 
     /**
-     * Registers a command and optional aliases to this plugin.
+     * Returns the instance of the ValorlessUtils plugin.
      *
-     * @param command The main command.
-     * @param alias   Optional command aliases.
+     * @return The plugin instance.
+     * @deprecated Use {@link #getInstance()} instead. This method is marked for removal in future versions.
      */
-    public void AddCommand(String command, String... alias) {
-        getCommand(command).setExecutor(this);
-        if (!valorless.valorlessutils.utils.Utils.IsStringNullOrEmpty(alias[0])) {
-            getCommand(alias[0]).setExecutor(this);
-        }
+    @Deprecated(since = "Replaced by getInstance()", forRemoval = true)
+    public static ValorlessUtils GetInstance() {
+        return (ValorlessUtils) plugin;
     }
     
     /**
      * Logging utility methods.
      * @deprecated Replaced by {@link valorless.valorlessutils.logging.Log}.
      */
-    @MarkedForRemoval("Replaced by valorless.valorlessutils.logging.Log") @Deprecated
+    @MarkedForRemoval("Replaced by valorless.valorlessutils.logging.Log") @Deprecated(forRemoval = true)
     public static class Log {
 
         /**
@@ -198,7 +191,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
          * @param caller Plugin sending the log.
          * @param msg    Message to log.
          */
-        @MarkedForRemoval("Replaced by valorless.valorlessutils.logging.Log.info()") @Deprecated
+        @MarkedForRemoval("Replaced by valorless.valorlessutils.logging.Log.info()") @Deprecated(forRemoval = true)
         public static void Info(JavaPlugin caller, String msg) {
             Logger.getLogger("Minecraft").log(Level.INFO, "[" + caller.getName() + "] " + msg);
         }
@@ -209,7 +202,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
          * @param caller Plugin sending the log.
          * @param msg    Message to log.
          */
-        @MarkedForRemoval("Replaced by valorless.valorlessutils.logging.Log.warning()") @Deprecated
+        @MarkedForRemoval("Replaced by valorless.valorlessutils.logging.Log.warning()") @Deprecated(forRemoval = true)
         public static void Warning(JavaPlugin caller, String msg) {
             Logger.getLogger("Minecraft").log(Level.WARNING, "[" + caller.getName() + "] " + msg);
         }
@@ -220,7 +213,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
          * @param caller Plugin sending the log.
          * @param msg    Message to log.
          */
-        @MarkedForRemoval("Replaced by valorless.valorlessutils.logging.Log.error()") @Deprecated
+        @MarkedForRemoval("Replaced by valorless.valorlessutils.logging.Log.error()") @Deprecated(forRemoval = true)
         public static void Error(JavaPlugin caller, String msg) {
             Logger.getLogger("Minecraft").log(Level.SEVERE, "[" + caller.getName() + "] " + msg);
         }
@@ -231,7 +224,7 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
          * @param caller Plugin sending the log.
          * @param msg    Debug message to log.
          */
-        @MarkedForRemoval("Replaced by valorless.valorlessutils.logging.Log.debug()") @Deprecated
+        @MarkedForRemoval("Replaced by valorless.valorlessutils.logging.Log.debug()") @Deprecated(forRemoval = true)
         public static void Debug(JavaPlugin caller, String msg) {
         	if(!pluginConfigs.containsKey(caller)) {
         		try {

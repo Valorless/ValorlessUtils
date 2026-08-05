@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 
 import valorless.valorlessutils.Server.Version;
 import valorless.valorlessutils.ValorlessUtils;
-import valorless.valorlessutils.ValorlessUtils.Log;
+import valorless.valorlessutils.logging.Log;
 import valorless.valorlessutils.utils.Utils;
 
 /**
@@ -78,7 +78,7 @@ public class SFX {
 	    			player.playSound(player, GetSound(sound.toUpperCase()), volume, pitch);
 	    		}
 	    	} catch (Exception e) {
-	    		Log.Error(ValorlessUtils.GetInstance(), e.getMessage());
+	    		Log.error(ValorlessUtils.getInstance(), e.getMessage());
 	    	}
 	    }
 	}
@@ -96,7 +96,7 @@ public class SFX {
 	    	try {
 	    		player.playSound(player.getLocation(), sound, SoundCategory.MASTER, volume, pitch);
 	    	} catch (Exception e) {
-	    		Log.Error(ValorlessUtils.GetInstance(), e.getMessage());
+	    		Log.error(ValorlessUtils.getInstance(), e.getMessage());
 	    	}
 	    }
 	}
@@ -122,7 +122,7 @@ public class SFX {
 	    		}
 	    		Bukkit.getWorld(location.getWorld().getName()).playSound(location, GetSound(sound.toUpperCase()), volume, pitch);
 	    	} catch (Exception e) {
-	    		Log.Error(ValorlessUtils.GetInstance(), e.getMessage());
+	    		Log.error(ValorlessUtils.getInstance(), e.getMessage());
 	    	}
 	    }
 	}
@@ -140,7 +140,7 @@ public class SFX {
 	    	try {
 	    		location.getWorld().playSound(location, sound, SoundCategory.MASTER, volume, pitch);
 	    	} catch (Exception e) {
-	    		Log.Error(ValorlessUtils.GetInstance(), e.getMessage());
+	    		Log.error(ValorlessUtils.getInstance(), e.getMessage());
 	    	}
 	    }
 	}
