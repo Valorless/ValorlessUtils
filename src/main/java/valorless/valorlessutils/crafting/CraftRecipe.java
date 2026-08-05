@@ -185,14 +185,14 @@ public class CraftRecipe implements Listener {
             } else if (type == RecipeType.Shapeless && shapelessRecipe != null) {
                 Bukkit.getServer().addRecipe(shapelessRecipe);
             } else {
-                Log.Error(ValorlessUtils.thisPlugin, String.format("Recipe '%s' could not be added.", key.toString()));
+                Log.Error(ValorlessUtils.plugin, String.format("Recipe '%s' could not be added.", key.toString()));
             }
             if (permission != null && Bukkit.getPluginManager().getPermission(permission.getName()) != null) {
                 Bukkit.getPluginManager().addPermission(permission);
             }
-            Log.Info(ValorlessUtils.thisPlugin, String.format("Recipe '%s' added.", key.toString()));
+            Log.Info(ValorlessUtils.plugin, String.format("Recipe '%s' added.", key.toString()));
         } catch (Exception e) {
-            Log.Error(ValorlessUtils.thisPlugin, String.format("Recipe '%s' could not be added.", key.toString()));
+            Log.Error(ValorlessUtils.plugin, String.format("Recipe '%s' could not be added.", key.toString()));
             e.printStackTrace();
         }
     }

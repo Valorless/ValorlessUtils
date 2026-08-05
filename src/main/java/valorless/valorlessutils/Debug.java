@@ -1,7 +1,7 @@
 package valorless.valorlessutils;
 
 import org.bukkit.plugin.java.JavaPlugin;
-import valorless.valorlessutils.ValorlessUtils.Log;
+import valorless.valorlessutils.logging.Log;
 
 /**
  * Utility class for debugging purposes.
@@ -15,7 +15,7 @@ public class Debug {
     /**
      * Prints the full stack trace of the current thread to the plugin's error log.
      * <p>
-     * Each element of the stack trace is logged individually using {@link ValorlessUtils.Log#Error(JavaPlugin, String)}.
+     * Each element of the stack trace is logged individually using {@link Log#error(JavaPlugin, String)}.
      * This can be useful for diagnosing the source of unexpected behavior in a plugin.
      * </p>
      *
@@ -26,7 +26,7 @@ public class Debug {
         // Iterate through each element of the current thread's stack trace
         for (StackTraceElement stack : Thread.currentThread().getStackTrace()) {
             // Log each stack trace element as an error
-            Log.Error(caller, stack.toString());
+            Log.error(caller, stack.toString());
         }
     }
     

@@ -86,6 +86,6 @@ public class McToAnsi {
         }
         legacyMatcher.appendTail(sb);
 
-        return sb + "\033[0m"; // reset at end
+        return (sb + "\033[0m").replace("§", ""); // reset at end
     }
 }

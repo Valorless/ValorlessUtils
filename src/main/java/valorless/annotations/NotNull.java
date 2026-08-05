@@ -1,5 +1,6 @@
 package valorless.annotations;
 
+import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.PARAMETER;
 
 import java.lang.annotation.Documented;
@@ -9,7 +10,7 @@ import java.lang.annotation.Target;
  * Indicates that a method parameter must not be null.
  */
 @Documented
-@Target(PARAMETER)
+@Target({PARAMETER, METHOD})
 public @interface NotNull {
 
 	/**
