@@ -38,16 +38,16 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
     public static JavaPlugin plugin;
 
     /** Language handler instance for localization and message parsing. */
-    private static Lang lang;
+    static Lang lang;
 
     /** Map to store plugin-specific configurations. */
-    private static final HashMap<JavaPlugin, Config> pluginConfigs = new HashMap<>();
+    static final HashMap<JavaPlugin, Config> pluginConfigs = new HashMap<>();
 
     /** Prefix used for plugin messages. */
     String prefix = "§7[§6Valorless§bUtils§7]§r";
 
     /** Detected server version. */
-    private static Version version;
+    static Version version;
 
     /** Plugin configuration handler. */
     public static Config config;
@@ -90,8 +90,6 @@ public final class ValorlessUtils extends JavaPlugin implements Listener {
         plugin = this;
         version = Server.resolveVersion();
         Logger.getLogger("Minecraft").log(Level.INFO, "[" + ValorlessUtils.plugin.getName() + "] Found " + version.toString());
-
-
         lang = new Lang(plugin);
     }
 
