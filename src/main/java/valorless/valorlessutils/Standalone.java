@@ -39,10 +39,9 @@ public class Standalone {
             return;
         }
         running = true;
-
-        Log.info(substitute, "Initializing ValorlessUtils in standalone mode.");
         ValorlessUtils.plugin =  substitute;
         ValorlessUtils.lang = new Lang(substitute);
+        Log.info(substitute, "Initializing ValorlessUtils in standalone mode.");
         ValorlessUtils.version = Server.resolveVersion();
 
         HavenBagsPlacementBlocker.init();
