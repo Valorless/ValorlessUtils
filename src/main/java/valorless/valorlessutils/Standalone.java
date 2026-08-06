@@ -20,7 +20,8 @@ import valorless.valorlessutils.logging.Log;
  */
 public class Standalone {
 
-    private static boolean running = false;
+    private static boolean loaded = false;
+    private static boolean enabled = false;
 
     /**
      * Initializes the ValorlessUtils plugin with the provided JavaPlugin instance.
@@ -29,21 +30,43 @@ public class Standalone {
      *     Since ValorlessUtils is normally a real plugin, a substitute is needed to run it instead.<br>
      *     This simply mimics what ValorlessUtils does on startup, to ensure all is ready.
      * </p>
+     * <p>Call during onLoad()</p>
      *
      * @param substitute The JavaPlugin instance to initialize ValorlessUtils with.
      */
-    public static void init(@NotNull JavaPlugin substitute) {
-        if(running) {
-            Log.info(substitute, "ValorlessUtils standalone init() called multiple times.");
+    public static void onLoad(@NotNull JavaPlugin substitute) {
+        if(loaded) {
+            Log.info(substitute, "ValorlessUtils standalone onLoad() called multiple times.");
             Debug.PrintStackTrace(substitute);
             return;
         }
-        running = true;
+        loaded = true;
         ValorlessUtils.plugin =  substitute;
         ValorlessUtils.lang = new Lang(substitute);
         Log.info(substitute, "Initializing ValorlessUtils in standalone mode.");
         ValorlessUtils.version = Server.resolveVersion();
+    }
 
+
+    /**
+     * Loads the ValorlessUtils plugin with the provided JavaPlugin instance.
+     * Sets up the various listeners and remaining tasks.
+     * <p>
+     *     Since ValorlessUtils is normally a real plugin, a substitute is needed to run it instead.<br>
+     *     This simply mimics what ValorlessUtils does on startup, to ensure all is ready.
+     * </p>
+     * <p>Call during onEnable()</p>
+     *
+     * @param substitute The JavaPlugin instance to initialize ValorlessUtils with.
+     */
+    public static void onEnable(@NotNull JavaPlugin substitute) {
+        if(enabled) {
+            Log.info(substitute, "ValorlessUtils standalone onEnable() called multiple times.");
+            Debug.PrintStackTrace(substitute);
+            return;
+        }
+        enabled = true;
+        Log.info(substitute, "Loading ValorlessUtils in standalone mode.");
         HavenBagsPlacementBlocker.init();
 
         PlayerCache.init();

@@ -1,7 +1,7 @@
 package valorless.valorlessutils.havenbags;
 
 import valorless.valorlessutils.ValorlessUtils;
-import valorless.valorlessutils.ValorlessUtils.*;
+import valorless.valorlessutils.logging.Log;
 import valorless.valorlessutils.nbt.NBT;
 
 import java.io.File;
@@ -39,7 +39,7 @@ public class HavenBagsPlacementBlocker implements Listener {
 		config = getConfig();
 		if(config == null) return;
 		
-		Log.Debug(ValorlessUtils.plugin, "Registering HavenBagsPlacementBlocker.");
+		Log.debug(ValorlessUtils.plugin, "Registering HavenBagsPlacementBlocker.");
 		Bukkit.getServer().getPluginManager().registerEvents(new HavenBagsPlacementBlocker(), ValorlessUtils.plugin);
 	}
 	
